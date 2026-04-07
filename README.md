@@ -6,8 +6,15 @@
 
 - `npm install`
 - `npm run dev`
+- `npm test`
 - `npm run build`
 - `npm run preview`
+
+## Testing
+
+- `npm test`: 运行前端单元与组件测试
+- `npm run test:unit:watch`: 开发时持续监听测试
+- `npm run build`: PR 前的默认验证，包含类型检查
 
 ## Stack
 
