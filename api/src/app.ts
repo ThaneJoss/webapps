@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 
 import { appPipelineSeed, servicesSeed } from '../../shared/content.js'
 import type {
@@ -11,12 +12,26 @@ import type {
 
 const app = new Hono()
 
+const allowedOrigins = (process.env.CORS_ALLOW_ORIGIN ?? 'https://thanejoss.com')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
 const jsonSuccess = <T>(data: T) => ({ success: true, data }) satisfies ApiSuccess<T>
 
 const jsonFailure = (code: string, message: string) =>
   ({ success: false, error: { code, message } }) satisfies ApiFailure
 
 const isValidEmail = (value: string) => /\S+@\S+\.\S+/.test(value)
+
+app.use(
+  '/api/*',
+  cors({
+    origin: allowedOrigins,
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type']
+  })
+)
 
 app.get('/api/health', (context) => {
   const payload: HealthStatus = {
