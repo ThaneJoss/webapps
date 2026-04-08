@@ -5,7 +5,7 @@
   >
     <div class="border-b border-[#12304c]/10 pb-5 text-left">
       <div>
-        <p class="panel-label text-steel">Web form</p>
+        <p class="panel-label text-steel">网页表单</p>
         <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">填写你的建议</h2>
         <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
           把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。

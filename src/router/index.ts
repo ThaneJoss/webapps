@@ -2,10 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import ContactView from '../views/ContactView.vue'
 import HomeView from '../views/HomeView.vue'
-import PipelineView from '../views/PipelineView.vue'
-import ProcessView from '../views/ProcessView.vue'
-import ServicesView from '../views/ServicesView.vue'
-import StackView from '../views/StackView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -16,38 +12,6 @@ const router = createRouter({
       component: HomeView,
       meta: {
         title: '首页'
-      }
-    },
-    {
-      path: '/services',
-      name: 'services',
-      component: ServicesView,
-      meta: {
-        title: '能力'
-      }
-    },
-    {
-      path: '/process',
-      name: 'process',
-      component: ProcessView,
-      meta: {
-        title: '流程'
-      }
-    },
-    {
-      path: '/stack',
-      name: 'stack',
-      component: StackView,
-      meta: {
-        title: '技术'
-      }
-    },
-    {
-      path: '/pipeline',
-      name: 'pipeline',
-      component: PipelineView,
-      meta: {
-        title: 'Pipeline'
       }
     },
     {
@@ -81,9 +45,10 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
+  const siteTitle = 'Thane Joss'
   const pageTitle = typeof to.meta.title === 'string'
-    ? `${to.meta.title} | Web Apps as a Service`
-    : 'Web Apps as a Service'
+    ? `${to.meta.title} | ${siteTitle}`
+    : siteTitle
 
   document.title = pageTitle
 })
