@@ -5,13 +5,16 @@
   >
     <div class="mx-auto max-w-6xl">
       <div class="grid gap-5 lg:grid-cols-3">
-        <a
+        <component
+          :is="entry.kind === 'form' ? 'button' : 'a'"
           v-for="entry in contactEntries"
           :key="entry.id"
-          :href="entry.href"
+          :href="entry.kind !== 'form' ? entry.href : undefined"
           :target="entry.external ? '_blank' : undefined"
           :rel="entry.external ? 'noreferrer' : undefined"
-          class="surface-card group flex min-h-[250px] flex-col justify-between p-6 transition-transform hover:-translate-y-1"
+          :type="entry.kind === 'form' ? 'button' : undefined"
+          class="surface-card group flex min-h-[250px] flex-col justify-between border border-ink/14 p-6 shadow-[0_16px_34px_rgba(10,22,40,0.08)] transition-transform hover:-translate-y-1 hover:border-ink/24"
+          @click="entry.kind === 'form' ? scrollToForm() : undefined"
         >
           <div>
             <p class="panel-label text-steel">{{ entry.eyebrow }}</p>
@@ -29,36 +32,18 @@
               {{ entry.cta }}
             </span>
           </div>
-        </a>
+        </component>
       </div>
     </div>
 
     <div
       id="contact-form"
-      class="mt-8 grid gap-6 xl:grid-cols-[0.84fr_1.16fr]"
+      class="mt-8 scroll-mt-32 sm:scroll-mt-36"
     >
-      <article class="surface-card p-6 sm:p-8">
-        <SectionTitle
-          eyebrow="Web form"
-          title="如果你想按结构说明项目，直接在这里填写就可以"
-          description="网页表单适合整理项目目标、用户对象和第一版范围。写清楚这些信息后，后续沟通会快很多。"
-        />
-
-        <div class="mt-8 grid gap-3 text-sm text-steel">
-          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-            适合还在收敛需求、需要把想法写得更清楚的项目。
-          </div>
-          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-            建议优先写目标、用户和第一版希望先做出的结果。
-          </div>
-          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-            如果你不确定具体怎么做，也可以先把困住你的问题写出来。
-          </div>
+      <div class="mx-auto max-w-4xl">
+        <div class="surface-card border border-ink/14 p-2 shadow-[0_16px_34px_rgba(10,22,40,0.08)] sm:p-3">
+          <ContactForm />
         </div>
-      </article>
-
-      <div class="surface-card p-2 sm:p-3">
-        <ContactForm />
       </div>
     </div>
 
@@ -96,7 +81,23 @@
 
 <script setup lang="ts">
 import ContactForm from '../components/ContactForm.vue'
-import SectionTitle from '../components/SectionTitle.vue'
+const scrollToForm = () => {
+  const target = document.getElementById('contact-form')
+  if (!target) {
+    return
+  }
+
+  const header = document.querySelector('header')
+  const headerHeight = header instanceof HTMLElement
+    ? header.getBoundingClientRect().height
+    : 0
+  const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 24
+
+  window.scrollTo({
+    top,
+    behavior: 'smooth'
+  })
+}
 
 const contactEntries = [
   {
@@ -107,6 +108,7 @@ const contactEntries = [
     meta: 'support@thanejoss.com',
     cta: '发送邮件',
     href: 'mailto:support@thanejoss.com',
+    kind: 'link',
     external: false
   },
   {
@@ -116,7 +118,8 @@ const contactEntries = [
     description: '适合按页面结构填写项目背景、目标用户和第一版希望先完成的内容。',
     meta: 'Scroll to form',
     cta: '填写表单',
-    href: '#contact-form',
+    href: '',
+    kind: 'form',
     external: false
   },
   {
@@ -127,6 +130,7 @@ const contactEntries = [
     meta: 'Open in new tab',
     cta: '新建 Issue',
     href: 'https://github.com/ThaneJoss/webapps/issues/new',
+    kind: 'link',
     external: true
   }
 ] as const
