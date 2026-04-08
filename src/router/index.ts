@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
 
+const defaultDescription = '你的第一个原生的网页App，从这里开始，以更纯净清晰的方式逐步呈现完整内容与联系入口。'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -10,7 +12,8 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        title: '首页'
+        title: '你的第一个原生的网页App',
+        description: defaultDescription
       }
     },
     {
@@ -18,7 +21,8 @@ const router = createRouter({
       name: 'contact',
       component: () => import('../views/ContactView.vue'),
       meta: {
-        title: '联系'
+        title: '联系',
+        description: '通过联系页直接留言、发送邮件，或从网页表单开始整理你的想法与需求。'
       }
     },
     {
@@ -48,8 +52,16 @@ router.afterEach((to) => {
   const pageTitle = typeof to.meta.title === 'string'
     ? `${to.meta.title} | ${siteTitle}`
     : siteTitle
+  const metaDescription = typeof to.meta.description === 'string'
+    ? to.meta.description
+    : defaultDescription
 
   document.title = pageTitle
+  const descriptionTag = document.querySelector('meta[name="description"]')
+
+  if (descriptionTag instanceof HTMLMetaElement) {
+    descriptionTag.content = metaDescription
+  }
 })
 
 export default router

@@ -4,14 +4,12 @@
       <div class="mx-auto max-w-5xl">
         <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div class="max-w-3xl">
-            <p class="panel-label text-steel">首页</p>
+            <p class="panel-label text-steel">网站介绍</p>
             <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
-              这里会逐步放入完整内容，
-              <br class="hidden sm:block" />
-              现在先保留一个清晰入口。
+              你的第一个原生的网页App
             </h1>
             <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-              我会从这里开始补充更详细的介绍、内容说明和合作方式。如果你已经知道想聊什么，可以直接前往联系页填写。
+              从这里开始，以更纯净清晰的方式逐步呈现完整内容、联系入口与后续更新。
             </p>
 
             <RouterLink
