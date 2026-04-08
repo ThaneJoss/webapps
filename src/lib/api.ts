@@ -1,11 +1,9 @@
 import type {
   ApiFailure,
   ApiResponse,
-  AppItem,
   ContactPayload,
   ContactReceipt,
-  HealthStatus,
-  ServiceItem
+  HealthStatus
 } from '../../shared/types.js'
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
@@ -50,10 +48,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const fetchHealth = () => request<HealthStatus>('/health')
-
-export const fetchServices = () => request<ServiceItem[]>('/services')
-
-export const fetchApps = () => request<AppItem[]>('/apps')
 
 export const submitContact = (payload: ContactPayload) =>
   request<ContactReceipt>('/contact', {

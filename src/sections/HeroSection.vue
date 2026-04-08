@@ -133,8 +133,6 @@ const highlightChips = ['Vue 3', 'Hono', 'RESTful', 'Serverless-ready', 'TypeScr
 
 const routes = [
   { path: 'GET /api/health', label: 'Live check', tone: 'text-mint' },
-  { path: 'GET /api/services', label: 'Services page', tone: 'text-neon' },
-  { path: 'GET /api/apps', label: 'Pipeline cards', tone: 'text-white/70' },
   { path: 'POST /api/contact', label: 'Queued', tone: 'text-ember' }
 ]
 

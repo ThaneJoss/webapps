@@ -5,7 +5,7 @@
       title="把正在设计中的应用方向独立出来，而不是压在首页下半段"
       description="这一页只负责展示当前处于研究、设计和原型阶段的 app pipeline，方便后续逐步替换成真实产品。"
       side-label="Status note"
-      side-note="当前 pipeline 数据和 services 一样，优先从 API 获取；如果 API 暂时不可用，这一页仍然会使用前端内置内容继续展示。"
+      side-note="当前 pipeline 和服务页一样，直接使用前端本地内容源。等真实产品上线后，再逐步替换成真实项目内容。"
       :highlights="['Research', 'In Design', 'Prototype']"
     />
 

@@ -18,14 +18,13 @@
 ## API
 
 - `GET /api/health`
-- `GET /api/services`
-- `GET /api/apps`
 - `POST /api/contact`
 
 ## Notes
 
 - 前端默认通过 `VITE_API_BASE_URL` 请求 API，未配置时使用 `/api`
 - 本地 Vite 开发环境会把 `/api` 代理到 `http://localhost:8787`
+- `services` 和 `apps` 内容当前由前端本地内容源提供，不依赖内容接口
 - 联系表单当前返回队列确认结构，后续可接邮件、数据库或 webhook
 
 ## Production
