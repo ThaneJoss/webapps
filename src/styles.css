@@ -150,6 +150,14 @@ svg {
   );
 }
 
+.nav-scroll {
+  scrollbar-width: none;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes drift {
   0%,
   100% {
