@@ -64,9 +64,9 @@
       <article
         v-for="slot in paymentSlots"
         :key="slot.id"
-        class="surface-card flex h-full flex-col items-start justify-between rounded-[2rem] border border-[#122540]/16 bg-white/86 p-6 text-left shadow-[0_18px_38px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1 hover:border-cyan-500/24 sm:p-7"
+        class="surface-card flex h-full flex-col items-start rounded-[2rem] border border-[#122540]/16 bg-white/86 p-6 text-left shadow-[0_18px_38px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1 hover:border-cyan-500/24 sm:p-7"
       >
-        <div>
+        <div class="w-full">
           <p class="panel-label text-steel">{{ slot.eyebrow }}</p>
           <h3 class="mt-3 text-2xl font-semibold text-ink">{{ slot.title }}</h3>
           <p class="mt-4 text-base leading-7 text-steel">
@@ -74,8 +74,8 @@
           </p>
         </div>
 
-        <div class="mt-8 space-y-4">
-          <div class="rounded-2xl border border-dashed border-[#17304b]/18 bg-[#0f2036]/[0.03] px-4 py-4 text-sm text-steel">
+        <div class="mt-8 flex w-full flex-1 flex-col justify-end gap-4">
+          <div class="flex min-h-[132px] flex-1 items-center rounded-2xl border border-dashed border-[#17304b]/18 bg-[#0f2036]/[0.03] px-4 py-4 text-sm leading-7 text-steel">
             {{ slot.note }}
           </div>
 
