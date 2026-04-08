@@ -1,23 +1,16 @@
 <template>
   <header class="sticky top-0 z-40 px-3 pt-3 sm:px-6 lg:px-8">
     <div class="section-wrap">
-      <div class="surface-card flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-4">
+      <div class="surface-card grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-5 sm:py-4">
         <RouterLink
           to="/"
-          class="shrink-0 flex items-center gap-3"
+          class="shrink-0"
+          aria-label="返回首页"
         >
-          <span
-            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-line/80 bg-ink text-sm font-semibold text-white sm:h-10 sm:w-10"
-          >
-            W
-          </span>
-          <div class="min-w-0">
-            <div class="panel-label truncate text-steel sm:hidden">WAAS</div>
-            <div class="panel-label hidden truncate text-steel sm:block">Web Apps as a Service</div>
-          </div>
+          <AppMark />
         </RouterLink>
 
-        <nav class="nav-scroll min-w-0 flex flex-1 items-center gap-2 overflow-x-auto text-sm">
+        <nav class="nav-scroll min-w-0 flex items-center gap-2 overflow-x-auto text-sm sm:justify-center">
           <RouterLink
             v-for="item in navItems"
             :key="item.to"
@@ -31,12 +24,10 @@
           </RouterLink>
         </nav>
 
-        <RouterLink
-          to="/contact"
-          class="hidden shrink-0 whitespace-nowrap rounded-full border border-ink bg-ink px-4 py-2 text-sm font-medium text-white transition-transform hover:-translate-y-0.5 lg:inline-flex"
-        >
-          启动一个构建
-        </RouterLink>
+        <div
+          class="h-10 w-10 shrink-0 sm:h-11 sm:w-11"
+          aria-hidden="true"
+        ></div>
       </div>
     </div>
   </header>
@@ -45,6 +36,7 @@
 <script setup lang="ts">
 import { useRoute, RouterLink } from 'vue-router'
 
+import AppMark from './AppMark.vue'
 import { primaryNavItems } from '../data/navigation.js'
 
 const route = useRoute()
