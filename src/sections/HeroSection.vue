@@ -24,18 +24,18 @@
           </p>
 
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href="#services"
+            <RouterLink
+              to="/services"
               class="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 sm:w-auto"
             >
               查看交付能力
-            </a>
-            <a
-              href="#contact"
+            </RouterLink>
+            <RouterLink
+              to="/contact"
               class="inline-flex w-full items-center justify-center rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink shadow-[0_12px_30px_rgba(9,17,31,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(9,17,31,0.12)] sm:w-auto"
             >
               启动一个构建
-            </a>
+            </RouterLink>
           </div>
 
           <div class="mt-8 flex flex-wrap gap-3 text-sm text-steel">
@@ -118,6 +118,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import type { HealthStatus, SignalMetric } from '../../shared/types.js'
 import StatusChip from '../components/StatusChip.vue'
@@ -132,7 +133,7 @@ const highlightChips = ['Vue 3', 'Hono', 'RESTful', 'Serverless-ready', 'TypeScr
 
 const routes = [
   { path: 'GET /api/health', label: 'Live check', tone: 'text-mint' },
-  { path: 'GET /api/services', label: 'Homepage data', tone: 'text-neon' },
+  { path: 'GET /api/services', label: 'Services page', tone: 'text-neon' },
   { path: 'GET /api/apps', label: 'Pipeline cards', tone: 'text-white/70' },
   { path: 'POST /api/contact', label: 'Queued', tone: 'text-ember' }
 ]
