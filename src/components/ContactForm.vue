@@ -51,7 +51,7 @@
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-ink transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+        class="tech-button tech-button--light inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium disabled:opacity-60"
         :disabled="submitting"
       >
         {{ submitting ? 'Submitting...' : 'POST /api/contact' }}

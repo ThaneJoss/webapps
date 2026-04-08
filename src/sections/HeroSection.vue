@@ -26,13 +26,13 @@
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <RouterLink
               to="/services"
-              class="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 sm:w-auto"
+              class="tech-button inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-medium sm:w-auto"
             >
               查看交付能力
             </RouterLink>
             <RouterLink
               to="/contact"
-              class="inline-flex w-full items-center justify-center rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-medium text-ink shadow-[0_12px_30px_rgba(9,17,31,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(9,17,31,0.12)] sm:w-auto"
+              class="tech-button tech-button--ghost inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-medium sm:w-auto"
             >
               启动一个构建
             </RouterLink>
