@@ -92,8 +92,8 @@ const pointerStyle = computed(() => ({
 }))
 
 const haloStyle = computed(() => ({
-  left: `${haloX.value + 12}px`,
-  top: `${haloY.value + 18}px`
+  left: `${haloX.value + 7}px`,
+  top: `${haloY.value + 10}px`
 }))
 
 const updateEnabled = () => {

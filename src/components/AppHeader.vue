@@ -16,9 +16,7 @@
             :key="item.to"
             :to="item.to"
             class="tech-nav-link shrink-0 rounded-full border px-3 py-2 transition-colors"
-            :class="isActive(item.to)
-              ? 'is-active'
-              : 'border-line/70 bg-white/75 text-steel hover:text-ink'"
+            :class="isActive(item.to) ? 'is-active' : ''"
           >
             {{ item.label }}
           </RouterLink>
