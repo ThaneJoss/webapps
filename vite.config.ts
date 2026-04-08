@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import vue from '@vitejs/plugin-vue'
+import splitVendorChunkPlugin from 'split-vendor-chunk-plugin'
 import Sitemap from 'vite-plugin-sitemap'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
@@ -8,6 +9,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [
     vue(),
+    splitVendorChunkPlugin(),
     UnoCSS(),
     Sitemap({
       hostname: 'https://thanejoss.com',
