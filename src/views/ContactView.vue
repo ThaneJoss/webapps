@@ -1,12 +1,12 @@
 <template>
   <SiteShell>
     <PageHero
-      eyebrow="Contact page"
-      title="把联系入口做成独立页面，减少找表单的跳转成本"
-      description="现在联系表单有自己的页面，用户不需要先回首页再滚到底部。对真实站点来说，这种结构更直接，也更像正式产品官网。"
-      side-label="Submission note"
-      side-note="当前表单提交走标准 JSON API。后续无论你要接数据库、邮件还是 webhook，这个入口都可以继续保留不变。"
-      :highlights="['POST /api/contact', 'Queued receipt', 'Form-first flow']"
+      eyebrow="Start a project"
+      title="把你的目标发过来，我们先把第一版做成真正能上线的东西"
+      description="如果你已经有产品想法、业务场景，或者只是知道自己卡在某个流程上，这一页就是最直接的开始。把目标、当前阶段和你希望优先完成的部分告诉我，我会据此判断更适合从哪一版切入。"
+      side-label="What happens next"
+      side-note="提交后，我会先判断你的需求更适合做官网、内部工具、AI 工作台，还是一个更小的 MVP，并给出更清楚的下一步建议。"
+      :highlights="['需求梳理', 'MVP 范围', '交付优先级']"
     />
 
     <ContactSection />
