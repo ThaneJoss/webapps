@@ -306,103 +306,6 @@ svg {
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-.tech-cursor-layer {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-}
-
-.tech-cursor-pointer,
-.tech-cursor-halo,
-.tech-click-ripple {
-  pointer-events: none;
-  position: fixed;
-}
-
-.tech-cursor-pointer,
-.tech-cursor-halo {
-  transition:
-    opacity 160ms ease,
-    transform 180ms ease,
-    width 180ms ease,
-    height 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
-}
-
-.tech-cursor-pointer {
-  width: 18px;
-  height: 28px;
-  transform-origin: 4px 4px;
-  filter: drop-shadow(0 5px 12px rgba(10, 22, 40, 0.18)) drop-shadow(0 0 10px rgba(82, 215, 255, 0.2));
-}
-
-.tech-cursor-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.tech-cursor-halo {
-  width: 24px;
-  height: 24px;
-  transform: translate3d(-50%, -50%, 0);
-  border: 1px solid rgba(82, 215, 255, 0.34);
-  border-radius: 9999px;
-  background:
-    radial-gradient(circle, rgba(82, 215, 255, 0.14), transparent 62%),
-    radial-gradient(circle, rgba(116, 231, 200, 0.08), transparent 76%);
-}
-
-.tech-cursor-pointer.is-hovering {
-  transform: scale(1.08) rotate(-5deg);
-  filter: drop-shadow(0 8px 18px rgba(10, 22, 40, 0.22)) drop-shadow(0 0 14px rgba(116, 231, 200, 0.24));
-}
-
-.tech-cursor-halo.is-hovering {
-  width: 32px;
-  height: 32px;
-  border-color: rgba(116, 231, 200, 0.46);
-  background: radial-gradient(circle, rgba(116, 231, 200, 0.1), transparent 72%);
-}
-
-.tech-cursor-pointer.is-active {
-  transform: scale(0.96) rotate(-2deg);
-}
-
-.tech-cursor-halo.is-active {
-  width: 18px;
-  height: 18px;
-}
-
-.tech-cursor-pointer.is-hidden,
-.tech-cursor-halo.is-hidden {
-  opacity: 0;
-}
-
-.tech-click-ripple {
-  width: 10px;
-  height: 10px;
-  border: 1px solid rgba(82, 215, 255, 0.46);
-  border-radius: 9999px;
-  transform: translate3d(-50%, -50%, 0);
-  animation: tech-click-ripple 650ms ease-out forwards;
-}
-
-@media (pointer: fine) {
-  body.tech-cursor-enabled,
-  body.tech-cursor-enabled a,
-  body.tech-cursor-enabled button,
-  body.tech-cursor-enabled [role='button'] {
-    cursor: none;
-  }
-
-  body.tech-cursor-enabled input,
-  body.tech-cursor-enabled textarea {
-    cursor: text;
-  }
-}
-
 @keyframes drift {
   0%,
   100% {
@@ -436,17 +339,5 @@ svg {
   50% {
     opacity: 0.72;
     transform: scaleX(1);
-  }
-}
-
-@keyframes tech-click-ripple {
-  0% {
-    opacity: 0.9;
-    transform: translate3d(-50%, -50%, 0) scale(0.4);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(-50%, -50%, 0) scale(5.4);
   }
 }
