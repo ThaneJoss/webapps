@@ -22,13 +22,13 @@ const props = defineProps<{
 const toneClass = computed(() => {
   switch (props.tone) {
     case 'good':
-      return 'bg-mint/14 text-mint'
+      return 'bg-mint/16 text-mint'
     case 'accent':
-      return 'bg-neon/14 text-signal'
+      return 'bg-signal/14 text-signal'
     case 'warn':
       return 'bg-ember/14 text-ember'
     default:
-      return 'bg-white/8 text-white/80'
+      return 'bg-signal/10 text-white/82'
   }
 })
 
@@ -37,11 +37,11 @@ const dotClass = computed(() => {
     case 'good':
       return 'bg-mint'
     case 'accent':
-      return 'bg-neon'
+      return 'bg-signal'
     case 'warn':
       return 'bg-ember'
     default:
-      return 'bg-white/60'
+      return 'bg-signal/70'
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <span class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-line/80 bg-ink text-white shadow-[0_10px_24px_rgba(9,17,31,0.18)] sm:h-11 sm:w-11">
+  <span class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-neon/25 bg-[linear-gradient(145deg,rgba(7,19,37,0.96),rgba(16,47,80,0.92),rgba(28,88,96,0.9))] text-white shadow-[0_16px_32px_rgba(10,22,40,0.2)] sm:h-11 sm:w-11">
     <svg
       viewBox="0 0 44 44"
       class="h-7 w-7 sm:h-8 sm:w-8"
