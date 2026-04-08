@@ -2,9 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   ApiRequestError,
-  fetchApps,
   fetchHealth,
-  fetchServices,
   submitContact
 } from './api.js'
 
@@ -89,7 +87,7 @@ describe('api client', () => {
       json: async () => null
     })
 
-    await expect(fetchServices()).rejects.toEqual(
+    await expect(fetchHealth()).rejects.toEqual(
       expect.objectContaining<ApiRequestError>({
         name: 'ApiRequestError',
         code: 'INVALID_RESPONSE',
@@ -132,31 +130,6 @@ describe('api client', () => {
           'Content-Type': 'application/json'
         })
       })
-    )
-  })
-
-  it('fetches services and apps from their dedicated routes', async () => {
-    fetchMock.mockResolvedValue({
-      ok: true,
-      status: 200,
-      json: async () => ({
-        success: true,
-        data: []
-      })
-    })
-
-    await fetchServices()
-    await fetchApps()
-
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      1,
-      '/api/services',
-      expect.any(Object)
-    )
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      2,
-      '/api/apps',
-      expect.any(Object)
     )
   })
 })
