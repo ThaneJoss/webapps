@@ -1,11 +1,21 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import vue from '@vitejs/plugin-vue'
+import Sitemap from 'vite-plugin-sitemap'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [vue(), UnoCSS()],
+  plugins: [
+    vue(),
+    UnoCSS(),
+    Sitemap({
+      hostname: 'https://thanejoss.com',
+      dynamicRoutes: ['/contact'],
+      generateRobotsTxt: true,
+      readable: true
+    })
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
