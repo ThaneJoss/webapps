@@ -1,56 +1,52 @@
 <template>
   <form
-    class="space-y-6 rounded-[1.55rem] bg-[linear-gradient(180deg,rgba(8,20,36,0.96),rgba(11,27,48,0.94))] p-6 text-white sm:p-8 md:p-10"
+    class="space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10"
     @submit.prevent="handleSubmit"
   >
-    <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+    <div class="border-b border-[#12304c]/10 pb-5 text-left">
       <div>
-        <p class="panel-label text-white/52">Web form</p>
-        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">填写网页表单</h2>
-        <p class="mt-3 max-w-2xl text-sm leading-6 text-white/68">
-          直接把项目目标、使用场景和你希望先做出的第一版写下来就可以。
+        <p class="panel-label text-steel">Web form</p>
+        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">填写你的建议</h2>
+        <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
+          把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。
         </p>
-      </div>
-
-      <div class="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.12em] text-white/56">
-        通常 1 个工作日内回复
       </div>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
       <label class="block">
-        <span class="mb-2 block text-sm text-white/78">怎么称呼你</span>
+        <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
         <input
           v-model="form.name"
           type="text"
           name="name"
           autocomplete="name"
-          class="w-full rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
+          class="w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
           placeholder="例如：Joss"
         />
       </label>
 
       <label class="block">
-        <span class="mb-2 block text-sm text-white/78">联系邮箱</span>
+        <span class="mb-2 block text-sm text-steel">联系邮箱</span>
         <input
           v-model="form.email"
           type="email"
           name="email"
           autocomplete="email"
-          class="w-full rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
+          class="w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
           placeholder="you@example.com"
         />
       </label>
     </div>
 
     <label class="block">
-      <span class="mb-2 block text-sm text-white/78">你想做什么</span>
+      <span class="mb-2 block text-sm text-steel">填写你的建议</span>
       <textarea
         v-model="form.message"
         name="message"
         rows="5"
-        class="w-full resize-y rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
-        placeholder="描述一下你的项目目标、面向谁、希望先做出什么版本，或者你现在最需要我先解决哪一块。"
+        class="w-full resize-y rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
+        placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
       ></textarea>
     </label>
 
@@ -63,8 +59,8 @@
         {{ submitting ? '发送中...' : '发送项目需求' }}
       </button>
 
-      <p class="text-sm text-white/55">
-        留言提交后，我会先按你写下的第一版目标来判断起步范围。
+      <p class="text-sm text-steel">
+        留言提交后，我会先根据你写下的内容给出更合适的起步建议。
       </p>
     </div>
 
