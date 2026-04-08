@@ -21,8 +21,9 @@ describe('HomeView', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('这里会逐步放入完整内容')
-    expect(wrapper.text()).toContain('现在先保留一个清晰入口')
+    expect(wrapper.text()).toContain('网站介绍')
+    expect(wrapper.text()).toContain('你的第一个原生的网页App')
+    expect(wrapper.text()).toContain('以更纯净清晰的方式逐步呈现完整内容')
     expect(wrapper.text()).toContain('前往联系页')
   })
 })
