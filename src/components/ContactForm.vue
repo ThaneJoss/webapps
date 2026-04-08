@@ -56,7 +56,7 @@
         class="tech-button tech-button--light inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium disabled:opacity-60"
         :disabled="submitting"
       >
-        {{ submitting ? '发送中...' : '发送项目需求' }}
+        {{ submitting ? '提交中...' : '提交' }}
       </button>
 
       <p class="text-sm text-steel">
