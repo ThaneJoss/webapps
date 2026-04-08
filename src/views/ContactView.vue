@@ -2,11 +2,11 @@
   <SiteShell>
     <PageHero
       eyebrow="Start a project"
-      title="把你的目标发过来，我们先把第一版做成真正能上线的东西"
-      description="如果你已经有产品想法、业务场景，或者只是知道自己卡在某个流程上，这一页就是最直接的开始。把目标、当前阶段和你希望优先完成的部分告诉我，我会据此判断更适合从哪一版切入。"
-      side-label="What happens next"
-      side-note="提交后，我会先判断你的需求更适合做官网、内部工具、AI 工作台，还是一个更小的 MVP，并给出更清楚的下一步建议。"
-      :highlights="['需求梳理', 'MVP 范围', '交付优先级']"
+      title="选一个最适合你的联系入口，直接开始"
+      description="如果你已经知道自己要聊什么，这一页不需要先读一大段说明。直接选 Email、网页表单或 GitHub Issues，就可以开始。"
+      side-label="Contact options"
+      side-note="Email 适合直接发明确需求，网页表单适合按结构填写项目背景，GitHub Issues 适合公开记录需求、问题或改动建议。"
+      :highlights="['Email', '网页表单', 'GitHub Issues']"
     />
 
     <ContactSection />

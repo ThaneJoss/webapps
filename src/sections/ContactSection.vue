@@ -3,80 +3,62 @@
     id="contact"
     class="section-wrap section-space pt-0"
   >
-    <div class="grid gap-6 xl:grid-cols-[0.76fr_1.18fr_0.86fr]">
-      <div class="grid gap-6">
-        <article class="surface-card p-6 sm:p-8">
-          <SectionTitle
-            eyebrow="Before you send"
-            title="你不需要先写技术方案，只需要把目标讲清楚"
-            description="如果你还没把页面结构、接口或功能列表想完整，这很正常。先把你想解决的问题、面向谁，以及为什么现在要做这件事说清楚，就足够开始。"
-          />
-
-          <div class="mt-8 space-y-4 text-sm leading-7 text-steel">
-            <p>给我发需求时，优先写这三件事：</p>
-            <p>1. 你想做的是什么产品、页面或工具。</p>
-            <p>2. 它主要给谁使用，要解决什么问题。</p>
-            <p>3. 你希望第一版先完成到什么程度。</p>
+    <div class="mx-auto max-w-6xl">
+      <div class="grid gap-5 lg:grid-cols-3">
+        <a
+          v-for="entry in contactEntries"
+          :key="entry.id"
+          :href="entry.href"
+          :target="entry.external ? '_blank' : undefined"
+          :rel="entry.external ? 'noreferrer' : undefined"
+          class="surface-card group flex min-h-[250px] flex-col justify-between p-6 transition-transform hover:-translate-y-1"
+        >
+          <div>
+            <p class="panel-label text-steel">{{ entry.eyebrow }}</p>
+            <h3 class="mt-3 text-2xl font-semibold text-ink">{{ entry.title }}</h3>
+            <p class="mt-4 text-base leading-7 text-steel">
+              {{ entry.description }}
+            </p>
           </div>
-        </article>
 
-        <article class="surface-card p-6 sm:p-8">
-          <SectionTitle
-            eyebrow="Best starting point"
-            title="适合先从这里聊的，一般是这些项目"
-            description="如果你的项目还在起步阶段，先把需求收紧，再启动第一版，通常会比一开始追求完整系统更有效。"
-          />
-
-          <div class="mt-8 grid gap-3 text-sm text-steel">
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              新服务或新产品的官网、落地页和转化页。
-            </div>
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              面向内部流程的表单工具、运营面板或状态看板。
-            </div>
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              需要把 AI 能力包装成清晰可用界面的工作台或功能页。
-            </div>
+          <div class="mt-8 flex items-center justify-between">
+            <span class="rounded-full border border-line/70 bg-white/82 px-3 py-1 text-xs uppercase tracking-[0.14em] text-steel">
+              {{ entry.meta }}
+            </span>
+            <span class="text-sm font-medium text-ink">
+              {{ entry.cta }}
+            </span>
           </div>
-        </article>
+        </a>
       </div>
+    </div>
+
+    <div
+      id="contact-form"
+      class="mt-8 grid gap-6 xl:grid-cols-[0.84fr_1.16fr]"
+    >
+      <article class="surface-card p-6 sm:p-8">
+        <SectionTitle
+          eyebrow="Web form"
+          title="如果你想按结构说明项目，直接在这里填写就可以"
+          description="网页表单适合整理项目目标、用户对象和第一版范围。写清楚这些信息后，后续沟通会快很多。"
+        />
+
+        <div class="mt-8 grid gap-3 text-sm text-steel">
+          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
+            适合还在收敛需求、需要把想法写得更清楚的项目。
+          </div>
+          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
+            建议优先写目标、用户和第一版希望先做出的结果。
+          </div>
+          <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
+            如果你不确定具体怎么做，也可以先把困住你的问题写出来。
+          </div>
+        </div>
+      </article>
 
       <div class="surface-card p-2 sm:p-3">
         <ContactForm />
-      </div>
-
-      <div class="grid gap-6">
-        <article class="surface-card p-6 sm:p-8">
-          <SectionTitle
-            eyebrow="What you get"
-            title="提交之后，我会先帮你把方向和优先级理顺"
-            description="这一步不是直接报价，而是先判断什么值得做、什么应该延后，以及第一版应该做到什么程度。"
-          />
-
-          <div class="mt-8 grid gap-3 text-sm text-steel">
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              先判断你的目标更适合官网、内部工具，还是一个更小的 MVP。
-            </div>
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              把第一版真正需要的页面、功能和交付顺序收紧。
-            </div>
-            <div class="rounded-2xl border border-line/70 bg-white/74 px-4 py-4">
-              尽量避免一开始就把需求做散、做重、做不清楚。
-            </div>
-          </div>
-        </article>
-
-        <article class="surface-dark panel-glow p-6 sm:p-8">
-          <p class="panel-label text-white/55">Project fit</p>
-          <h3 class="mt-3 text-2xl font-semibold">如果你已经有明确目标，现在就可以发需求</h3>
-          <p class="mt-4 text-sm leading-7 text-white/70">
-            这页现在的主目标不是展示技术细节，而是让你能更快把想法转成一次有效沟通。
-          </p>
-
-          <div class="mt-6 rounded-2xl border border-white/10 bg-white/6 px-4 py-4 text-sm leading-7 text-white/72">
-            一条写得清楚的需求，通常比一串技术名词更有价值。
-          </div>
-        </article>
       </div>
     </div>
 
@@ -115,6 +97,39 @@
 <script setup lang="ts">
 import ContactForm from '../components/ContactForm.vue'
 import SectionTitle from '../components/SectionTitle.vue'
+
+const contactEntries = [
+  {
+    id: 'email',
+    eyebrow: 'Direct email',
+    title: 'Email',
+    description: '适合已经有明确需求，想直接用邮件把目标、范围和时间节奏发过来。',
+    meta: 'support@thanejoss.com',
+    cta: '发送邮件',
+    href: 'mailto:support@thanejoss.com',
+    external: false
+  },
+  {
+    id: 'form',
+    eyebrow: 'Structured form',
+    title: '网页表单',
+    description: '适合按页面结构填写项目背景、目标用户和第一版希望先完成的内容。',
+    meta: 'Scroll to form',
+    cta: '填写表单',
+    href: '#contact-form',
+    external: false
+  },
+  {
+    id: 'issues',
+    eyebrow: 'Public request',
+    title: 'GitHub Issues',
+    description: '适合公开记录需求、问题或改动建议，方便后续持续跟踪和讨论。',
+    meta: 'Open in new tab',
+    cta: '新建 Issue',
+    href: 'https://github.com/ThaneJoss/webapps/issues/new',
+    external: true
+  }
+] as const
 
 const paymentSlots = [
   {
