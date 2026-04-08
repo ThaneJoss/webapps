@@ -1,28 +1,34 @@
 <template>
   <SiteShell>
-    <HeroSection
-      :signals="heroSignals"
-      :api-status="apiStatus"
-      :health="health"
-    />
-    <PageDirectorySection />
-    <PageActionBanner
-      eyebrow="Direct entry"
-      title="如果你已经想好要做什么，就直接进入联系页"
-      description="现在导航已经拆成独立页面。首页只保留总览和入口，具体内容放到对应页面里展开。"
-      cta-label="前往联系页"
-      to="/contact"
-    />
+    <section class="section-wrap pt-6 sm:pt-10">
+      <div class="mx-auto max-w-5xl">
+        <div class="surface-card rise-in overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+          <div class="max-w-3xl">
+            <p class="panel-label text-steel">Home</p>
+            <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
+              这里会逐步放入完整内容，
+              <br class="hidden sm:block" />
+              现在先保留一个清晰入口。
+            </h1>
+            <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
+              我会从这里开始补充更详细的介绍、内容说明和合作方式。如果你已经知道想聊什么，可以直接前往联系页填写。
+            </p>
+
+            <RouterLink
+              to="/contact"
+              class="tech-button mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
+            >
+              前往联系页
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+    </section>
   </SiteShell>
 </template>
 
 <script setup lang="ts">
-import PageActionBanner from '../components/PageActionBanner.vue'
-import SiteShell from '../components/SiteShell.vue'
-import { useApiHealthStatus } from '../composables/useShowcaseData.js'
-import { heroSignals } from '../data/fallbackContent.js'
-import HeroSection from '../sections/HeroSection.vue'
-import PageDirectorySection from '../sections/PageDirectorySection.vue'
+import { RouterLink } from 'vue-router'
 
-const { apiStatus, health } = useApiHealthStatus()
+import SiteShell from '../components/SiteShell.vue'
 </script>
