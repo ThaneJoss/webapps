@@ -1,14 +1,20 @@
 <template>
   <form
-    class="surface-dark panel-glow space-y-5 p-6 sm:p-8"
+    class="space-y-6 rounded-[1.55rem] bg-[linear-gradient(180deg,rgba(8,20,36,0.96),rgba(11,27,48,0.94))] p-6 text-white sm:p-8 md:p-10"
     @submit.prevent="handleSubmit"
   >
-    <div>
-      <p class="panel-label text-white/55">Project inquiry</p>
-      <h3 class="mt-3 text-2xl font-semibold">告诉我你想做什么，我来帮你收紧第一版范围</h3>
-      <p class="mt-3 max-w-lg text-sm leading-6 text-white/70">
-        不需要把方案写得很技术化。直接说你的目标、使用场景、上线节奏，或者你现在最需要先解决的地方就可以。
-      </p>
+    <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="panel-label text-white/52">Web form</p>
+        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">填写网页表单</h2>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-white/68">
+          直接把项目目标、使用场景和你希望先做出的第一版写下来就可以。
+        </p>
+      </div>
+
+      <div class="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.12em] text-white/56">
+        通常 1 个工作日内回复
+      </div>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
@@ -19,7 +25,7 @@
           type="text"
           name="name"
           autocomplete="name"
-          class="w-full rounded-2xl border border-white/16 bg-white/8 px-4 py-3 text-white shadow-inner shadow-black/6 outline-none transition placeholder:text-white/34 focus:border-neon/60 focus:bg-white/12"
+          class="w-full rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
           placeholder="例如：Joss"
         />
       </label>
@@ -31,7 +37,7 @@
           type="email"
           name="email"
           autocomplete="email"
-          class="w-full rounded-2xl border border-white/16 bg-white/8 px-4 py-3 text-white shadow-inner shadow-black/6 outline-none transition placeholder:text-white/34 focus:border-neon/60 focus:bg-white/12"
+          class="w-full rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
           placeholder="you@example.com"
         />
       </label>
@@ -43,7 +49,7 @@
         v-model="form.message"
         name="message"
         rows="5"
-        class="w-full resize-y rounded-2xl border border-white/16 bg-white/8 px-4 py-3 text-white shadow-inner shadow-black/6 outline-none transition placeholder:text-white/34 focus:border-neon/60 focus:bg-white/12"
+        class="w-full resize-y rounded-2xl border border-white/14 bg-white/7 px-4 py-3 text-white shadow-inner shadow-black/10 outline-none transition placeholder:text-white/34 focus:border-cyan-400/60 focus:bg-white/10"
         placeholder="描述一下你的项目目标、面向谁、希望先做出什么版本，或者你现在最需要我先解决哪一块。"
       ></textarea>
     </label>
@@ -58,7 +64,7 @@
       </button>
 
       <p class="text-sm text-white/55">
-        留言提交后，我会根据你的目标判断更适合从哪一版开始。
+        留言提交后，我会先按你写下的第一版目标来判断起步范围。
       </p>
     </div>
 
