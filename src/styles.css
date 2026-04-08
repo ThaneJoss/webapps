@@ -306,6 +306,29 @@ svg {
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition:
+    opacity 240ms ease,
+    transform 240ms ease,
+    filter 240ms ease;
+  will-change: opacity, transform, filter;
+}
+
+.page-fade-enter-from,
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  filter: blur(4px);
+}
+
+.page-fade-enter-to,
+.page-fade-leave-from {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
 @keyframes drift {
   0%,
   100% {
@@ -314,6 +337,13 @@ svg {
 
   50% {
     transform: translate3d(0, -10px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-fade-enter-active,
+  .page-fade-leave-active {
+    transition: none;
   }
 }
 
