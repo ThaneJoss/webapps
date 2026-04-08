@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import ContactView from '../views/ContactView.vue'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -17,7 +16,7 @@ const router = createRouter({
     {
       path: '/contact',
       name: 'contact',
-      component: ContactView,
+      component: () => import('../views/ContactView.vue'),
       meta: {
         title: '联系'
       }

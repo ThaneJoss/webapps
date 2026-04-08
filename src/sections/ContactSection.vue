@@ -5,16 +5,13 @@
   >
     <div class="mx-auto max-w-6xl">
       <div class="grid gap-5 md:grid-cols-3">
-        <component
-          :is="entry.kind === 'form' ? 'button' : 'a'"
+        <a
           v-for="entry in contactEntries"
           :key="entry.id"
-          :href="entry.kind !== 'form' ? entry.href : undefined"
+          :href="entry.href"
           :target="entry.external ? '_blank' : undefined"
           :rel="entry.external ? 'noreferrer' : undefined"
-          :type="entry.kind === 'form' ? 'button' : undefined"
           class="surface-card group flex min-h-[250px] flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1.5 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)]"
-          @click="entry.kind === 'form' ? scrollToForm() : undefined"
         >
           <div class="w-full">
             <div class="flex items-start justify-between gap-4">
@@ -43,7 +40,7 @@
               {{ entry.cta }}
             </span>
           </div>
-        </component>
+        </a>
       </div>
     </div>
 
@@ -97,24 +94,6 @@ import { Icon } from '@iconify/vue'
 
 import ContactForm from '../components/ContactForm.vue'
 
-const scrollToForm = () => {
-  const target = document.getElementById('contact-form')
-  if (!target) {
-    return
-  }
-
-  const header = document.querySelector('header')
-  const headerHeight = header instanceof HTMLElement
-    ? header.getBoundingClientRect().height
-    : 0
-  const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 24
-
-  window.scrollTo({
-    top,
-    behavior: 'smooth'
-  })
-}
-
 const contactEntries = [
   {
     id: 'email',
@@ -125,7 +104,6 @@ const contactEntries = [
     cta: '发送邮件',
     icon: 'solar:letter-bold-duotone',
     href: 'mailto:support@thanejoss.com',
-    kind: 'link',
     external: false
   },
   {
@@ -136,8 +114,7 @@ const contactEntries = [
     meta: '滚动到表单',
     cta: '填写表单',
     icon: 'solar:clipboard-list-bold-duotone',
-    href: '',
-    kind: 'form',
+    href: '#contact-form',
     external: false
   },
   {
@@ -149,7 +126,6 @@ const contactEntries = [
     cta: '前往留言',
     icon: 'solar:chat-round-line-line-duotone',
     href: 'https://github.com/ThaneJoss/webapps/issues/new',
-    kind: 'link',
     external: true
   }
 ] as const
