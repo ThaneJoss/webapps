@@ -24,8 +24,6 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@fontsource/jetbrains-mono": "^5.2.6",
-    "@fontsource/space-grotesk": "^5.2.7",
     "@types/node": "^24.6.0",
     "@unocss/preset-uno": "^66.5.4",
     "@vitejs/plugin-vue": "^6.0.1",

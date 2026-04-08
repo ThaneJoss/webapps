@@ -2,9 +2,9 @@
   <SiteShell>
     <section class="section-wrap pt-6 sm:pt-10">
       <div class="mx-auto max-w-5xl">
-        <div class="surface-card rise-in overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+        <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div class="max-w-3xl">
-            <p class="panel-label text-steel">Home</p>
+            <p class="panel-label text-steel">首页</p>
             <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
               这里会逐步放入完整内容，
               <br class="hidden sm:block" />
