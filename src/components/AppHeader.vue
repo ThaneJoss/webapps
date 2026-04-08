@@ -15,9 +15,9 @@
             v-for="item in navItems"
             :key="item.to"
             :to="item.to"
-            class="shrink-0 rounded-full border px-3 py-2 transition-colors"
+            class="tech-nav-link shrink-0 rounded-full border px-3 py-2 transition-colors"
             :class="isActive(item.to)
-              ? 'border-ink bg-ink text-white'
+              ? 'is-active'
               : 'border-line/70 bg-white/75 text-steel hover:text-ink'"
           >
             {{ item.label }}

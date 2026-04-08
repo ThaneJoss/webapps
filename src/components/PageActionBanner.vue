@@ -11,7 +11,7 @@
 
       <RouterLink
         :to="to"
-        class="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-ink transition hover:-translate-y-0.5"
+        class="tech-button tech-button--light inline-flex shrink-0 items-center justify-center rounded-full px-5 py-3 text-sm font-medium"
       >
         {{ ctaLabel }}
       </RouterLink>
