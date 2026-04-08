@@ -8,7 +8,7 @@
     "dev:web": "vite",
     "dev:api": "tsx watch api/src/dev.ts",
     "build": "npm run typecheck && npm run build:web && npm run build:api",
-    "build:web": "vite build",
+    "build:web": "vite build && node scripts/inline-critical-css.mjs",
     "build:api": "tsc -p api/tsconfig.json",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p api/tsconfig.json",
