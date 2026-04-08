@@ -1,7 +1,6 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
-import { appPipelineSeed, servicesSeed } from '../../shared/content.js'
 import type {
   ApiFailure,
   ApiSuccess,
@@ -45,10 +44,6 @@ app.get('/api/health', (context) => {
   return context.json(jsonSuccess(payload))
 })
 
-app.get('/api/services', (context) => context.json(jsonSuccess(servicesSeed)))
-
-app.get('/api/apps', (context) => context.json(jsonSuccess(appPipelineSeed)))
-
 app.post('/api/contact', async (context) => {
   const body = (await context.req.json().catch(() => null)) as ContactPayload | null
 
@@ -87,7 +82,7 @@ app.post('/api/contact', async (context) => {
 })
 
 app.notFound((context) =>
-  context.json(jsonFailure('NOT_FOUND', 'The requested API route does not exist.'), 404)
+  context.json(jsonFailure('NOT_FOUND', 'API route not found.'), 404)
 )
 
 app.onError((error, context) => {

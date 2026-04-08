@@ -1,20 +1,27 @@
 <template>
   <SiteShell>
-    <PageHero
-      eyebrow="Contact page"
-      title="把联系入口做成独立页面，减少找表单的跳转成本"
-      description="现在联系表单有自己的页面，用户不需要先回首页再滚到底部。对真实站点来说，这种结构更直接，也更像正式产品官网。"
-      side-label="Submission note"
-      side-note="当前表单提交走标准 JSON API。后续无论你要接数据库、邮件还是 webhook，这个入口都可以继续保留不变。"
-      :highlights="['POST /api/contact', 'Queued receipt', 'Form-first flow']"
-    />
+    <section class="section-wrap pt-6 sm:pt-10">
+      <div class="mx-auto max-w-6xl">
+        <div class="surface-card flex flex-col gap-4 px-6 py-6 sm:px-8 sm:py-7 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p class="panel-label text-steel">Contact</p>
+            <h1 class="mt-3 text-4xl font-semibold tracking-[-0.05em] text-ink sm:text-[3.4rem]">
+              联系入口
+            </h1>
+          </div>
+
+          <p class="max-w-xl text-sm leading-7 text-steel sm:text-base">
+            选一个入口，直接开始。
+          </p>
+        </div>
+      </div>
+    </section>
 
     <ContactSection />
   </SiteShell>
 </template>
 
 <script setup lang="ts">
-import PageHero from '../components/PageHero.vue'
 import SiteShell from '../components/SiteShell.vue'
 import ContactSection from '../sections/ContactSection.vue'
 </script>

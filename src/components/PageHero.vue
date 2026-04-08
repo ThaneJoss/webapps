@@ -5,13 +5,27 @@
         class="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-neon/8 to-transparent lg:block"
       ></div>
 
-      <div class="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+      <div
+        class="grid gap-8 lg:items-start"
+        :class="hasAside ? 'lg:grid-cols-[1.02fr_0.98fr]' : ''"
+      >
         <div class="max-w-3xl">
-          <span class="eyebrow">{{ eyebrow }}</span>
-          <h1 class="mt-6 max-w-4xl text-[2.7rem] font-semibold leading-[0.94] tracking-[-0.05em] text-ink sm:text-6xl sm:tracking-[-0.04em]">
+          <span
+            v-if="eyebrow"
+            class="eyebrow"
+          >
+            {{ eyebrow }}
+          </span>
+          <h1
+            class="max-w-4xl text-[2.7rem] font-semibold leading-[0.94] tracking-[-0.05em] text-ink sm:text-6xl sm:tracking-[-0.04em]"
+            :class="eyebrow ? 'mt-6' : ''"
+          >
             {{ title }}
           </h1>
-          <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
+          <p
+            v-if="description"
+            class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl"
+          >
             {{ description }}
           </p>
 
@@ -29,9 +43,20 @@
           </div>
         </div>
 
-        <div class="surface-dark panel-glow p-6 sm:p-7">
-          <p class="panel-label text-white/55">{{ sideLabel }}</p>
-          <p class="mt-3 text-lg leading-8 text-white/86">
+        <div
+          v-if="hasAside"
+          class="surface-dark panel-glow p-6 sm:p-7"
+        >
+          <p
+            v-if="sideLabel"
+            class="panel-label text-white/55"
+          >
+            {{ sideLabel }}
+          </p>
+          <p
+            class="text-lg leading-8 text-white/86"
+            :class="sideLabel ? 'mt-3' : ''"
+          >
             {{ sideNote }}
           </p>
         </div>
@@ -41,17 +66,25 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { computed } from 'vue'
+
+const props = withDefaults(
   defineProps<{
-    eyebrow: string
+    eyebrow?: string
     title: string
-    description: string
-    sideLabel: string
-    sideNote: string
+    description?: string
+    sideLabel?: string
+    sideNote?: string
     highlights?: string[]
   }>(),
   {
+    eyebrow: '',
+    description: '',
+    sideLabel: '',
+    sideNote: '',
     highlights: () => []
   }
 )
+
+const hasAside = computed(() => Boolean(props.sideLabel || props.sideNote))
 </script>

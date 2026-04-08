@@ -2,7 +2,7 @@ import { onMounted, ref } from 'vue'
 
 import type { AppItem, HealthStatus, ServiceItem } from '../../shared/types.js'
 import { fallbackApps, fallbackServices } from '../data/fallbackContent.js'
-import { fetchApps, fetchHealth, fetchServices } from '../lib/api.js'
+import { fetchHealth } from '../lib/api.js'
 
 export const useApiHealthStatus = () => {
   const apiStatus = ref<'checking' | 'online' | 'offline'>('checking')
@@ -26,14 +26,6 @@ export const useApiHealthStatus = () => {
 export const useServicesCatalog = () => {
   const services = ref<ServiceItem[]>(fallbackServices)
 
-  onMounted(async () => {
-    try {
-      services.value = await fetchServices()
-    } catch {
-      services.value = fallbackServices
-    }
-  })
-
   return {
     services
   }
@@ -41,14 +33,6 @@ export const useServicesCatalog = () => {
 
 export const useAppPipeline = () => {
   const apps = ref<AppItem[]>(fallbackApps)
-
-  onMounted(async () => {
-    try {
-      apps.value = await fetchApps()
-    } catch {
-      apps.value = fallbackApps
-    }
-  })
 
   return {
     apps
