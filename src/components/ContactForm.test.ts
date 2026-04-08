@@ -36,7 +36,7 @@ describe('ContactForm', () => {
       email: 'codex@thanejoss.com',
       message: 'Need a launch page'
     })
-    expect(wrapper.text()).toContain('Request queued. Submission ID: 6ef0fe1b')
+    expect(wrapper.text()).toContain('已收到你的项目需求，我会尽快查看。参考编号：6ef0fe1b')
     expect((wrapper.get('input[name="name"]').element as HTMLInputElement).value).toBe('')
     expect((wrapper.get('input[name="email"]').element as HTMLInputElement).value).toBe('')
     expect((wrapper.get('textarea[name="message"]').element as HTMLTextAreaElement).value).toBe('')
@@ -55,7 +55,7 @@ describe('ContactForm', () => {
     await wrapper.get('form').trigger('submit.prevent')
     await flushPromises()
 
-    expect(wrapper.text()).toContain('Please provide a valid email address.')
+    expect(wrapper.text()).toContain('请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。')
     expect((wrapper.get('input[name="name"]').element as HTMLInputElement).value).toBe('Codex')
     expect((wrapper.get('input[name="email"]').element as HTMLInputElement).value).toBe('bad-email')
     expect((wrapper.get('textarea[name="message"]').element as HTMLTextAreaElement).value).toBe('Need a launch page')
