@@ -2,7 +2,7 @@
   <form
     class="text-ink"
     :class="compact
-      ? 'space-y-4'
+      ? 'space-y-3'
       : 'space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10'"
     @submit.prevent="handleSubmit"
   >
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div :class="compact ? 'grid gap-4' : 'grid gap-4 sm:grid-cols-2'">
+    <div :class="compact ? 'grid gap-3 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2'">
       <label class="block">
         <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
         <input
@@ -50,7 +50,7 @@
       <textarea
         v-model="form.message"
         name="message"
-        :rows="compact ? 4 : 5"
+        :rows="compact ? 3 : 5"
         class="w-full resize-y rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
         placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
       ></textarea>
@@ -66,7 +66,10 @@
         {{ submitting ? '提交中...' : submitLabel }}
       </button>
 
-      <p class="text-sm text-steel">
+      <p
+        v-if="hintText"
+        class="text-sm text-steel"
+      >
         {{ hintText }}
       </p>
     </div>

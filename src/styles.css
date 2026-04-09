@@ -201,20 +201,29 @@ svg {
 }
 
 .contact-entry-card {
-  min-height: 320px;
+  position: relative;
+  min-height: 272px;
   perspective: 1600px;
+  transition: transform 220ms ease;
 }
 
 .contact-entry-card--form {
-  min-height: 580px;
+  min-height: 430px;
+}
+
+.contact-entry-card--active {
+  z-index: 2;
+  transform: translate3d(0, -4px, 0);
 }
 
 .contact-entry-card__inner {
   position: relative;
   min-height: inherit;
   height: 100%;
+  isolation: isolate;
   transform-style: preserve-3d;
-  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  transition: transform 440ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .contact-entry-card.is-flipped .contact-entry-card__inner {
@@ -224,11 +233,40 @@ svg {
 .contact-entry-card__face {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  border-radius: 2rem;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  transition: opacity 160ms ease;
+}
+
+.contact-entry-card__face--front {
+  z-index: 1;
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.contact-entry-card.is-flipped .contact-entry-card__face--front {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .contact-entry-card__face--back {
-  transform: rotateY(180deg);
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+.contact-entry-card.is-flipped .contact-entry-card__face--back {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.contact-entry-card--active .contact-entry-card__face--back {
+  border-color: rgba(82, 215, 255, 0.3);
+  box-shadow:
+    0 26px 52px rgba(10, 22, 40, 0.14),
+    0 0 0 1px rgba(82, 215, 255, 0.08);
 }
 
 @media (min-width: 1280px) {
@@ -295,7 +333,7 @@ svg {
 
 @media (max-width: 767px) {
   .contact-entry-card--form {
-    min-height: 620px;
+    min-height: 470px;
   }
 }
 

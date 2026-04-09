@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
@@ -6,6 +7,7 @@ import ContactSection from './ContactSection.vue'
 describe('ContactSection', () => {
   it('flips cards open and keeps only one active at a time', async () => {
     const wrapper = mount(ContactSection, {
+      attachTo: document.body,
       global: {
         stubs: {
           Icon: {
@@ -22,7 +24,10 @@ describe('ContactSection', () => {
     expect(wrapper.get('[data-contact-card="email"]').classes()).not.toContain('is-flipped')
     expect(wrapper.get('[data-contact-card="form"]').classes()).toContain('is-flipped')
 
-    await wrapper.get('[data-contact-card-back="form"] button').trigger('click')
+    document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
+    await nextTick()
     expect(wrapper.get('[data-contact-card="form"]').classes()).not.toContain('is-flipped')
+
+    wrapper.unmount()
   })
 })
