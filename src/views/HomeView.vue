@@ -24,16 +24,13 @@
 
   <section class="section-wrap pb-12 pt-5 sm:pb-16 sm:pt-8">
     <div class="mx-auto max-w-6xl">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div class="max-w-2xl">
-          <p class="panel-label text-steel">APP 展示区</p>
-          <h2 class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-[2.7rem]">
-            先用 10 个 app 卡位看看首页效果
-          </h2>
-        </div>
-
-        <p class="max-w-xl text-sm leading-7 text-steel sm:text-base">
-          布局先按联系页那组小方块的方式排开。第一个 app 先做成主卡，后面的 9 个作为连续占位，方便你逐步替换成真实产品。
+      <div class="max-w-3xl">
+        <p class="panel-label text-steel">APP 展示区</p>
+        <h2 class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-[2.7rem]">
+          先用 10 个 app 卡位看看首页效果
+        </h2>
+        <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
+          第一个先做主卡，其他 9 个保持错落排开，后面再逐步换成真实 app。
         </p>
       </div>
 
@@ -41,8 +38,8 @@
         <article
           v-for="app in homeApps"
           :key="app.id"
-          class="surface-card group flex flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1.5 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)]"
-          :class="app.featured ? 'md:col-span-2 xl:row-span-2 xl:min-h-[520px] sm:p-8' : 'min-h-[248px]'"
+          class="home-app-card surface-card group flex flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)]"
+          :class="[app.featured ? 'home-app-card--featured sm:p-8' : 'home-app-card--tile', app.layoutClass]"
         >
           <div class="w-full">
             <div class="flex items-start justify-between gap-4">
@@ -124,7 +121,8 @@ const homeApps = [
     description: '把最先要上线的主流程放在这里，首页会优先突出展示它。后面接路由、接口和真实封面时，这块直接替换就够了。',
     phase: '先接真实功能',
     tip: '优先做成可点击入口',
-    featured: true
+    featured: true,
+    layoutClass: 'home-app-card--featured'
   },
   {
     id: 'app-02',
@@ -136,7 +134,8 @@ const homeApps = [
     description: '适合放第二个独立工具页。',
     phase: '待补业务内容',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--lift'
   },
   {
     id: 'app-03',
@@ -148,7 +147,8 @@ const homeApps = [
     description: '适合展示列表、指标或趋势页。',
     phase: '待定义结构',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--dip'
   },
   {
     id: 'app-04',
@@ -160,7 +160,8 @@ const homeApps = [
     description: '适合内容输入、记录和整理。',
     phase: '待接表单交互',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--wide'
   },
   {
     id: 'app-05',
@@ -172,7 +173,8 @@ const homeApps = [
     description: '适合上传、整理或归档文件流。',
     phase: '待接上传流程',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--rest'
   },
   {
     id: 'app-06',
@@ -184,7 +186,8 @@ const homeApps = [
     description: '适合放提示词、模板和调试台。',
     phase: '待补工作流',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--rest'
   },
   {
     id: 'app-07',
@@ -196,7 +199,8 @@ const homeApps = [
     description: '适合承接发布、导出和投放。',
     phase: '待接操作面板',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--lift'
   },
   {
     id: 'app-08',
@@ -208,7 +212,8 @@ const homeApps = [
     description: '适合试验新功能和新组件。',
     phase: '待搭实验区',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--rest'
   },
   {
     id: 'app-09',
@@ -220,7 +225,8 @@ const homeApps = [
     description: '适合内部管理和状态维护。',
     phase: '待补权限逻辑',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--dip'
   },
   {
     id: 'app-10',
@@ -232,7 +238,8 @@ const homeApps = [
     description: '适合和联系页、表单页联动。',
     phase: '待接联动入口',
     tip: '后续扩展',
-    featured: false
+    featured: false,
+    layoutClass: 'home-app-card--wide'
   }
 ] as const
 </script>
