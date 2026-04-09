@@ -156,6 +156,51 @@ svg {
     0 14px 30px rgba(82, 215, 255, 0.18);
 }
 
+.home-app-card {
+  --home-app-offset: 0px;
+  transform: translate3d(0, var(--home-app-offset), 0);
+}
+
+.home-app-card:hover {
+  transform: translate3d(0, calc(var(--home-app-offset) - 6px), 0);
+}
+
+.home-app-card--featured {
+  min-height: 520px;
+}
+
+.home-app-card--tile {
+  min-height: 248px;
+}
+
+.home-app-card--featured,
+.home-app-card--wide {
+  grid-column: span 2 / span 2;
+}
+
+.home-app-card--lift {
+  --home-app-offset: -14px;
+}
+
+.home-app-card--dip {
+  --home-app-offset: 18px;
+}
+
+.home-app-card--rest {
+  --home-app-offset: 0px;
+}
+
+@media (max-width: 1279px) {
+  .home-app-card {
+    --home-app-offset: 0px;
+  }
+
+  .home-app-card--featured,
+  .home-app-card--wide {
+    grid-column: auto;
+  }
+}
+
 .nav-scroll {
   scrollbar-width: none;
 }
