@@ -21,8 +21,9 @@ describe('HomeView', () => {
       }
     })
 
-    expect(wrapper.text()).toContain('这里会逐步放入完整内容')
-    expect(wrapper.text()).toContain('现在先保留一个清晰入口')
+    expect(wrapper.text()).toContain('网站简介')
+    expect(wrapper.text()).toContain('一个持续整理中的个人网站')
+    expect(wrapper.text()).toContain('这里会逐步整理内容、更新与联系方式')
     expect(wrapper.text()).toContain('前往联系页')
   })
 })

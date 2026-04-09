@@ -4,14 +4,12 @@
       <div class="mx-auto max-w-5xl">
         <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div class="max-w-3xl">
-            <p class="panel-label text-steel">首页</p>
+            <p class="panel-label text-steel">网站简介</p>
             <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
-              这里会逐步放入完整内容，
-              <br class="hidden sm:block" />
-              现在先保留一个清晰入口。
+              一个持续整理中的个人网站
             </h1>
             <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-              我会从这里开始补充更详细的介绍、内容说明和合作方式。如果你已经知道想聊什么，可以直接前往联系页填写。
+              这里会逐步整理内容、更新与联系方式。你可以先浏览当前页面，也可以直接前往联系页留言、发邮件或填写表单。
             </p>
 
             <RouterLink
