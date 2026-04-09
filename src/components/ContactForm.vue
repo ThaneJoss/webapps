@@ -1,19 +1,25 @@
 <template>
   <form
-    class="space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10"
+    class="text-ink"
+    :class="compact
+      ? 'space-y-3'
+      : 'space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10'"
     @submit.prevent="handleSubmit"
   >
-    <div class="border-b border-[#12304c]/10 pb-5 text-left">
+    <div
+      v-if="showHeader"
+      class="border-b border-[#12304c]/10 pb-5 text-left"
+    >
       <div>
         <p class="panel-label text-steel">网页表单</p>
-        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">填写你的建议</h2>
+        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">{{ title }}</h2>
         <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
-          把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。
+          {{ description }}
         </p>
       </div>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div :class="compact ? 'grid gap-3 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2'">
       <label class="block">
         <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
         <input
@@ -21,7 +27,9 @@
           type="text"
           name="name"
           autocomplete="name"
-          class="w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
+          :class="compact
+            ? 'w-full rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
+            : 'w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
           placeholder="例如：Joss"
         />
       </label>
@@ -33,7 +41,9 @@
           type="email"
           name="email"
           autocomplete="email"
-          class="w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
+          :class="compact
+            ? 'w-full rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
+            : 'w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
           placeholder="you@example.com"
         />
       </label>
@@ -44,23 +54,29 @@
       <textarea
         v-model="form.message"
         name="message"
-        rows="5"
-        class="w-full resize-y rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]"
+        :rows="compact ? 3 : 5"
+        :class="compact
+          ? 'w-full resize-y rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
+          : 'w-full resize-y rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
         placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
       ></textarea>
     </label>
 
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div :class="compact ? 'space-y-3' : 'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'">
       <button
         type="submit"
         class="tech-button tech-button--light inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium disabled:opacity-60"
+        :class="compact ? 'w-full' : ''"
         :disabled="submitting"
       >
-        {{ submitting ? '提交中...' : '提交' }}
+        {{ submitting ? '提交中...' : submitLabel }}
       </button>
 
-      <p class="text-sm text-steel">
-        留言提交后，我会先根据你写下的内容给出更合适的起步建议。
+      <p
+        v-if="hintText"
+        class="text-sm text-steel"
+      >
+        {{ hintText }}
       </p>
     </div>
 
@@ -80,6 +96,22 @@
 import { reactive, ref } from 'vue'
 
 import { ApiRequestError, submitContact } from '../lib/api.js'
+
+const {
+  compact = false,
+  showHeader = true,
+  title = '填写你的建议',
+  description = '把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。',
+  submitLabel = '提交',
+  hintText = '留言提交后，我会先根据你写下的内容给出更合适的起步建议。'
+} = defineProps<{
+  compact?: boolean
+  showHeader?: boolean
+  title?: string
+  description?: string
+  submitLabel?: string
+  hintText?: string
+}>()
 
 const form = reactive({
   name: '',
