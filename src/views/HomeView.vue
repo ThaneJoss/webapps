@@ -8,15 +8,23 @@
             你的第一个<span class="hero-native-emphasis">原生</span>网页APP
           </h1>
           <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-            从这里开始，以更纯净清晰的方式逐步呈现完整内容、联系入口与后续更新。
+            所有 APP 无需下载，打开网页就能直接使用，后续会在这里持续接入和完善。
           </p>
 
-          <RouterLink
-            to="/contact"
+          <button
+            type="button"
             class="tech-button mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
+            @click="addToFavorites"
           >
-            前往联系页
-          </RouterLink>
+            添加到收藏夹
+          </button>
+
+          <p
+            v-if="bookmarkTip"
+            class="mt-4 max-w-xl text-sm leading-7 text-steel"
+          >
+            {{ bookmarkTip }}
+          </p>
         </div>
       </div>
     </div>
@@ -108,7 +116,43 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
+
+type LegacyBookmarkWindow = Window & {
+  external?: {
+    AddFavorite?: (url: string, title: string) => void
+  }
+  sidebar?: {
+    addPanel?: (title: string, url: string, panel?: string) => void
+  }
+}
+
+const bookmarkTip = ref('')
+
+function addToFavorites() {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  const pageTitle = document.title
+  const pageUrl = window.location.href
+  const browserWindow = window as LegacyBookmarkWindow
+
+  if (typeof browserWindow.external?.AddFavorite === 'function') {
+    browserWindow.external.AddFavorite(pageUrl, pageTitle)
+    bookmarkTip.value = '已尝试调用浏览器收藏功能。'
+    return
+  }
+
+  if (typeof browserWindow.sidebar?.addPanel === 'function') {
+    browserWindow.sidebar.addPanel(pageTitle, pageUrl, '')
+    bookmarkTip.value = '已尝试调用浏览器收藏功能。'
+    return
+  }
+
+  const shortcut = /Mac|iPhone|iPad/.test(window.navigator.userAgent) ? 'Command + D' : 'Ctrl + D'
+  bookmarkTip.value = `当前浏览器请按 ${shortcut} 添加到收藏夹。`
+}
 
 const homeApps = [
   {
