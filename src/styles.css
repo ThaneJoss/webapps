@@ -156,6 +156,78 @@ svg {
     0 14px 30px rgba(82, 215, 255, 0.18);
 }
 
+.home-app-board {
+  align-items: stretch;
+}
+
+.home-app-card {
+  min-height: 236px;
+}
+
+.home-app-card:hover {
+  transform: translate3d(0, -4px, 0);
+}
+
+.home-app-card--featured {
+  min-height: 520px;
+}
+
+.home-app-card--tile {
+  min-height: 236px;
+}
+
+@media (min-width: 1280px) {
+  .home-app-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      'feature feature app02'
+      'feature feature app03'
+      'app04 app04 app05'
+      'app06 app07 app08'
+      'app09 app10 app10';
+  }
+
+  .home-app-card--area-feature {
+    grid-area: feature;
+  }
+
+  .home-app-card--area-app02 {
+    grid-area: app02;
+  }
+
+  .home-app-card--area-app03 {
+    grid-area: app03;
+  }
+
+  .home-app-card--area-app04 {
+    grid-area: app04;
+  }
+
+  .home-app-card--area-app05 {
+    grid-area: app05;
+  }
+
+  .home-app-card--area-app06 {
+    grid-area: app06;
+  }
+
+  .home-app-card--area-app07 {
+    grid-area: app07;
+  }
+
+  .home-app-card--area-app08 {
+    grid-area: app08;
+  }
+
+  .home-app-card--area-app09 {
+    grid-area: app09;
+  }
+
+  .home-app-card--area-app10 {
+    grid-area: app10;
+  }
+}
+
 .nav-scroll {
   scrollbar-width: none;
 }
