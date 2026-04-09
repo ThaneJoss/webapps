@@ -158,9 +158,11 @@ svg {
 
 .home-hero-section {
   --home-hero-top-space: 1.5rem;
+  --home-hero-bottom-space: 1rem;
   display: flex;
   min-height: calc(100svh - var(--app-header-height, 0px));
   padding-top: var(--home-hero-top-space);
+  padding-bottom: var(--home-hero-bottom-space);
 }
 
 .home-hero-shell {
@@ -172,7 +174,9 @@ svg {
 .home-hero-card {
   display: flex;
   width: 100%;
-  min-height: calc(100svh - var(--app-header-height, 0px) - var(--home-hero-top-space));
+  min-height: calc(
+    100svh - var(--app-header-height, 0px) - var(--home-hero-top-space) - var(--home-hero-bottom-space)
+  );
   align-items: center;
 }
 
@@ -324,6 +328,7 @@ svg {
 @media (min-width: 640px) {
   .home-hero-section {
     --home-hero-top-space: 2.5rem;
+    --home-hero-bottom-space: 1.4rem;
   }
 
   .home-apps-section {
