@@ -4,12 +4,12 @@
       <div class="mx-auto max-w-5xl">
         <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div class="max-w-3xl">
-            <p class="panel-label text-steel">网站简介</p>
+            <p class="panel-label text-steel">网站介绍</p>
             <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
-              一个持续整理中的个人网站
+              你的第一个<span class="hero-native-emphasis">原生</span>网页APP
             </h1>
             <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-              这里会逐步整理内容、更新与联系方式。你可以先浏览当前页面，也可以直接前往联系页留言、发邮件或填写表单。
+              从这里开始，以更纯净清晰的方式逐步呈现完整内容、联系入口与后续更新。
             </p>
 
             <RouterLink

@@ -123,6 +123,27 @@ svg {
   text-transform: uppercase;
 }
 
+.hero-native-emphasis {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.06em;
+  padding: 0 0.14em;
+  color: #071a2b;
+}
+
+.hero-native-emphasis::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.12em;
+  z-index: -1;
+  height: 0.34em;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(82, 215, 255, 0.46), rgba(116, 231, 200, 0.44), rgba(255, 141, 107, 0.4));
+  box-shadow: 0 10px 22px rgba(82, 215, 255, 0.16);
+}
+
 .nav-scroll {
   scrollbar-width: none;
 }
