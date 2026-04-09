@@ -200,6 +200,37 @@ svg {
   min-height: 236px;
 }
 
+.contact-entry-card {
+  min-height: 320px;
+  perspective: 1600px;
+}
+
+.contact-entry-card--form {
+  min-height: 580px;
+}
+
+.contact-entry-card__inner {
+  position: relative;
+  min-height: inherit;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-entry-card.is-flipped .contact-entry-card__inner {
+  transform: rotateY(180deg);
+}
+
+.contact-entry-card__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.contact-entry-card__face--back {
+  transform: rotateY(180deg);
+}
+
 @media (min-width: 1280px) {
   .home-app-board {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -259,6 +290,12 @@ svg {
 
   .home-apps-section {
     scroll-margin-top: calc(var(--app-header-height, 0px) + 1.25rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-entry-card--form {
+    min-height: 620px;
   }
 }
 
@@ -425,6 +462,7 @@ svg {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .contact-entry-card__inner,
   .route-content-enter-active,
   .route-content-leave-active {
     transition: none;
