@@ -89,6 +89,13 @@ svg {
   position: relative;
   z-index: 1;
   overflow: clip;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
 }
 
 .app-shell::before,
@@ -121,6 +128,32 @@ svg {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.hero-native-emphasis {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.06em;
+  padding: 0 0.18em 0.02em;
+  color: #04121f;
+  text-shadow: 0 0 18px rgba(82, 215, 255, 0.22);
+  transform: translateZ(0);
+}
+
+.hero-native-emphasis::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.08em;
+  z-index: -1;
+  height: 0.46em;
+  border-radius: 0.5em;
+  background:
+    linear-gradient(90deg, rgba(82, 215, 255, 0.8), rgba(116, 231, 200, 0.72), rgba(255, 141, 107, 0.7));
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+    0 14px 30px rgba(82, 215, 255, 0.18);
 }
 
 .nav-scroll {
@@ -268,27 +301,26 @@ svg {
 }
 
 .route-stage {
-  min-height: 100vh;
+  min-height: 100%;
 }
 
-.route-stage--animate {
-  animation: route-stage-enter 180ms ease-out both;
+.route-content-enter-active,
+.route-content-leave-active {
+  transition:
+    opacity 120ms ease,
+    transform 140ms ease;
+  will-change: opacity, transform;
 }
 
-@keyframes route-stage-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 12px, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
+.route-content-enter-from,
+.route-content-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .route-stage--animate {
-    animation: none;
+  .route-content-enter-active,
+  .route-content-leave-active {
+    transition: none;
   }
 }

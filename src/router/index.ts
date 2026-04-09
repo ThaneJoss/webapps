@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
 
-const defaultDescription = '你的第一个原生的网页App，从这里开始，以更纯净清晰的方式逐步呈现完整内容与联系入口。'
+const defaultDescription = '你的第一个原生网页APP，从这里开始，以更纯净清晰的方式逐步呈现完整内容与联系入口。'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -12,7 +12,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        title: '你的第一个原生的网页App',
+        title: '你的第一个原生网页APP',
         description: defaultDescription
       }
     },

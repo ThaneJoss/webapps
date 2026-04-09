@@ -3,12 +3,6 @@ import { describe, expect, it, vi } from 'vitest'
 
 import HomeView from './HomeView.vue'
 
-vi.mock('../components/SiteShell.vue', () => ({
-  default: {
-    template: '<div><slot /></div>'
-  }
-}))
-
 describe('HomeView', () => {
   it('renders the single main section for the homepage', () => {
     const wrapper = mount(HomeView, {
@@ -22,7 +16,7 @@ describe('HomeView', () => {
     })
 
     expect(wrapper.text()).toContain('网站介绍')
-    expect(wrapper.text()).toContain('你的第一个原生的网页App')
+    expect(wrapper.text()).toContain('你的第一个原生网页APP')
     expect(wrapper.text()).toContain('以更纯净清晰的方式逐步呈现完整内容')
     expect(wrapper.text()).toContain('前往联系页')
   })
