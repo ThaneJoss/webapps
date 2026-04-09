@@ -15,6 +15,6 @@ describe('HomeView', () => {
     expect(wrapper.text()).toContain('管理后台')
     expect(wrapper.text()).toContain('App 10')
     expect(wrapper.text()).toContain('/apps/app-01')
-    expect(wrapper.text()).toContain('添加到收藏夹')
+    expect(wrapper.text()).toContain('开始使用')
   })
 })

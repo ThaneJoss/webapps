@@ -1,7 +1,7 @@
 <template>
-  <section class="section-wrap pt-6 sm:pt-10">
-    <div class="mx-auto max-w-6xl">
-      <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+  <section class="section-wrap home-hero-section pt-6 sm:pt-10">
+    <div class="home-hero-shell mx-auto max-w-6xl">
+      <div class="home-hero-card surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
         <div class="max-w-3xl">
           <p class="panel-label text-steel">网站介绍</p>
           <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
@@ -14,23 +14,19 @@
           <button
             type="button"
             class="tech-button mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
-            @click="addToFavorites"
+            @click="scrollToApps"
           >
-            添加到收藏夹
+            开始使用
           </button>
-
-          <p
-            v-if="bookmarkTip"
-            class="mt-4 max-w-xl text-sm leading-7 text-steel"
-          >
-            {{ bookmarkTip }}
-          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section-wrap pb-12 pt-5 sm:pb-16 sm:pt-8">
+  <section
+    id="home-apps"
+    class="section-wrap scroll-mt-28 pb-12 pt-5 sm:scroll-mt-32 sm:pb-16 sm:pt-8"
+  >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
         <p class="panel-label text-steel">APP 展示区</p>
@@ -116,42 +112,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-type LegacyBookmarkWindow = Window & {
-  external?: {
-    AddFavorite?: (url: string, title: string) => void
-  }
-  sidebar?: {
-    addPanel?: (title: string, url: string, panel?: string) => void
-  }
-}
-
-const bookmarkTip = ref('')
-
-function addToFavorites() {
-  if (typeof window === 'undefined') {
+function scrollToApps() {
+  if (typeof document === 'undefined') {
     return
   }
 
-  const pageTitle = document.title
-  const pageUrl = window.location.href
-  const browserWindow = window as LegacyBookmarkWindow
+  const target = document.getElementById('home-apps')
 
-  if (typeof browserWindow.external?.AddFavorite === 'function') {
-    browserWindow.external.AddFavorite(pageUrl, pageTitle)
-    bookmarkTip.value = '已尝试调用浏览器收藏功能。'
-    return
-  }
-
-  if (typeof browserWindow.sidebar?.addPanel === 'function') {
-    browserWindow.sidebar.addPanel(pageTitle, pageUrl, '')
-    bookmarkTip.value = '已尝试调用浏览器收藏功能。'
-    return
-  }
-
-  const shortcut = /Mac|iPhone|iPad/.test(window.navigator.userAgent) ? 'Command + D' : 'Ctrl + D'
-  bookmarkTip.value = `当前浏览器请按 ${shortcut} 添加到收藏夹。`
+  target?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 const homeApps = [
