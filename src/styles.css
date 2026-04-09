@@ -158,19 +158,17 @@ svg {
 
 .home-hero-section {
   display: flex;
-  align-items: stretch;
 }
 
 .home-hero-shell {
   display: flex;
   width: 100%;
-  min-height: calc(100svh - 5rem);
+  min-height: calc(100svh - 3rem);
+  align-items: center;
 }
 
 .home-hero-card {
-  display: flex;
   width: 100%;
-  align-items: center;
 }
 
 .home-app-board {
@@ -247,7 +245,7 @@ svg {
 
 @media (max-width: 639px) {
   .home-hero-shell {
-    min-height: calc(100svh - 4.5rem);
+    min-height: calc(100svh - 2.5rem);
   }
 }
 

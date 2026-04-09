@@ -25,7 +25,7 @@
 
   <section
     id="home-apps"
-    class="section-wrap scroll-mt-28 pb-12 pt-5 sm:scroll-mt-32 sm:pb-16 sm:pt-8"
+    class="section-wrap scroll-mt-32 pb-12 pt-5 sm:scroll-mt-36 sm:pb-16 sm:pt-8"
   >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
