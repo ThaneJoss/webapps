@@ -18,34 +18,34 @@
           <div class="contact-entry-card__inner">
             <button
               type="button"
-              class="contact-entry-card__face contact-entry-card__face--front surface-card group flex h-full w-full flex-col items-start rounded-[2rem] border border-[#122540]/18 bg-white/88 p-5 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1.5 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)] sm:p-6"
+              class="contact-entry-card__face contact-entry-card__face--front surface-card group flex h-full w-full flex-col items-start rounded-[2rem] border border-[#122540]/18 bg-white/88 p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1.5 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)] sm:p-5"
               :data-contact-card-front="entry.id"
               @click="openCard(entry.id)"
             >
               <div class="flex w-full items-start justify-between gap-4">
-                <h3 class="max-w-[10ch] text-[1.75rem] font-semibold leading-tight text-ink">
+                <h3 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
                   {{ entry.title }}
                 </h3>
 
-                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
                   <Icon
                     :icon="entry.icon"
-                    class="h-5 w-5"
+                    class="h-4 w-4"
                   />
                 </div>
               </div>
 
-              <p class="mt-5 max-w-[24ch] flex-1 text-base leading-7 text-steel">
+              <p class="mt-4 max-w-[22ch] flex-1 text-[0.95rem] leading-6 text-steel">
                 {{ entry.description }}
               </p>
 
-              <span class="mt-8 inline-flex items-center rounded-full border border-cyan-500/18 bg-cyan-400/8 px-3 py-1 text-sm font-medium text-ink transition group-hover:border-cyan-500/28 group-hover:bg-cyan-400/12">
+              <span class="mt-6 inline-flex items-center rounded-full border border-cyan-500/18 bg-cyan-400/8 px-3 py-1 text-sm font-medium text-ink transition group-hover:border-cyan-500/28 group-hover:bg-cyan-400/12">
                 {{ entry.frontCta }}
               </span>
             </button>
 
             <div
-              class="contact-entry-card__face contact-entry-card__face--back surface-card flex h-full w-full flex-col rounded-[2rem] border border-[#122540]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.92))] p-5 text-left shadow-[0_20px_40px_rgba(10,22,40,0.1)] sm:p-6"
+              class="contact-entry-card__face contact-entry-card__face--back surface-card flex h-full w-full flex-col rounded-[2rem] border border-[#122540]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(244,249,255,0.96))] p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.1)] sm:p-5"
               :data-contact-card-back="entry.id"
             >
               <template v-if="entry.kind === 'form'">
@@ -65,7 +65,7 @@
                     :href="entry.actionHref"
                     :target="entry.external ? '_blank' : undefined"
                     :rel="entry.external ? 'noreferrer' : undefined"
-                    class="tech-button inline-flex min-w-[11rem] items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
+                    class="tech-button inline-flex min-w-[10rem] items-center justify-center rounded-full px-5 py-3 text-sm font-medium"
                   >
                     {{ entry.actionLabel }}
                   </a>
