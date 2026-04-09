@@ -1,28 +1,32 @@
 <template>
-  <section class="section-wrap pt-6 sm:pt-10">
-    <div class="mx-auto max-w-6xl">
-      <div class="surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+  <section class="section-wrap home-hero-section pt-6 sm:pt-10">
+    <div class="home-hero-shell mx-auto max-w-6xl">
+      <div class="home-hero-card surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
         <div class="max-w-3xl">
           <p class="panel-label text-steel">网站介绍</p>
           <h1 class="mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
             你的第一个<span class="hero-native-emphasis">原生</span>网页APP
           </h1>
           <p class="mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-            从这里开始，以更纯净清晰的方式逐步呈现完整内容、联系入口与后续更新。
+            所有 APP 无需下载，打开网页就能直接使用，后续会在这里持续接入和完善。
           </p>
 
-          <RouterLink
-            to="/contact"
+          <button
+            type="button"
             class="tech-button mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
+            @click="scrollToApps"
           >
-            前往联系页
-          </RouterLink>
+            开始使用
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section-wrap pb-12 pt-5 sm:pb-16 sm:pt-8">
+  <section
+    id="home-apps"
+    class="section-wrap scroll-mt-28 pb-12 pt-5 sm:scroll-mt-32 sm:pb-16 sm:pt-8"
+  >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
         <p class="panel-label text-steel">APP 展示区</p>
@@ -108,7 +112,18 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+function scrollToApps() {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  const target = document.getElementById('home-apps')
+
+  target?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
+}
 
 const homeApps = [
   {
