@@ -156,6 +156,23 @@ svg {
     0 14px 30px rgba(82, 215, 255, 0.18);
 }
 
+.home-hero-section {
+  display: flex;
+  align-items: stretch;
+}
+
+.home-hero-shell {
+  display: flex;
+  width: 100%;
+  min-height: calc(100svh - 5rem);
+}
+
+.home-hero-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
 .home-app-board {
   align-items: stretch;
 }
@@ -225,6 +242,12 @@ svg {
 
   .home-app-card--area-app10 {
     grid-area: app10;
+  }
+}
+
+@media (max-width: 639px) {
+  .home-hero-shell {
+    min-height: calc(100svh - 4.5rem);
   }
 }
 
