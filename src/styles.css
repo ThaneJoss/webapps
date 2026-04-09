@@ -157,20 +157,27 @@ svg {
 }
 
 .home-hero-section {
+  --home-hero-top-space: 1.5rem;
   display: flex;
-  align-items: stretch;
+  min-height: calc(100svh - var(--app-header-height, 0px));
+  padding-top: var(--home-hero-top-space);
 }
 
 .home-hero-shell {
   display: flex;
+  flex: 1;
   width: 100%;
-  min-height: calc(100svh - 5rem);
 }
 
 .home-hero-card {
   display: flex;
   width: 100%;
+  min-height: calc(100svh - var(--app-header-height, 0px) - var(--home-hero-top-space));
   align-items: center;
+}
+
+.home-apps-section {
+  scroll-margin-top: calc(var(--app-header-height, 0px) + 1rem);
 }
 
 .home-app-board {
@@ -245,9 +252,13 @@ svg {
   }
 }
 
-@media (max-width: 639px) {
-  .home-hero-shell {
-    min-height: calc(100svh - 4.5rem);
+@media (min-width: 640px) {
+  .home-hero-section {
+    --home-hero-top-space: 2.5rem;
+  }
+
+  .home-apps-section {
+    scroll-margin-top: calc(var(--app-header-height, 0px) + 1.25rem);
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <section class="section-wrap home-hero-section pt-6 sm:pt-10">
+  <section class="section-wrap home-hero-section">
     <div class="home-hero-shell mx-auto max-w-6xl">
       <div class="home-hero-card surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
         <div class="max-w-3xl">
@@ -25,7 +25,7 @@
 
   <section
     id="home-apps"
-    class="section-wrap scroll-mt-28 pb-12 pt-5 sm:scroll-mt-32 sm:pb-16 sm:pt-8"
+    class="section-wrap home-apps-section pb-12 pt-5 sm:pb-16 sm:pt-8"
   >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
