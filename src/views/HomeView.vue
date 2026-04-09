@@ -30,16 +30,16 @@
           先用 10 个 app 卡位看看首页效果
         </h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
-          第一个先做主卡，其他 9 个保持错落排开，后面再逐步换成真实 app。
+          第一个先做主卡，剩下 9 个按分组卡位，后面再逐步换成真实 app。
         </p>
       </div>
 
-      <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div class="home-app-board mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         <article
           v-for="app in homeApps"
           :key="app.id"
           class="home-app-card surface-card group flex flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)]"
-          :class="[app.featured ? 'home-app-card--featured sm:p-8' : 'home-app-card--tile', app.layoutClass]"
+          :class="[app.featured ? 'home-app-card--featured md:col-span-2 xl:col-span-1 sm:p-8' : 'home-app-card--tile', app.boardClass]"
         >
           <div class="w-full">
             <div class="flex items-start justify-between gap-4">
@@ -122,7 +122,7 @@ const homeApps = [
     phase: '先接真实功能',
     tip: '优先做成可点击入口',
     featured: true,
-    layoutClass: 'home-app-card--featured'
+    boardClass: 'home-app-card--area-feature'
   },
   {
     id: 'app-02',
@@ -135,7 +135,7 @@ const homeApps = [
     phase: '待补业务内容',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--lift'
+    boardClass: 'home-app-card--area-app02'
   },
   {
     id: 'app-03',
@@ -148,7 +148,7 @@ const homeApps = [
     phase: '待定义结构',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--dip'
+    boardClass: 'home-app-card--area-app03'
   },
   {
     id: 'app-04',
@@ -161,7 +161,7 @@ const homeApps = [
     phase: '待接表单交互',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--wide'
+    boardClass: 'home-app-card--area-app04'
   },
   {
     id: 'app-05',
@@ -174,7 +174,7 @@ const homeApps = [
     phase: '待接上传流程',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--rest'
+    boardClass: 'home-app-card--area-app05'
   },
   {
     id: 'app-06',
@@ -187,7 +187,7 @@ const homeApps = [
     phase: '待补工作流',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--rest'
+    boardClass: 'home-app-card--area-app06'
   },
   {
     id: 'app-07',
@@ -200,7 +200,7 @@ const homeApps = [
     phase: '待接操作面板',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--lift'
+    boardClass: 'home-app-card--area-app07'
   },
   {
     id: 'app-08',
@@ -213,7 +213,7 @@ const homeApps = [
     phase: '待搭实验区',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--rest'
+    boardClass: 'home-app-card--area-app08'
   },
   {
     id: 'app-09',
@@ -226,7 +226,7 @@ const homeApps = [
     phase: '待补权限逻辑',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--dip'
+    boardClass: 'home-app-card--area-app09'
   },
   {
     id: 'app-10',
@@ -239,7 +239,7 @@ const homeApps = [
     phase: '待接联动入口',
     tip: '后续扩展',
     featured: false,
-    layoutClass: 'home-app-card--wide'
+    boardClass: 'home-app-card--area-app10'
   }
 ] as const
 </script>

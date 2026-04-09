@@ -14,7 +14,7 @@
 
 - `npm test`: 运行前端单元与组件测试
 - `npm run test:unit:watch`: 开发时持续监听测试
-- `npm run build`: PR 前的默认验证，包含类型检查
+- `npm run build`: PR 前默认验证，包含类型检查
 
 ## Stack
 
