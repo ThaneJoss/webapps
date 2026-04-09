@@ -31,10 +31,10 @@
       <div class="max-w-3xl">
         <p class="panel-label text-steel">APP 展示区</p>
         <h2 class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-[2.7rem]">
-          先用 10 个 app 卡位看看首页效果
+          正在上线的网页 APP
         </h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
-          第一个先做主卡，剩下 9 个按分组卡位，后面再逐步换成真实 app。
+          首个应用会作为主入口持续更新，更多无需下载、打开即用的网页 APP 会陆续加入。
         </p>
       </div>
 

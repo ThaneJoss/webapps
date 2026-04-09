@@ -11,6 +11,8 @@ describe('HomeView', () => {
     expect(wrapper.text()).toContain('你的第一个原生网页APP')
     expect(wrapper.text()).toContain('所有 APP 无需下载，打开网页就能直接使用')
     expect(wrapper.text()).toContain('APP 展示区')
+    expect(wrapper.text()).toContain('正在上线的网页 APP')
+    expect(wrapper.text()).toContain('更多无需下载、打开即用的网页 APP 会陆续加入')
     expect(wrapper.text()).toContain('首个核心应用')
     expect(wrapper.text()).toContain('管理后台')
     expect(wrapper.text()).toContain('App 10')
