@@ -3,12 +3,6 @@ import { describe, expect, it, vi } from 'vitest'
 
 import HomeView from './HomeView.vue'
 
-vi.mock('../components/SiteShell.vue', () => ({
-  default: {
-    template: '<div><slot /></div>'
-  }
-}))
-
 describe('HomeView', () => {
   it('renders the single main section for the homepage', () => {
     const wrapper = mount(HomeView, {
