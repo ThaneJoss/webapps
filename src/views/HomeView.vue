@@ -74,7 +74,7 @@
 
             <div
               v-if="app.featured"
-              class="mt-7 rounded-[1.7rem] border border-dashed border-[#17304b]/18 bg-[#0f2036]/[0.03] p-4 sm:p-5"
+              class="home-app-feature-panel mt-7 rounded-[1.7rem] p-4 sm:p-5"
             >
               <div class="home-app-quick-grid grid gap-3 sm:grid-cols-2">
                 <a
@@ -124,11 +124,13 @@
                 :href="entry.path"
                 class="home-app-mini-entry inline-flex items-center rounded-full border border-[#17304b]/14 bg-[#0f2036]/[0.03] px-3 py-2 text-sm text-ink transition duration-200"
               >
-                <Icon
-                  :icon="entry.icon"
-                  class="h-4 w-4 shrink-0"
-                />
-                {{ entry.label }}
+                <span class="home-app-mini-entry__icon">
+                  <Icon
+                    :icon="entry.icon"
+                    class="h-4 w-4 shrink-0"
+                  />
+                </span>
+                <span>{{ entry.label }}</span>
               </a>
             </div>
           </div>
