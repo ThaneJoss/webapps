@@ -197,11 +197,34 @@ svg {
 }
 
 .home-app-card--featured {
-  min-height: 520px;
+  min-height: 620px;
 }
 
 .home-app-card--tile {
-  min-height: 236px;
+  min-height: 286px;
+}
+
+.home-app-quick-card {
+  display: block;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.home-app-quick-card:hover {
+  transform: translate3d(0, -2px, 0);
+  border-color: rgba(82, 215, 255, 0.28);
+  box-shadow:
+    0 14px 28px rgba(10, 22, 40, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.home-app-mini-entry {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.36);
+}
+
+.home-app-mini-entry:hover {
+  transform: translate3d(0, -1px, 0);
+  border-color: rgba(82, 215, 255, 0.26);
+  background: rgba(82, 215, 255, 0.08);
 }
 
 .contact-entry-card {

@@ -15,6 +15,8 @@ describe('HomeView', () => {
     expect(wrapper.text()).toContain('更多无需下载、打开即用的网页 APP 会陆续加入')
     expect(wrapper.text()).toContain('PDF 工具箱')
     expect(wrapper.text()).toContain('图片工具箱')
+    expect(wrapper.text()).toContain('合并 PDF')
+    expect(wrapper.text()).toContain('裁剪尺寸')
     expect(wrapper.text()).toContain('私密日记')
     expect(wrapper.text()).toContain('App 10')
     expect(wrapper.text()).toContain('/pdf')
