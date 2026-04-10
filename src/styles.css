@@ -204,11 +204,25 @@ svg {
   min-height: 286px;
 }
 
+.home-app-feature-panel {
+  border: 1px solid rgba(23, 48, 75, 0.14);
+  background:
+    linear-gradient(180deg, rgba(246, 251, 255, 0.98), rgba(234, 243, 255, 0.92)),
+    linear-gradient(135deg, rgba(82, 215, 255, 0.08), rgba(255, 141, 107, 0.05));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.52),
+    0 18px 36px rgba(10, 22, 40, 0.05);
+}
+
 .home-app-quick-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: stretch;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 249, 255, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 10px 22px rgba(10, 22, 40, 0.04);
 }
 
 .home-app-quick-card:hover {
@@ -223,30 +237,38 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 4.5rem;
-  border-radius: 1rem;
+  min-height: 4.8rem;
+  border-radius: 1.15rem;
   border: 1px solid rgba(23, 48, 75, 0.12);
-  background: linear-gradient(180deg, rgba(239, 247, 255, 0.96), rgba(228, 241, 255, 0.92));
+  background:
+    linear-gradient(180deg, rgba(230, 243, 255, 0.98), rgba(211, 231, 255, 0.9)),
+    radial-gradient(circle at top, rgba(82, 215, 255, 0.22), transparent 58%);
   color: #123a63;
 }
 
 .home-app-quick-card__label {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-left: 0.875rem;
-  text-align: center;
-  font-size: 0.95rem;
+  justify-content: flex-start;
+  padding: 0 0.25rem 0 1rem;
+  text-align: left;
+  font-size: 1rem;
   font-weight: 600;
+  line-height: 1.45;
   color: #0a1628;
 }
 
 .home-app-medium-entry {
-  display: flex;
-  min-height: 5.5rem;
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  min-height: 5.75rem;
   align-items: center;
-  gap: 0.9rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  gap: 0.95rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 249, 255, 0.94));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 10px 22px rgba(10, 22, 40, 0.04);
 }
 
 .home-app-medium-entry:hover {
@@ -259,19 +281,21 @@ svg {
 
 .home-app-medium-entry__icon {
   display: flex;
-  flex: 0 0 2.9rem;
-  height: 2.9rem;
-  width: 2.9rem;
+  height: 3.1rem;
+  width: 3.1rem;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
   border: 1px solid rgba(23, 48, 75, 0.12);
-  background: rgba(239, 247, 255, 0.92);
+  background:
+    linear-gradient(180deg, rgba(235, 245, 255, 0.98), rgba(222, 236, 255, 0.92));
   color: #123a63;
 }
 
 .home-app-medium-entry__label {
-  font-size: 0.95rem;
+  display: block;
+  padding-right: 0.25rem;
+  font-size: 0.97rem;
   font-weight: 600;
   line-height: 1.45;
   color: #0a1628;
@@ -279,13 +303,28 @@ svg {
 
 .home-app-mini-entry {
   gap: 0.5rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(240, 247, 255, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.36),
+    0 8px 18px rgba(10, 22, 40, 0.03);
 }
 
 .home-app-mini-entry:hover {
   transform: translate3d(0, -1px, 0);
   border-color: rgba(82, 215, 255, 0.26);
   background: rgba(82, 215, 255, 0.08);
+}
+
+.home-app-mini-entry__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.65rem;
+  width: 1.65rem;
+  border-radius: 9999px;
+  background: rgba(224, 240, 255, 0.92);
+  color: #123a63;
 }
 
 .contact-entry-card {
