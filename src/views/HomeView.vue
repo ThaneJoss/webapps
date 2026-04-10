@@ -74,26 +74,44 @@
 
             <div
               v-if="app.featured"
-              class="mt-7 rounded-[1.7rem] border border-dashed border-[#17304b]/18 bg-[#0f2036]/[0.03] p-4 sm:p-5"
+              class="home-app-feature-panel mt-7 rounded-[1.7rem] p-4 sm:p-5"
             >
-              <div class="flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-ink">热门入口</span>
-                <span class="rounded-full border border-[#17304b]/14 bg-white/80 px-3 py-1 text-xs uppercase tracking-[0.14em] text-steel">
-                  {{ app.quickEntries.length }} 项常用功能
-                </span>
-              </div>
-
-              <div class="home-app-quick-grid mt-5 grid gap-3 sm:grid-cols-2">
+              <div class="home-app-quick-grid grid gap-3 sm:grid-cols-2">
                 <a
                   v-for="entry in app.quickEntries"
                   :key="entry.path"
                   :href="entry.path"
                   class="home-app-quick-card rounded-2xl border border-[#17304b]/14 bg-white/84 px-4 py-4 transition duration-200"
                 >
-                  <p class="text-sm font-medium text-ink">{{ entry.label }}</p>
-                  <p class="mt-2 text-xs text-steel">{{ entry.path }}</p>
+                  <span class="home-app-quick-card__icon">
+                    <Icon
+                      :icon="entry.icon"
+                      class="h-5 w-5"
+                    />
+                  </span>
+                  <span class="home-app-quick-card__label">{{ entry.label }}</span>
                 </a>
               </div>
+            </div>
+
+            <div
+              v-else-if="app.secondaryStyle === 'medium'"
+              class="home-app-medium-entries mt-5 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                v-for="entry in app.quickEntries"
+                :key="entry.path"
+                :href="entry.path"
+                class="home-app-medium-entry rounded-[1.35rem] border border-[#17304b]/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,249,255,0.92))] px-4 py-4 transition duration-200"
+              >
+                <span class="home-app-medium-entry__icon">
+                  <Icon
+                    :icon="entry.icon"
+                    class="h-4.5 w-4.5"
+                  />
+                </span>
+                <span class="home-app-medium-entry__label">{{ entry.label }}</span>
+              </a>
             </div>
 
             <div
@@ -106,15 +124,18 @@
                 :href="entry.path"
                 class="home-app-mini-entry inline-flex items-center rounded-full border border-[#17304b]/14 bg-[#0f2036]/[0.03] px-3 py-2 text-sm text-ink transition duration-200"
               >
-                {{ entry.label }}
+                <span class="home-app-mini-entry__icon">
+                  <Icon
+                    :icon="entry.icon"
+                    class="h-4 w-4 shrink-0"
+                  />
+                </span>
+                <span>{{ entry.label }}</span>
               </a>
             </div>
           </div>
 
-          <div class="mt-8 flex w-full items-center justify-between gap-4">
-            <span class="rounded-full border border-[#17304b]/14 bg-[#0f2036]/[0.03] px-3 py-1 text-xs uppercase tracking-[0.14em] text-steel">
-              {{ app.path }}
-            </span>
+          <div class="mt-8 flex w-full items-center justify-end">
             <span class="inline-flex items-center rounded-full border border-cyan-500/18 bg-cyan-400/8 px-3 py-1 text-sm font-medium text-ink transition group-hover:border-cyan-500/28 group-hover:bg-cyan-400/12">
               {{ app.status }}
             </span>
@@ -126,6 +147,8 @@
 </template>
 
 <script setup lang="ts">
+import { Icon } from '@iconify/vue'
+
 function scrollToApps() {
   if (typeof document === 'undefined') {
     return
@@ -147,33 +170,40 @@ const homeApps = [
     badge: '01',
     status: '优先上线',
     path: '/pdf',
-    description: '把拆分、合并、压缩和页面整理这类原本要装软件才能做的 PDF 操作，直接放到浏览器里完成。',
+    description: '把拆分、合并、压缩和页面整理这些高频 PDF 操作集中到一个顺手可用的网页入口。',
     quickEntries: [
       {
         label: '合并 PDF',
-        path: '/pdf/merge'
+        path: '/pdf/merge',
+        icon: 'solar:document-add-bold-duotone'
       },
       {
         label: '拆分页面',
-        path: '/pdf/split'
+        path: '/pdf/split',
+        icon: 'solar:documents-bold-duotone'
       },
       {
         label: '压缩体积',
-        path: '/pdf/compress'
+        path: '/pdf/compress',
+        icon: 'solar:minimize-square-3-bold-duotone'
       },
       {
         label: '图片转 PDF',
-        path: '/pdf/image-to-pdf'
+        path: '/pdf/image-to-pdf',
+        icon: 'solar:gallery-wide-bold-duotone'
       },
       {
         label: '提取页面',
-        path: '/pdf/extract'
+        path: '/pdf/extract',
+        icon: 'solar:sidebar-code-bold-duotone'
       },
       {
         label: '添加水印',
-        path: '/pdf/watermark'
+        path: '/pdf/watermark',
+        icon: 'solar:sticker-smile-circle-2-bold-duotone'
       }
     ],
+    secondaryStyle: 'large',
     featured: true,
     boardClass: 'home-app-card--area-feature'
   },
@@ -184,21 +214,25 @@ const homeApps = [
     badge: '02',
     status: '规划中',
     path: '/image',
-    description: '集中处理裁剪、压缩、尺寸调整、格式导出这些高频图片操作，不再依赖桌面软件。',
+    description: '集中处理裁剪、压缩、尺寸调整和格式导出这些高频图片操作。',
     quickEntries: [
       {
         label: '裁剪尺寸',
-        path: '/image/crop'
+        path: '/image/crop',
+        icon: 'solar:crop-minimalistic-bold-duotone'
       },
       {
         label: '批量压缩',
-        path: '/image/compress'
+        path: '/image/compress',
+        icon: 'solar:layers-bold-duotone'
       },
       {
         label: '格式导出',
-        path: '/image/convert'
+        path: '/image/convert',
+        icon: 'solar:refresh-square-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app02'
   },
@@ -213,17 +247,21 @@ const homeApps = [
     quickEntries: [
       {
         label: '提取音频',
-        path: '/media/extract-audio'
+        path: '/media/extract-audio',
+        icon: 'solar:music-note-bold-duotone'
       },
       {
         label: '剪辑片段',
-        path: '/media/trim'
+        path: '/media/trim',
+        icon: 'solar:scissors-bold-duotone'
       },
       {
         label: '视频转 GIF',
-        path: '/media/gif'
+        path: '/media/gif',
+        icon: 'solar:videocamera-record-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app03'
   },
@@ -238,17 +276,26 @@ const homeApps = [
     quickEntries: [
       {
         label: '文档互转',
-        path: '/convert/document'
+        path: '/convert/document',
+        icon: 'solar:document-text-bold-duotone'
       },
       {
         label: '表格互转',
-        path: '/convert/table'
+        path: '/convert/table',
+        icon: 'solar:widget-2-bold-duotone'
       },
       {
         label: '数据格式',
-        path: '/convert/data'
+        path: '/convert/data',
+        icon: 'solar:code-square-bold-duotone'
+      },
+      {
+        label: '批量转换',
+        path: '/convert/batch',
+        icon: 'solar:repeat-bold-duotone'
       }
     ],
+    secondaryStyle: 'medium',
     featured: false,
     boardClass: 'home-app-card--area-app04'
   },
@@ -263,24 +310,28 @@ const homeApps = [
     quickEntries: [
       {
         label: 'EPUB 阅读',
-        path: '/ebook/read'
+        path: '/ebook/read',
+        icon: 'solar:book-bookmark-bold-duotone'
       },
       {
         label: 'TXT 导入',
-        path: '/ebook/import'
+        path: '/ebook/import',
+        icon: 'solar:import-bold-duotone'
       },
       {
         label: '目录整理',
-        path: '/ebook/chapters'
+        path: '/ebook/chapters',
+        icon: 'solar:list-check-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app05'
   },
   {
     id: 'app-06',
     label: 'App 06',
-    title: '口袋写作（Markdown）',
+    title: '口袋写作',
     badge: '06',
     status: '规划中',
     path: '/markdown',
@@ -288,17 +339,21 @@ const homeApps = [
     quickEntries: [
       {
         label: '即时预览',
-        path: '/markdown/preview'
+        path: '/markdown/preview',
+        icon: 'solar:eye-bold-duotone'
       },
       {
         label: '专注模式',
-        path: '/markdown/focus'
+        path: '/markdown/focus',
+        icon: 'solar:target-bold-duotone'
       },
       {
         label: '导出 HTML',
-        path: '/markdown/export'
+        path: '/markdown/export',
+        icon: 'solar:export-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app06'
   },
@@ -313,17 +368,21 @@ const homeApps = [
     quickEntries: [
       {
         label: '自由绘图',
-        path: '/whiteboard/draw'
+        path: '/whiteboard/draw',
+        icon: 'solar:pen-2-bold-duotone'
       },
       {
         label: '便签贴纸',
-        path: '/whiteboard/sticky'
+        path: '/whiteboard/sticky',
+        icon: 'solar:notes-bold-duotone'
       },
       {
         label: '脑图草稿',
-        path: '/whiteboard/map'
+        path: '/whiteboard/map',
+        icon: 'solar:diagram-up-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app07'
   },
@@ -334,21 +393,25 @@ const homeApps = [
     badge: '08',
     status: '规划中',
     path: '/api-workbench',
-    description: '在网页里调试接口、组织请求和查看响应，减少为了试接口额外安装工具的麻烦。',
+    description: '在网页里调试接口、组织请求和查看响应，把常用的接口测试动作收进同一个工作台。',
     quickEntries: [
       {
         label: '快速请求',
-        path: '/api-workbench/request'
+        path: '/api-workbench/request',
+        icon: 'solar:rocket-bold-duotone'
       },
       {
         label: '响应格式化',
-        path: '/api-workbench/format'
+        path: '/api-workbench/format',
+        icon: 'solar:magic-stick-3-bold-duotone'
       },
       {
         label: '请求历史',
-        path: '/api-workbench/history'
+        path: '/api-workbench/history',
+        icon: 'solar:history-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app08'
   },
@@ -363,17 +426,21 @@ const homeApps = [
     quickEntries: [
       {
         label: '今日清单',
-        path: '/tasks/today'
+        path: '/tasks/today',
+        icon: 'solar:checklist-bold-duotone'
       },
       {
         label: '项目分组',
-        path: '/tasks/projects'
+        path: '/tasks/projects',
+        icon: 'solar:folder-with-files-bold-duotone'
       },
       {
         label: '专注计时',
-        path: '/tasks/focus'
+        path: '/tasks/focus',
+        icon: 'solar:clock-circle-bold-duotone'
       }
     ],
+    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app09'
   },
@@ -388,17 +455,26 @@ const homeApps = [
     quickEntries: [
       {
         label: '今天一页',
-        path: '/diary/today'
+        path: '/diary/today',
+        icon: 'solar:calendar-mark-bold-duotone'
       },
       {
         label: '情绪标签',
-        path: '/diary/mood'
+        path: '/diary/mood',
+        icon: 'solar:smile-circle-bold-duotone'
       },
       {
         label: '本地锁定',
-        path: '/diary/lock'
+        path: '/diary/lock',
+        icon: 'solar:lock-keyhole-bold-duotone'
+      },
+      {
+        label: '回顾日历',
+        path: '/diary/calendar',
+        icon: 'solar:calendar-search-bold-duotone'
       }
     ],
+    secondaryStyle: 'medium',
     featured: false,
     boardClass: 'home-app-card--area-app10'
   }
