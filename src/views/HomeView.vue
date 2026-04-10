@@ -77,23 +77,37 @@
               class="mt-7 rounded-[1.7rem] border border-dashed border-[#17304b]/18 bg-[#0f2036]/[0.03] p-4 sm:p-5"
             >
               <div class="flex items-center justify-between gap-3">
-                <span class="text-sm font-medium text-ink">主入口预览</span>
+                <span class="text-sm font-medium text-ink">热门入口</span>
                 <span class="rounded-full border border-[#17304b]/14 bg-white/80 px-3 py-1 text-xs uppercase tracking-[0.14em] text-steel">
-                  {{ app.path }}
+                  {{ app.quickEntries.length }} 项常用功能
                 </span>
               </div>
 
-              <div class="mt-5 grid gap-3 sm:grid-cols-2">
-                <div class="rounded-2xl border border-[#17304b]/14 bg-white/80 px-4 py-4">
-                  <p class="panel-label text-steel">阶段</p>
-                  <p class="mt-3 text-base font-medium text-ink">{{ app.phase }}</p>
-                </div>
-
-                <div class="rounded-2xl border border-[#17304b]/14 bg-white/80 px-4 py-4">
-                  <p class="panel-label text-steel">建议</p>
-                  <p class="mt-3 text-base font-medium text-ink">{{ app.tip }}</p>
-                </div>
+              <div class="home-app-quick-grid mt-5 grid gap-3 sm:grid-cols-2">
+                <a
+                  v-for="entry in app.quickEntries"
+                  :key="entry.path"
+                  :href="entry.path"
+                  class="home-app-quick-card rounded-2xl border border-[#17304b]/14 bg-white/84 px-4 py-4 transition duration-200"
+                >
+                  <p class="text-sm font-medium text-ink">{{ entry.label }}</p>
+                  <p class="mt-2 text-xs text-steel">{{ entry.path }}</p>
+                </a>
               </div>
+            </div>
+
+            <div
+              v-else
+              class="home-app-mini-entries mt-5 flex flex-wrap gap-2.5"
+            >
+              <a
+                v-for="entry in app.quickEntries"
+                :key="entry.path"
+                :href="entry.path"
+                class="home-app-mini-entry inline-flex items-center rounded-full border border-[#17304b]/14 bg-[#0f2036]/[0.03] px-3 py-2 text-sm text-ink transition duration-200"
+              >
+                {{ entry.label }}
+              </a>
             </div>
           </div>
 
@@ -134,8 +148,32 @@ const homeApps = [
     status: '优先上线',
     path: '/pdf',
     description: '把拆分、合并、压缩和页面整理这类原本要装软件才能做的 PDF 操作，直接放到浏览器里完成。',
-    phase: '首发应用',
-    tip: '优先接入常用处理流程',
+    quickEntries: [
+      {
+        label: '合并 PDF',
+        path: '/pdf/merge'
+      },
+      {
+        label: '拆分页面',
+        path: '/pdf/split'
+      },
+      {
+        label: '压缩体积',
+        path: '/pdf/compress'
+      },
+      {
+        label: '图片转 PDF',
+        path: '/pdf/image-to-pdf'
+      },
+      {
+        label: '提取页面',
+        path: '/pdf/extract'
+      },
+      {
+        label: '添加水印',
+        path: '/pdf/watermark'
+      }
+    ],
     featured: true,
     boardClass: 'home-app-card--area-feature'
   },
@@ -147,8 +185,20 @@ const homeApps = [
     status: '规划中',
     path: '/image',
     description: '集中处理裁剪、压缩、尺寸调整、格式导出这些高频图片操作，不再依赖桌面软件。',
-    phase: '待补编辑能力',
-    tip: '先做最常用图片处理',
+    quickEntries: [
+      {
+        label: '裁剪尺寸',
+        path: '/image/crop'
+      },
+      {
+        label: '批量压缩',
+        path: '/image/compress'
+      },
+      {
+        label: '格式导出',
+        path: '/image/convert'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app02'
   },
@@ -160,8 +210,20 @@ const homeApps = [
     status: '规划中',
     path: '/media',
     description: '面向音频和视频的轻量处理入口，适合做截取、提取、转码前的快速操作。',
-    phase: '待接处理引擎',
-    tip: '优先覆盖基础剪裁转换',
+    quickEntries: [
+      {
+        label: '提取音频',
+        path: '/media/extract-audio'
+      },
+      {
+        label: '剪辑片段',
+        path: '/media/trim'
+      },
+      {
+        label: '视频转 GIF',
+        path: '/media/gif'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app03'
   },
@@ -173,8 +235,20 @@ const homeApps = [
     status: '规划中',
     path: '/convert',
     description: '提供文件与内容格式之间的快速转换，把零散的转换需求统一收进一个网页入口。',
-    phase: '待补格式支持',
-    tip: '先做最常见格式互转',
+    quickEntries: [
+      {
+        label: '文档互转',
+        path: '/convert/document'
+      },
+      {
+        label: '表格互转',
+        path: '/convert/table'
+      },
+      {
+        label: '数据格式',
+        path: '/convert/data'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app04'
   },
@@ -186,8 +260,20 @@ const homeApps = [
     status: '规划中',
     path: '/ebook',
     description: '在浏览器里整理、阅读和转换常见电子书内容，适合作为随手打开就能用的轻阅读工具。',
-    phase: '待接阅读器能力',
-    tip: '先完成阅读与导入',
+    quickEntries: [
+      {
+        label: 'EPUB 阅读',
+        path: '/ebook/read'
+      },
+      {
+        label: 'TXT 导入',
+        path: '/ebook/import'
+      },
+      {
+        label: '目录整理',
+        path: '/ebook/chapters'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app05'
   },
@@ -199,8 +285,20 @@ const homeApps = [
     status: '规划中',
     path: '/markdown',
     description: '用最轻的方式打开就写，适合 Markdown 草稿、文章整理和快速导出。',
-    phase: '待接编辑器能力',
-    tip: '优先完成写作与预览',
+    quickEntries: [
+      {
+        label: '即时预览',
+        path: '/markdown/preview'
+      },
+      {
+        label: '专注模式',
+        path: '/markdown/focus'
+      },
+      {
+        label: '导出 HTML',
+        path: '/markdown/export'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app06'
   },
@@ -212,8 +310,20 @@ const homeApps = [
     status: '规划中',
     path: '/whiteboard',
     description: '把随手画、随手写和结构梳理搬到浏览器里，适合做轻量协作或个人思路整理。',
-    phase: '待接画布交互',
-    tip: '先做基础画写能力',
+    quickEntries: [
+      {
+        label: '自由绘图',
+        path: '/whiteboard/draw'
+      },
+      {
+        label: '便签贴纸',
+        path: '/whiteboard/sticky'
+      },
+      {
+        label: '脑图草稿',
+        path: '/whiteboard/map'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app07'
   },
@@ -225,8 +335,20 @@ const homeApps = [
     status: '规划中',
     path: '/api-workbench',
     description: '在网页里调试接口、组织请求和查看响应，减少为了试接口额外安装工具的麻烦。',
-    phase: '待补请求调试能力',
-    tip: '优先完成请求与历史记录',
+    quickEntries: [
+      {
+        label: '快速请求',
+        path: '/api-workbench/request'
+      },
+      {
+        label: '响应格式化',
+        path: '/api-workbench/format'
+      },
+      {
+        label: '请求历史',
+        path: '/api-workbench/history'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app08'
   },
@@ -238,8 +360,20 @@ const homeApps = [
     status: '规划中',
     path: '/tasks',
     description: '一个打开就能记录和整理事项的轻任务页，适合个人待办与短周期安排。',
-    phase: '待接列表与筛选',
-    tip: '先完成新增与勾选闭环',
+    quickEntries: [
+      {
+        label: '今日清单',
+        path: '/tasks/today'
+      },
+      {
+        label: '项目分组',
+        path: '/tasks/projects'
+      },
+      {
+        label: '专注计时',
+        path: '/tasks/focus'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app09'
   },
@@ -251,8 +385,20 @@ const homeApps = [
     status: '规划中',
     path: '/diary',
     description: '面向个人记录的私密写作空间，适合把每天的想法、感受和片段安全地收起来。',
-    phase: '待接本地存储与锁定',
-    tip: '优先做好隐私感和写作体验',
+    quickEntries: [
+      {
+        label: '今天一页',
+        path: '/diary/today'
+      },
+      {
+        label: '情绪标签',
+        path: '/diary/mood'
+      },
+      {
+        label: '本地锁定',
+        path: '/diary/lock'
+      }
+    ],
     featured: false,
     boardClass: 'home-app-card--area-app10'
   }
