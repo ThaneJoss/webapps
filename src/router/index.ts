@@ -17,6 +17,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/markdown',
+      name: 'markdown',
+      component: () => import('../views/apps/WritingView.vue'),
+      meta: {
+        title: '口袋写作',
+        description: '打开网页就能写的 Markdown 写作和预览工作台。'
+      }
+    },
+    {
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactView.vue'),
