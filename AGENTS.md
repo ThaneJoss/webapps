@@ -43,13 +43,13 @@ There is no automated test suite yet. For now, validate changes with:
 
 If you add tests later, place them near the relevant code or in a top-level `tests/` directory, and use names like `*.test.ts`.
 
-## Commit & Pull Request Guidelines
-Current history uses short imperative subjects and conventional-style prefixes, e.g. `feat: add production domain defaults`.
-
-- Create a feature branch for each change
-- Keep commits focused and descriptive
-- Open a PR against `main`
-- Include a short summary, validation steps, and screenshots for UI changes
+## Repository Branching Workflow
+- Create a short-lived feature branch from the latest `dev` for each change; do not work directly on `dev`
+- After each completed task, open a task PR from the feature branch into `dev`
+- `main` should only receive merges from `dev`
+- Keep a long-lived `dev -> main` promotion PR open whenever possible
+- If there is no open `dev -> main` promotion PR after a task PR is created, create one so `dev` remains ready to merge into `main`
+- If a task PR into `dev` is rejected, do not merge it and do not let it affect `dev`
 
 ## Security & Configuration Tips
 Do not commit secrets. Keep production values in environment variables when sensitive; `.env.production` may contain non-secret public config such as API base URLs.
