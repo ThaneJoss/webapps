@@ -1,6 +1,6 @@
 # Web Apps as a Service
 
-一个基于 `Vite + Vue 3 + TypeScript` 的产品化展示站，配套一个通用 `Hono` REST API 骨架。
+一个基于 `Vite + Vue 3 + TypeScript` 的产品化展示站。
 
 ## Commands
 
@@ -19,26 +19,14 @@
 ## Stack
 
 - Frontend: `Vue 3`, `Vue Router`, `UnoCSS`
-- API: `Hono`, standard `RESTful JSON`
-- Runtime target: serverless-ready, but not tied to Wrangler bindings
-
-## API
-
-- `GET /api/health`
-- `POST /api/contact`
+- Runtime target: static frontend hosting
 
 ## Notes
 
-- 前端默认通过 `VITE_API_BASE_URL` 请求 API，未配置时使用 `/api`
-- 本地 Vite 开发环境会把 `/api` 代理到 `http://localhost:8787`
 - `services` 和 `apps` 内容当前由前端本地内容源提供，不依赖内容接口
-- 联系表单当前返回队列确认结构，后续可接邮件、数据库或 webhook
+- 联系表单不再调用后端，会在前端生成 `mailto:` 邮件草稿
 
 ## Production
 
 - 项目域名：`https://thanejoss.com`
-- API 域名：`https://api.thanejoss.com`
-- 前端生产环境默认从仓库内的 `.env.production` 读取：
-  - `VITE_API_BASE_URL=https://api.thanejoss.com/api`
-- API 默认允许来自 `https://thanejoss.com` 的跨域请求
-- 如果后面要同时支持 `www.thanejoss.com`，把 API 运行环境中的 `CORS_ALLOW_ORIGIN` 改成逗号分隔列表
+- 生产环境不需要后端 API worker 或 API 域名

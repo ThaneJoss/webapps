@@ -80,30 +80,35 @@
       </p>
     </div>
 
-    <p
+    <div
       v-if="feedback"
       class="rounded-2xl border px-4 py-3 text-sm"
       :class="feedback.type === 'success'
         ? 'border-mint/30 bg-mint/10 text-mint'
         : 'border-ember/30 bg-ember/10 text-ember'"
     >
-      {{ feedback.message }}
-    </p>
+      <p>{{ feedback.message }}</p>
+      <a
+        v-if="mailtoHref"
+        :href="mailtoHref"
+        class="mt-3 inline-flex rounded-full border border-current/25 px-3 py-1.5 font-medium"
+      >
+        打开邮件草稿
+      </a>
+    </div>
   </form>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 
-import { ApiRequestError, submitContact } from '../lib/api.js'
-
 const {
   compact = false,
   showHeader = true,
   title = '填写你的建议',
   description = '把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。',
-  submitLabel = '提交',
-  hintText = '留言提交后，我会先根据你写下的内容给出更合适的起步建议。'
+  submitLabel = '生成邮件草稿',
+  hintText = '生成邮件草稿后，请在邮件客户端里确认并发送。'
 } = defineProps<{
   compact?: boolean
   showHeader?: boolean
@@ -121,6 +126,7 @@ const form = reactive({
 
 const submitting = ref(false)
 const feedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
+const mailtoHref = ref<string | null>(null)
 
 const resetForm = () => {
   form.name = ''
@@ -128,38 +134,46 @@ const resetForm = () => {
   form.message = ''
 }
 
-const toUserFacingError = (error: unknown) => {
-  if (!(error instanceof ApiRequestError)) {
-    return '提交失败了，请稍后再试。'
-  }
+const isValidEmail = (value: string) => /\S+@\S+\.\S+/.test(value)
 
-  if (error.code === 'VALIDATION_ERROR') {
-    return '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
-  }
+const buildMailtoHref = (payload: typeof form) => {
+  const subject = encodeURIComponent('Web Apps Inquiry')
+  const body = encodeURIComponent([
+    `姓名：${payload.name}`,
+    `邮箱：${payload.email}`,
+    '',
+    payload.message
+  ].join('\n'))
 
-  if (error.code === 'INVALID_JSON' || error.code === 'INVALID_RESPONSE') {
-    return '提交没有成功送达，请稍后重试。'
-  }
-
-  return '提交失败了，请稍后再试。'
+  return `mailto:support@thanejoss.com?subject=${subject}&body=${body}`
 }
 
 const handleSubmit = async () => {
   feedback.value = null
+  mailtoHref.value = null
   submitting.value = true
 
   try {
-    const receipt = await submitContact({ ...form })
+    const payload = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      message: form.message.trim()
+    }
+
+    if (!payload.name || !payload.email || !payload.message || !isValidEmail(payload.email)) {
+      feedback.value = {
+        type: 'error',
+        message: '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
+      }
+      return
+    }
+
+    mailtoHref.value = buildMailtoHref(payload)
     feedback.value = {
       type: 'success',
-      message: `已收到你的项目需求，我会尽快查看。参考编号：${receipt.submissionId.slice(0, 8)}`
+      message: '已生成邮件草稿，请在邮件客户端里确认并发送。'
     }
     resetForm()
-  } catch (error) {
-    feedback.value = {
-      type: 'error',
-      message: toUserFacingError(error)
-    }
   } finally {
     submitting.value = false
   }

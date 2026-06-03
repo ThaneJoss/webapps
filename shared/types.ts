@@ -1,20 +1,3 @@
-export interface ApiError {
-  code: string
-  message: string
-}
-
-export interface ApiSuccess<T> {
-  success: true
-  data: T
-}
-
-export interface ApiFailure {
-  success: false
-  error: ApiError
-}
-
-export type ApiResponse<T> = ApiSuccess<T> | ApiFailure
-
 export interface ServiceItem {
   id: string
   title: string
@@ -51,24 +34,4 @@ export interface SignalMetric {
   label: string
   value: string
   tone: 'neutral' | 'good' | 'accent'
-}
-
-export interface HealthStatus {
-  ok: true
-  service: string
-  version: string
-  runtime: string
-  timestamp: string
-}
-
-export interface ContactPayload {
-  name: string
-  email: string
-  message: string
-}
-
-export interface ContactReceipt {
-  submissionId: string
-  receivedAt: string
-  status: 'queued'
 }

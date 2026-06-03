@@ -53,7 +53,7 @@
                   <ContactForm
                     compact
                     :show-header="false"
-                    submit-label="提交建议"
+                    submit-label="生成邮件草稿"
                     hint-text=""
                   />
                 </div>
