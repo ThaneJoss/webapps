@@ -1,25 +1,23 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This repo contains a Vite + Vue frontend and a small Hono API.
+This repo contains a Vite + Vue frontend.
 
 - `src/`: frontend application code
 - `src/components/`, `src/sections/`, `src/views/`: UI building blocks and page composition
-- `src/lib/`: client-side API helpers
+- `src/lib/`: client-side helpers
 - `src/data/`: fallback seed data for the frontend
-- `api/src/`: Hono API entrypoints and route logic
-- `shared/`: types and shared content contracts used by both frontend and API
-- `dist/`, `dist-api/`: generated build output; do not edit manually
+- `shared/`: shared frontend content contracts and types
+- `dist/`: generated build output; do not edit manually
 
 Keep new code grouped by feature or concern rather than by file type only.
 
 ## Build, Test, and Development Commands
 - `npm install`: install dependencies
-- `npm run dev`: start frontend and API together
+- `npm run dev`: start the Vite frontend
 - `npm run dev:web`: run the Vite frontend only
-- `npm run dev:api`: run the Hono API only
-- `npm run typecheck`: run Vue and API TypeScript checks
-- `npm run build`: run typecheck, frontend build, and API build
+- `npm run typecheck`: run Vue TypeScript checks
+- `npm run build`: run typecheck and frontend build
 - `npm run preview`: preview the built frontend
 
 Use `npm run build` as the default pre-PR verification step.
@@ -31,7 +29,6 @@ Use TypeScript throughout. Follow the existing style:
 - Vue SFCs with `<script setup lang="ts">`
 - `PascalCase.vue` for components
 - `camelCase.ts` for helpers and libraries
-- keep API responses in the shared `{ success, data | error }` envelope
 
 Prefer small, composable components and shared types in `shared/` instead of duplicating interfaces.
 
@@ -52,4 +49,4 @@ Current history uses short imperative subjects and conventional-style prefixes, 
 - Include a short summary, validation steps, and screenshots for UI changes
 
 ## Security & Configuration Tips
-Do not commit secrets. Keep production values in environment variables when sensitive; `.env.production` may contain non-secret public config such as API base URLs.
+Do not commit secrets. Keep sensitive production values in environment variables.
