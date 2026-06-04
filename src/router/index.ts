@@ -3,6 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const defaultDescription = '你的第一个原生网页APP，从这里开始，以更纯净清晰的方式逐步呈现完整内容与联系入口。'
+const routeTransitionScrollDelayMs = 180
+
+const afterRouteTransition = <T>(position: T) => new Promise<T>((resolve) => {
+  window.setTimeout(() => resolve(position), routeTransitionScrollDelayMs)
+})
 
 const router = createRouter({
   history: createWebHistory(),
@@ -41,14 +46,14 @@ const router = createRouter({
     }
 
     if (to.hash) {
-      return {
+      return afterRouteTransition({
         el: to.hash,
         top: 96,
         behavior: 'smooth'
-      }
+      })
     }
 
-    return { top: 0 }
+    return afterRouteTransition({ top: 0 })
   }
 })
 
