@@ -7,6 +7,14 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        index: fileURLToPath(new URL('./index.html', import.meta.url)),
+        notFound: fileURLToPath(new URL('./404.html', import.meta.url))
+      }
+    }
+  },
   plugins: [
     vue(),
     splitVendorChunkPlugin(),
