@@ -27,6 +27,7 @@ test-results/
 
 # Tooling caches
 .cache/
+.codegraph/
 .turbo/
 .wrangler/
 .vercel/
