@@ -47,6 +47,8 @@ Current history uses short imperative subjects and conventional-style prefixes, 
 - Keep commits focused and descriptive
 - Open a PR against `main`
 - Include a short summary, validation steps, and screenshots for UI changes
+- Use Chinese for commit messages and PR titles/descriptions.
+- After each completed modification, create a new branch, commit the change, open a PR, switch back to the base branch, delete the local feature branch, wait 60 seconds, and if the PR is already merged, pull the base branch automatically.
 
 ## Security & Configuration Tips
 Do not commit secrets. Keep sensitive production values in environment variables.
