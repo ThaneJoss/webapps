@@ -332,22 +332,16 @@ svg {
 }
 
 .not-found-section {
-  min-height: calc(100svh - var(--app-header-height, 0px));
+  min-height: auto;
 }
 
 .not-found-shell {
-  min-height: calc(100svh - var(--app-header-height, 0px) - 2rem);
+  min-height: auto;
 }
 
 .not-found-card::before {
   content: '404';
-  position: absolute;
-  right: 1rem;
-  bottom: -0.14em;
-  color: rgba(18, 58, 99, 0.055);
-  font-size: 7.5rem;
-  font-weight: 800;
-  line-height: 0.8;
+  display: none;
 }
 
 .not-found-secondary-link {
@@ -373,8 +367,8 @@ svg {
 .not-found-code {
   position: relative;
   display: grid;
-  width: 16rem;
-  height: 16rem;
+  width: 14rem;
+  height: 14rem;
   place-items: center;
   border: 1px solid rgba(23, 48, 75, 0.14);
   border-radius: 50%;
@@ -382,7 +376,7 @@ svg {
     linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(237, 246, 255, 0.84)),
     radial-gradient(circle at top, rgba(82, 215, 255, 0.18), transparent 62%);
   color: #123a63;
-  font-size: 4.2rem;
+  font-size: 3.8rem;
   font-weight: 760;
   letter-spacing: 0;
   box-shadow:
@@ -556,15 +550,20 @@ svg {
   }
 
   .not-found-card::before {
+    display: block;
     right: 2.25rem;
-    font-size: 12rem;
+    bottom: -0.18em;
+    color: rgba(18, 58, 99, 0.045);
+    font-size: 9rem;
+    font-weight: 800;
+    line-height: 0.8;
   }
 }
 
 @media (min-width: 1024px) {
   .not-found-card::before {
     right: 5rem;
-    font-size: 18rem;
+    font-size: 13rem;
   }
 }
 
