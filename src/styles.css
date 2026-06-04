@@ -332,16 +332,31 @@ svg {
 }
 
 .not-found-section {
-  min-height: auto;
+  display: flex;
+  min-height: calc(100svh - var(--app-header-height, 0px));
 }
 
 .not-found-shell {
-  min-height: auto;
+  min-height: inherit;
+  width: 100%;
+}
+
+.not-found-card {
+  isolation: isolate;
 }
 
 .not-found-card::before {
   content: '404';
+  pointer-events: none;
+  position: absolute;
+  top: clamp(1.5rem, 5vw, 3.5rem);
+  left: clamp(1.5rem, 5vw, 4rem);
+  z-index: 0;
   display: none;
+  color: rgba(18, 58, 99, 0.04);
+  font-size: clamp(7rem, 16vw, 13rem);
+  font-weight: 800;
+  line-height: 0.8;
 }
 
 .not-found-secondary-link {
@@ -367,8 +382,8 @@ svg {
 .not-found-code {
   position: relative;
   display: grid;
-  width: 14rem;
-  height: 14rem;
+  width: clamp(13rem, 24vw, 16rem);
+  height: clamp(13rem, 24vw, 16rem);
   place-items: center;
   border: 1px solid rgba(23, 48, 75, 0.14);
   border-radius: 50%;
@@ -551,19 +566,13 @@ svg {
 
   .not-found-card::before {
     display: block;
-    right: 2.25rem;
-    bottom: -0.18em;
-    color: rgba(18, 58, 99, 0.045);
-    font-size: 9rem;
-    font-weight: 800;
-    line-height: 0.8;
   }
 }
 
 @media (min-width: 1024px) {
   .not-found-card::before {
-    right: 5rem;
-    font-size: 13rem;
+    top: 2rem;
+    left: 3rem;
   }
 }
 
