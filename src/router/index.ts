@@ -27,7 +27,12 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      redirect: '/'
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
+      meta: {
+        title: '页面未找到',
+        description: '你访问的页面暂时不存在，可以返回首页或联系页面继续浏览。'
+      }
     }
   ],
   scrollBehavior(to, _, savedPosition) {
