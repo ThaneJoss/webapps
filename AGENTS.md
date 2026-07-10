@@ -33,12 +33,11 @@ Use TypeScript throughout. Follow the existing style:
 Prefer small, composable components and shared types in `shared/` instead of duplicating interfaces.
 
 ## Testing Guidelines
-There is no automated test suite yet. For now, validate changes with:
+Do not run tests on this machine. This includes `npm test`, `npm run test:unit`, watch mode, and direct Vitest commands.
 
-- `npm run typecheck`
-- `npm run build`
-
-If you add tests later, place them near the relevant code or in a top-level `tests/` directory, and use names like `*.test.ts`.
+- Run automated tests only in CI or another environment with sufficient resources.
+- Limit local review to static, read-only inspection; report tests as not run because of this repository rule.
+- If you add tests later, place them near the relevant code or in a top-level `tests/` directory, and use names like `*.test.ts`.
 
 ## Commit & Pull Request Guidelines
 Current history uses short imperative subjects and conventional-style prefixes, e.g. `feat: add production domain defaults`.
