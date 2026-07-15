@@ -7,6 +7,29 @@
 >
 > 受本机运行约束影响，本轮没有执行本地 `npm test`、`npm run typecheck` 或 `npm run build`；因此本文不会把“存在测试”写成“测试已通过”。
 
+## 0. 整改执行记录
+
+用户在本报告完成后明确授权：暂不实现任何具体 APP 功能，直接完成本文的工程、体验、安全和加载链路修复，并把所有框架升级到当前最新版本，不考虑跨大版本迁移成本。因此，本轮实施不再采用原报告的分阶段升级建议，而是用远端 CI 统一验证 Vue Router 5、Vite 8 和 TypeScript 7。
+
+截至本分支当前代码：
+
+| 整改项 | 实施状态 | 处理结果 |
+| --- | --- | --- |
+| 产品真实性 | 已实施，待 CI | 10 个 APP、35 个子条目全部使用 typed `planned + route: null`；页面没有工具链接 |
+| 目录架构 | 已实施，待 CI | 数据、类型、卡片和完整性测试迁入 `src/features/catalog/` |
+| 框架升级 | 已实施，待 CI | Vue 3.5.39、Router 5.2.0、Vite 8.1.4、TS 7.0.2、Vitest 4.1.10、UnoCSS 66.7.5 |
+| TypeScript 7 工具兼容 | 已实施，待 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`，CI 双重检查 |
+| 生产加载链路 | 已实施，待部署实测 | SSG 首响应包含语义内容；所有模块脚本构建后加 `data-cfasync="false"` |
+| 构建与图标 | 已实施，待 CI | 删除 vendor 拆包插件与全量 CSS 内联；固定图标改为构建期本地打包 |
+| SEO | 已实施，待 CI/部署实测 | `/`、`/contact`、404 静态预渲染并输出独立 metadata；sitemap 排除 404 |
+| 无障碍 | 已实施，待 axe | 增加 skip link、统一焦点、字段错误关联、状态播报、焦点归还和 reduced motion |
+| 质量门禁 | 已实施，待首次运行 | GitHub Actions 执行 lint、双 TS、Vitest、SSG 断言、audit、Playwright 与 axe |
+| 依赖安全 | 锁文件已核实 | 最新依赖图 `npm audit --package-lock-only` 为 0 漏洞 |
+| 安全响应头 | 已实施，待部署实测 | 配置 CSP、Referrer/Permissions Policy、frame 限制、COOP、nosniff 与一年期 HSTS |
+| 生产 smoke | 已实施，待密钥/部署 | 生产事件自动检查 HTTP；配置 Actions Secret 后调用 Browserless 并留存失败证据 |
+
+Cloudflare CLI 当前未登录，因此不能从本仓库会话直接修改区域级 Configuration Rule。代码已使用 Cloudflare 官方支持的 `data-cfasync="false"` 方式排除全部模块入口；区域级关闭 Rocket Loader 仍作为部署侧的优先配置写入 `docs/DEPLOYMENT.md`，并以生产 Browserless 是否还发生请求中止/重放作为最终判据。
+
 ## 1. 结论先行
 
 项目的技术底座并不差：Vue 3、Vite、TypeScript 严格模式、Vue Router、组件测试、独立 404 页面和 Vercel 部署都已经具备。当前最大问题不是“框架太旧”，而是产品承诺、路由实现和生产加载链路不一致。
