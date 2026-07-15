@@ -35,7 +35,7 @@ export default tseslint.config(
   {
     files: [
       '*.config.{js,ts}',
-      'scripts/**/*.mjs',
+      'scripts/**/*.{cjs,mjs}',
       'vite.config.ts'
     ],
     languageOptions: {

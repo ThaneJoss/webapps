@@ -18,7 +18,7 @@
 | 产品真实性 | 已实施，待 CI | 10 个 APP、35 个子条目全部使用 typed `planned + route: null`；页面没有工具链接 |
 | 目录架构 | 已实施，待 CI | 数据、类型、卡片和完整性测试迁入 `src/features/catalog/` |
 | 框架升级 | 已实施，待 CI | Vue 3.5.39、Router 5.2.0、Vite 8.1.4、TS 7.0.2、Vitest 4.1.10、UnoCSS 66.7.5 |
-| TypeScript 7 工具兼容 | 已实施，待 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`，CI 双重检查 |
+| TypeScript 7 工具兼容 | 已实施，待 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`；`vue-tsc` 启动器定位真实 TS 6 编译器，CI 双重检查 |
 | 生产加载链路 | 已实施，待部署实测 | SSG 首响应包含语义内容；所有模块脚本构建后加 `data-cfasync="false"` |
 | 构建与图标 | 已实施，待 CI | 删除 vendor 拆包插件与全量 CSS 内联；固定图标改为构建期本地打包 |
 | SEO | 已实施，待 CI/部署实测 | `/`、`/contact`、404 静态预渲染并输出独立 metadata；sitemap 排除 404 |

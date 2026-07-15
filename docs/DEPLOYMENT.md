@@ -2,7 +2,7 @@
 
 ## 运行线
 
-- Node.js 26.5.0
+- Node.js 24.18.0 LTS（Vercel 当前支持的最新构建大版本）
 - npm 12.0.1
 - Vercel 静态部署
 - Cloudflare 代理生产域名 `thanejoss.com`
