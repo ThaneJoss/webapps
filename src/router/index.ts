@@ -1,7 +1,7 @@
 import type { Router, RouterScrollBehavior, RouteRecordRaw } from 'vue-router'
 
 import HomeView from '../views/HomeView.vue'
-import { applyPageMetadata } from '../lib/seo'
+import { applyPageMetadata } from '../lib/seoClient'
 
 const routeTransitionScrollDelayMs = 180
 
