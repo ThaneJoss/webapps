@@ -1,7 +1,8 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const distDirectory = new URL('../dist/', import.meta.url)
+const distDirectory = fileURLToPath(new URL('../dist/', import.meta.url))
 
 const collectHtmlFiles = async (directory) => {
   const entries = await readdir(directory, { withFileTypes: true })
