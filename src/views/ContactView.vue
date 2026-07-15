@@ -1,5 +1,8 @@
 <template>
-  <section class="section-wrap pt-6 sm:pt-10">
+  <section
+    class="section-wrap pt-6 sm:pt-10"
+    data-page-ready="contact"
+  >
     <div class="mx-auto max-w-6xl">
       <div class="surface-card flex flex-col gap-4 px-6 py-6 sm:px-8 sm:py-7 lg:flex-row lg:items-end lg:justify-between">
         <div>

@@ -4,19 +4,18 @@
     :class="compact
       ? 'space-y-3'
       : 'space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10'"
+    novalidate
     @submit.prevent="handleSubmit"
   >
     <div
       v-if="showHeader"
       class="border-b border-[#12304c]/10 pb-5 text-left"
     >
-      <div>
-        <p class="panel-label text-steel">网页表单</p>
-        <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">{{ title }}</h2>
-        <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
-          {{ description }}
-        </p>
-      </div>
+      <p class="panel-label text-steel">网页表单</p>
+      <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">{{ title }}</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
+        {{ description }}
+      </p>
     </div>
 
     <div :class="compact ? 'grid gap-3 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2'">
@@ -27,11 +26,19 @@
           type="text"
           name="name"
           autocomplete="name"
-          :class="compact
-            ? 'w-full rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
-            : 'w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
+          required
+          :aria-invalid="errors.name ? 'true' : undefined"
+          :aria-describedby="errors.name ? fieldIds.nameError : undefined"
+          :class="[controlClass, compact ? compactControlClass : regularControlClass]"
           placeholder="例如：Joss"
         />
+        <p
+          v-if="errors.name"
+          :id="fieldIds.nameError"
+          class="mt-1.5 text-sm font-medium text-[#8a2f1a]"
+        >
+          {{ errors.name }}
+        </p>
       </label>
 
       <label class="block">
@@ -41,11 +48,19 @@
           type="email"
           name="email"
           autocomplete="email"
-          :class="compact
-            ? 'w-full rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
-            : 'w-full rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
+          required
+          :aria-invalid="errors.email ? 'true' : undefined"
+          :aria-describedby="errors.email ? fieldIds.emailError : undefined"
+          :class="[controlClass, compact ? compactControlClass : regularControlClass]"
           placeholder="you@example.com"
         />
+        <p
+          v-if="errors.email"
+          :id="fieldIds.emailError"
+          class="mt-1.5 text-sm font-medium text-[#8a2f1a]"
+        >
+          {{ errors.email }}
+        </p>
       </label>
     </div>
 
@@ -54,12 +69,20 @@
       <textarea
         v-model="form.message"
         name="message"
+        required
         :rows="compact ? 3 : 5"
-        :class="compact
-          ? 'w-full resize-y rounded-[1.1rem] border border-[#12304c]/12 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'
-          : 'w-full resize-y rounded-2xl border border-[#12304c]/12 bg-white px-4 py-3 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] outline-none transition placeholder:text-steel/50 focus:border-cyan-500/38 focus:bg-[#fbfdff]'"
+        :aria-invalid="errors.message ? 'true' : undefined"
+        :aria-describedby="errors.message ? fieldIds.messageError : undefined"
+        :class="[controlClass, 'resize-y', compact ? compactControlClass : regularControlClass]"
         placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
       ></textarea>
+      <p
+        v-if="errors.message"
+        :id="fieldIds.messageError"
+        class="mt-1.5 text-sm font-medium text-[#8a2f1a]"
+      >
+        {{ errors.message }}
+      </p>
     </label>
 
     <div :class="compact ? 'space-y-3' : 'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'">
@@ -69,7 +92,7 @@
         :class="compact ? 'w-full' : ''"
         :disabled="submitting"
       >
-        {{ submitting ? '提交中...' : submitLabel }}
+        {{ submitting ? '处理中...' : submitLabel }}
       </button>
 
       <p
@@ -84,14 +107,17 @@
       v-if="feedback"
       class="rounded-2xl border px-4 py-3 text-sm"
       :class="feedback.type === 'success'
-        ? 'border-mint/30 bg-mint/10 text-mint'
-        : 'border-ember/30 bg-ember/10 text-ember'"
+        ? 'border-[#167258]/35 bg-[#e7f7f1] text-[#0b5945]'
+        : 'border-[#a54025]/35 bg-[#fff0eb] text-[#842b18]'"
+      :role="feedback.type === 'error' ? 'alert' : 'status'"
+      :aria-live="feedback.type === 'error' ? 'assertive' : 'polite'"
+      data-form-feedback
     >
       <p>{{ feedback.message }}</p>
       <a
         v-if="mailtoHref"
         :href="mailtoHref"
-        class="mt-3 inline-flex rounded-full border border-current/25 px-3 py-1.5 font-medium"
+        class="mt-3 inline-flex rounded-full border border-current/35 px-3 py-1.5 font-semibold"
       >
         打开邮件草稿
       </a>
@@ -100,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, useId } from 'vue'
 
 const {
   compact = false,
@@ -118,7 +144,24 @@ const {
   hintText?: string
 }>()
 
+const formId = useId()
+const fieldIds = {
+  nameError: `${formId}-name-error`,
+  emailError: `${formId}-email-error`,
+  messageError: `${formId}-message-error`
+}
+
+const controlClass = 'form-control w-full border border-[#12304c]/18 bg-white text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] transition placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
+const compactControlClass = 'rounded-[1.1rem] px-3.5 py-2.5'
+const regularControlClass = 'rounded-2xl px-4 py-3'
+
 const form = reactive({
+  name: '',
+  email: '',
+  message: ''
+})
+
+const errors = reactive({
   name: '',
   email: '',
   message: ''
@@ -128,10 +171,17 @@ const submitting = ref(false)
 const feedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 const mailtoHref = ref<string | null>(null)
 
+const clearErrors = () => {
+  errors.name = ''
+  errors.email = ''
+  errors.message = ''
+}
+
 const resetForm = () => {
   form.name = ''
   form.email = ''
   form.message = ''
+  clearErrors()
 }
 
 const isValidEmail = (value: string) => /\S+@\S+\.\S+/.test(value)
@@ -148,34 +198,39 @@ const buildMailtoHref = (payload: typeof form) => {
   return `mailto:support@thanejoss.com?subject=${subject}&body=${body}`
 }
 
-const handleSubmit = async () => {
+const handleSubmit = () => {
   feedback.value = null
   mailtoHref.value = null
   submitting.value = true
+  clearErrors()
 
-  try {
-    const payload = {
-      name: form.name.trim(),
-      email: form.email.trim(),
-      message: form.message.trim()
-    }
-
-    if (!payload.name || !payload.email || !payload.message || !isValidEmail(payload.email)) {
-      feedback.value = {
-        type: 'error',
-        message: '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
-      }
-      return
-    }
-
-    mailtoHref.value = buildMailtoHref(payload)
-    feedback.value = {
-      type: 'success',
-      message: '已生成邮件草稿，请在邮件客户端里确认并发送。'
-    }
-    resetForm()
-  } finally {
-    submitting.value = false
+  const payload = {
+    name: form.name.trim(),
+    email: form.email.trim(),
+    message: form.message.trim()
   }
+
+  errors.name = payload.name ? '' : '请输入你的称呼。'
+  errors.email = !payload.email
+    ? '请输入联系邮箱。'
+    : isValidEmail(payload.email) ? '' : '请输入有效的邮箱地址。'
+  errors.message = payload.message ? '' : '请填写你的建议或需求。'
+
+  if (errors.name || errors.email || errors.message) {
+    feedback.value = {
+      type: 'error',
+      message: '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
+    }
+    submitting.value = false
+    return
+  }
+
+  mailtoHref.value = buildMailtoHref(payload)
+  feedback.value = {
+    type: 'success',
+    message: '已生成邮件草稿，请在邮件客户端里确认并发送。'
+  }
+  resetForm()
+  submitting.value = false
 }
 </script>
