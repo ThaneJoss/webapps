@@ -19,7 +19,7 @@
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
     "typecheck": "npm run typecheck:vue && npm run typecheck:native",
-    "typecheck:vue": "node scripts/vue-tsc6.cjs --noEmit -p tsconfig.app.json && node scripts/vue-tsc6.cjs --noEmit -p tsconfig.node.json",
+    "typecheck:vue": "node scripts/vue-tsc6.mjs --noEmit -p tsconfig.app.json && node scripts/vue-tsc6.mjs --noEmit -p tsconfig.node.json",
     "typecheck:native": "tsc --noEmit -p tsconfig.native.json",
     "test": "npm run test:unit",
     "test:unit": "vitest run",

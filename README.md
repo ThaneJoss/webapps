@@ -17,7 +17,7 @@
 - Node.js 24.18.0 LTS、npm 12.0.1
 
 TypeScript 6/7 并行安装遵循 TypeScript 7 官方迁移方案：`tsc` 执行 7.0，依赖旧编译器 API 的工具通过 `typescript` npm alias 使用 6.0。
-`vue-tsc` 通过仓库内的兼容启动器直接定位该兼容包中的真实 TS 6 编译器，不修改 `node_modules`。
+`vue-tsc` 通过仓库内的 ESM 兼容启动器直接定位该兼容包中的真实 TS 6 编译器，不修改 `node_modules`。
 
 ## 命令
 

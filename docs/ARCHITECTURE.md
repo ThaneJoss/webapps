@@ -44,7 +44,7 @@ TypeScript 7.0 没有旧式编译器 API，而 `vue-tsc`、typescript-eslint 仍
 - `@typescript/native` → `typescript@7.0.2`，提供 `tsc`；
 - `typescript` → `@typescript/typescript6@6.0.2`，提供工具 API 与 `tsc6`。
 
-`@typescript/typescript6` 的顶层 `tsc.js` 是转发 shim，`vue-tsc` 3.3.7 无法自动跟随这种 shim。`scripts/vue-tsc6.cjs` 只负责把 `vue-tsc` 指向兼容包依赖中的真实 `@typescript/old/lib/tsc`；它不复制或修改任何第三方源码。
+`@typescript/typescript6` 的顶层 `tsc.js` 是转发 shim，`vue-tsc` 3.3.7 无法自动跟随这种 shim。`scripts/vue-tsc6.mjs` 只负责把 `vue-tsc` 指向兼容包依赖中的真实 `@typescript/old/lib/tsc`；它不复制或修改任何第三方源码。
 
 CI 必须同时通过 `vue-tsc` 和 TypeScript 7 的 `tsc`，直到 Vue 工具链原生支持 TypeScript 7 API。
 
