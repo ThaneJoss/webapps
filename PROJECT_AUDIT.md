@@ -15,20 +15,32 @@
 
 | 整改项 | 实施状态 | 处理结果 |
 | --- | --- | --- |
-| 产品真实性 | 已实施，待 CI | 10 个 APP、35 个子条目全部使用 typed `planned + route: null`；页面没有工具链接 |
-| 目录架构 | 已实施，待 CI | 数据、类型、卡片和完整性测试迁入 `src/features/catalog/` |
-| 框架升级 | 已实施，待 CI | Vue 3.5.39、Router 5.2.0、Vite 8.1.4、TS 7.0.2、Vitest 4.1.10、UnoCSS 66.7.5 |
-| TypeScript 7 工具兼容 | 已实施，待 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`；`vue-tsc` 启动器定位真实 TS 6 编译器，CI 双重检查 |
-| 生产加载链路 | 已实施，待部署实测 | SSG 首响应包含语义内容；所有模块脚本构建后加 `data-cfasync="false"` |
-| 构建与图标 | 已实施，待 CI | 删除 vendor 拆包插件与全量 CSS 内联；固定图标改为构建期本地打包 |
-| SEO | 已实施，待 CI/部署实测 | `/`、`/contact`、404 静态预渲染并输出独立 metadata；sitemap 排除 404 |
-| 无障碍 | 已实施，待 axe | 增加 skip link、统一焦点、字段错误关联、状态播报、焦点归还和 reduced motion |
-| 质量门禁 | 已实施，待首次运行 | GitHub Actions 执行 lint、双 TS、Vitest、SSG 断言、audit、Playwright 与 axe |
+| 产品真实性 | 已通过 CI | 10 个 APP、35 个子条目全部使用 typed `planned + route: null`；页面没有工具链接 |
+| 目录架构 | 已通过 CI | 数据、类型、卡片和完整性测试迁入 `src/features/catalog/` |
+| 框架升级 | 已通过 CI | Vue 3.5.39、Router 5.2.0、Vite 8.1.4、TS 7.0.2、Vitest 4.1.10、UnoCSS 66.7.5 |
+| TypeScript 7 工具兼容 | 已通过 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`；`vue-tsc` 启动器定位真实 TS 6 编译器，CI 双重检查 |
+| 生产加载链路 | SSG 已通过，待公开生产实测 | 首响应包含语义内容；所有模块脚本构建后加 `data-cfasync="false"` |
+| 构建与图标 | 已通过 CI | 删除 vendor 拆包插件与全量 CSS 内联；固定图标改为构建期本地打包 |
+| SEO | 已通过 CI，待生产 HTTP 实测 | `/`、`/contact`、404 静态预渲染并输出独立 metadata；sitemap 排除 404 |
+| 无障碍 | 已通过 axe | 增加 skip link、统一焦点、字段错误关联、状态播报、焦点归还和 reduced motion |
+| 质量门禁 | 已通过并设为必需检查 | lint、双 TS、Vitest、SSG 断言、audit、Playwright 与 axe 全部通过 |
 | 依赖安全 | 锁文件已核实 | 最新依赖图 `npm audit --package-lock-only` 为 0 漏洞 |
-| 安全响应头 | 已实施，待部署实测 | 配置 CSP、Referrer/Permissions Policy、frame 限制、COOP、nosniff 与一年期 HSTS |
-| 生产 smoke | 已实施，待密钥/部署 | 生产事件自动检查 HTTP；配置 Actions Secret 后调用 Browserless 并留存失败证据 |
+| 安全响应头 | 配置与 Vercel 部署已通过，待生产实测 | 配置并自动断言 CSP、Referrer/Permissions Policy、frame 限制、COOP、nosniff 与一年期 HSTS |
+| 生产 smoke | 已实施，待合并/密钥 | 生产事件自动检查 HTTP；配置 Actions Secret 后调用 Browserless 并留存失败证据 |
 
 Cloudflare CLI 当前未登录，因此不能从本仓库会话直接修改区域级 Configuration Rule。代码已使用 Cloudflare 官方支持的 `data-cfasync="false"` 方式排除全部模块入口；区域级关闭 Rocket Loader 仍作为部署侧的优先配置写入 `docs/DEPLOYMENT.md`，并以生产 Browserless 是否还发生请求中止/重放作为最终判据。
+
+### 远端验收证据
+
+- GitHub Actions [质量门禁 #29431572223](https://github.com/ThaneJoss/webapps/actions/runs/29431572223) 完整通过。
+- 单元/组件测试：4 个文件、7 个用例全部通过。
+- SSG：成功生成首页、联系页和 404 共 3 页。
+- 构建产物：5 个 CSS/JS 资源，gzip 合计 63,639 字节；外链 CSS、metadata、sitemap、内部链接、Rocket Loader 排除属性和安全配置断言全部通过。
+- 依赖审计：0 漏洞。
+- Playwright/axe：桌面和移动端共 6 组浏览器用例全部通过。
+- Vercel 对提交 `36d4533` 的预览部署成功；该域名启用了 Vercel SSO，外部访问返回 302 登录跳转。
+- 自托管 Browserless 健康检查返回 200；访问受保护预览时 `/content` 返回 408 且没有首页语义标记，因此不能把这次调用冒充为新版本渲染通过。生产域名必须在 PR 合并部署后重新执行 smoke。
+- `main` 分支已启用 strict required status check：`lint、类型、测试与构建`。
 
 ## 1. 结论先行
 

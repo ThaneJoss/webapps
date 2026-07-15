@@ -20,6 +20,10 @@ const [indexHtml, contactHtml, notFoundHtml, sitemap, robots] = await Promise.al
   readDistFile('robots.txt')
 ])
 
+const vercelConfig = JSON.parse(
+  await readFile(new URL('../vercel.json', import.meta.url), 'utf8')
+)
+
 const pages = [
   ['index.html', indexHtml],
   ['contact.html', contactHtml],
@@ -42,6 +46,32 @@ assert(sitemap.includes('<loc>https://thanejoss.com/</loc>'), 'sitemap 缺少首
 assert(sitemap.includes('<loc>https://thanejoss.com/contact</loc>'), 'sitemap 缺少联系页。')
 assert(!sitemap.toLowerCase().includes('404'), 'sitemap 不得包含 404。')
 assert(robots.includes('Sitemap: https://thanejoss.com/sitemap.xml'), 'robots.txt 缺少 sitemap 地址。')
+
+const configuredHeaders = new Map(
+  (vercelConfig.headers?.[0]?.headers ?? []).map(({ key, value }) => [key, value])
+)
+const requiredHeaderNames = [
+  'Content-Security-Policy',
+  'Referrer-Policy',
+  'Permissions-Policy',
+  'X-Content-Type-Options',
+  'X-Frame-Options',
+  'Cross-Origin-Opener-Policy',
+  'Strict-Transport-Security'
+]
+
+for (const headerName of requiredHeaderNames) {
+  assert(configuredHeaders.has(headerName), `vercel.json 缺少 ${headerName}。`)
+}
+
+const contentSecurityPolicy = configuredHeaders.get('Content-Security-Policy') ?? ''
+assert(contentSecurityPolicy.includes("default-src 'self'"), 'CSP 缺少 default-src self。')
+assert(contentSecurityPolicy.includes("frame-ancestors 'none'"), 'CSP 缺少 frame-ancestors 限制。')
+assert(!contentSecurityPolicy.includes("'unsafe-inline'"), 'CSP 不应允许 unsafe-inline。')
+assert(
+  configuredHeaders.get('Strict-Transport-Security') === 'max-age=31536000; includeSubDomains; preload',
+  'HSTS 必须满足一年 preload 配置。'
+)
 
 for (const [file, html] of pages) {
   assert(/<link\b[^>]*rel=["']stylesheet["'][^>]*>/i.test(html), `${file} 缺少外链样式表。`)
