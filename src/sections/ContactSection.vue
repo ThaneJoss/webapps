@@ -29,9 +29,9 @@
               @click="openCard(entry.id)"
             >
               <div class="flex w-full items-start justify-between gap-4">
-                <h3 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
+                <h2 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
                   {{ entry.title }}
-                </h3>
+                </h2>
 
                 <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
                   <component
