@@ -18,8 +18,7 @@ Keep new code grouped by feature or concern rather than by file type only.
 - `npm run dev:web`: run the Vite frontend only
 - `npm run check:dependencies`: fail when npm dependencies are not on their latest versions
 - `npm run lint`: run ESLint for Vue, TypeScript, and build scripts
-- `npm run typecheck`: run Vue TypeScript checks
-- `npm run typecheck:native`: run the TypeScript 7 native compiler check
+- `npm run typecheck`: run the TypeScript 7 native compiler check for TypeScript sources
 - `npm run test:unit`: run unit and component tests
 - `npm run test:e2e`: run Playwright and axe browser checks
 - `npm run build`: run typecheck and the static frontend build
@@ -44,7 +43,7 @@ Do not run tests on this machine. This includes `npm test`, `npm run test:unit`,
 - Run automated checks only in CI or another environment with sufficient resources.
 - Limit local review to static, read-only inspection; report tests and builds as not run because of this repository rule.
 - Place unit tests near the relevant code and browser tests in `tests/e2e/`; use names like `*.test.ts` and `*.spec.ts`.
-- Every PR must pass dependency freshness, lint, Vue/TypeScript 6 typechecking, TypeScript 7 native typechecking, unit tests, SSG build assertions, dependency audit, and Playwright/axe checks.
+- Every PR must pass dependency freshness, lint, TypeScript 7 native typechecking, unit tests, SSG build assertions, dependency audit, and Playwright/axe checks. Vue SFC templates are not statically typechecked.
 
 ## Commit & Pull Request Guidelines
 Current history uses short imperative subjects and conventional-style prefixes, e.g. `feat: add production domain defaults`.
