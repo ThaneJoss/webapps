@@ -1,24 +1,10 @@
 <template>
   <form
-    class="text-ink"
-    :class="compact
-      ? 'space-y-3'
-      : 'space-y-6 rounded-[1.55rem] border border-[#12304c]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(244,249,255,0.94))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] sm:p-8 md:p-10'"
+    class="space-y-3 text-ink"
     novalidate
     @submit.prevent="handleSubmit"
   >
-    <div
-      v-if="showHeader"
-      class="border-b border-[#12304c]/10 pb-5 text-left"
-    >
-      <p class="panel-label text-steel">网页表单</p>
-      <h2 class="mt-3 text-2xl font-semibold sm:text-[2rem]">{{ title }}</h2>
-      <p class="mt-3 max-w-2xl text-sm leading-7 text-steel">
-        {{ description }}
-      </p>
-    </div>
-
-    <div :class="compact ? 'grid gap-3 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2'">
+    <div class="grid gap-3 sm:grid-cols-2">
       <label class="block">
         <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
         <input
@@ -29,7 +15,7 @@
           required
           :aria-invalid="errors.name ? 'true' : undefined"
           :aria-describedby="errors.name ? fieldIds.nameError : undefined"
-          :class="[controlClass, compact ? compactControlClass : regularControlClass]"
+          :class="controlClass"
           placeholder="例如：Joss"
         />
         <p
@@ -51,7 +37,7 @@
           required
           :aria-invalid="errors.email ? 'true' : undefined"
           :aria-describedby="errors.email ? fieldIds.emailError : undefined"
-          :class="[controlClass, compact ? compactControlClass : regularControlClass]"
+          :class="controlClass"
           placeholder="you@example.com"
         />
         <p
@@ -70,10 +56,10 @@
         v-model="form.message"
         name="message"
         required
-        :rows="compact ? 3 : 5"
+        rows="3"
         :aria-invalid="errors.message ? 'true' : undefined"
         :aria-describedby="errors.message ? fieldIds.messageError : undefined"
-        :class="[controlClass, 'resize-y', compact ? compactControlClass : regularControlClass]"
+        :class="[controlClass, 'resize-y']"
         placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
       ></textarea>
       <p
@@ -85,22 +71,13 @@
       </p>
     </label>
 
-    <div :class="compact ? 'space-y-3' : 'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'">
+    <div class="space-y-3">
       <button
         type="submit"
-        class="tech-button tech-button--light inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium disabled:opacity-60"
-        :class="compact ? 'w-full' : ''"
-        :disabled="submitting"
+        class="tech-button tech-button--light inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-medium"
       >
-        {{ submitting ? '处理中...' : submitLabel }}
+        生成邮件草稿
       </button>
-
-      <p
-        v-if="hintText"
-        class="text-sm text-steel"
-      >
-        {{ hintText }}
-      </p>
     </div>
 
     <div
@@ -128,22 +105,6 @@
 <script setup lang="ts">
 import { reactive, ref, useId } from 'vue'
 
-const {
-  compact = false,
-  showHeader = true,
-  title = '填写你的建议',
-  description = '把你想做的页面、想优化的问题，或者希望我先给出的建议写下来就可以。',
-  submitLabel = '生成邮件草稿',
-  hintText = '生成邮件草稿后，请在邮件客户端里确认并发送。'
-} = defineProps<{
-  compact?: boolean
-  showHeader?: boolean
-  title?: string
-  description?: string
-  submitLabel?: string
-  hintText?: string
-}>()
-
 const formId = useId()
 const fieldIds = {
   nameError: `${formId}-name-error`,
@@ -151,9 +112,7 @@ const fieldIds = {
   messageError: `${formId}-message-error`
 }
 
-const controlClass = 'form-control w-full border border-[#12304c]/18 bg-white text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] transition placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
-const compactControlClass = 'rounded-[1.1rem] px-3.5 py-2.5'
-const regularControlClass = 'rounded-2xl px-4 py-3'
+const controlClass = 'w-full rounded-[1.1rem] border border-[#12304c]/18 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] transition placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
 
 const form = reactive({
   name: '',
@@ -167,7 +126,6 @@ const errors = reactive({
   message: ''
 })
 
-const submitting = ref(false)
 const feedback = ref<{ type: 'success' | 'error'; message: string } | null>(null)
 const mailtoHref = ref<string | null>(null)
 
@@ -201,7 +159,6 @@ const buildMailtoHref = (payload: typeof form) => {
 const handleSubmit = () => {
   feedback.value = null
   mailtoHref.value = null
-  submitting.value = true
   clearErrors()
 
   const payload = {
@@ -221,7 +178,6 @@ const handleSubmit = () => {
       type: 'error',
       message: '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
     }
-    submitting.value = false
     return
   }
 
@@ -231,6 +187,5 @@ const handleSubmit = () => {
     message: '已生成邮件草稿，请在邮件客户端里确认并发送。'
   }
   resetForm()
-  submitting.value = false
 }
 </script>

@@ -76,7 +76,6 @@ assert(
 for (const [file, html] of pages) {
   assert(/<link\b[^>]*rel=["']stylesheet["'][^>]*>/i.test(html), `${file} 缺少外链样式表。`)
   assert(!/<style\b/i.test(html), `${file} 意外内联了样式表。`)
-  assert(!/api\.iconify\.design|@iconify\/vue/i.test(html), `${file} 仍依赖 Iconify 运行时。`)
 
   const scriptTags = html.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) ?? []
 

@@ -13,9 +13,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "dev:web": "vite",
-    "build": "npm run typecheck && npm run build:web",
-    "build:web": "vite-ssg build && node scripts/harden-build.mjs",
+    "build": "npm run typecheck && npm run build:ssg",
+    "build:ssg": "vite-ssg build && node scripts/harden-build.mjs",
     "check:dependencies": "npm outdated",
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
@@ -49,7 +48,7 @@
     "typescript-eslint": "8.64.0",
     "unocss": "66.7.5",
     "unplugin-icons": "23.0.1",
-    "vite": "8.1.4",
+    "vite": "8.1.5",
     "vite-ssg": "28.3.0",
     "vitest": "4.1.10"
   }

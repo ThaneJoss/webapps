@@ -78,12 +78,7 @@
                   v-if="entry.kind === 'form'"
                   class="flex flex-1 items-center"
                 >
-                  <ContactForm
-                    compact
-                    :show-header="false"
-                    submit-label="生成邮件草稿"
-                    hint-text=""
-                  />
+                  <ContactForm />
                 </div>
 
                 <div
@@ -118,17 +113,23 @@ import LetterIcon from '~icons/solar/letter-bold-duotone'
 
 import ContactForm from '../components/ContactForm.vue'
 
-interface ContactEntry {
+interface ContactEntryBase {
   id: string
-  kind: 'confirm' | 'form'
   title: string
   description: string
   frontCta: string
   icon: Component
-  actionLabel: string
-  actionHref: string
-  external: boolean
 }
+
+type ContactEntry = ContactEntryBase & (
+  | { kind: 'form' }
+  | {
+      kind: 'confirm'
+      actionLabel: string
+      actionHref: string
+      external: boolean
+    }
+)
 
 const activeCardId = ref<string | null>(null)
 
@@ -189,10 +190,7 @@ const contactEntries: readonly ContactEntry[] = [
     title: '网页表单',
     description: '打开网页表单，填写联系方式与建议。',
     frontCta: '点击展开',
-    icon: ClipboardIcon,
-    actionLabel: '',
-    actionHref: '',
-    external: false
+    icon: ClipboardIcon
   },
   {
     id: 'issues',

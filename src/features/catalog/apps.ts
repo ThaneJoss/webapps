@@ -17,7 +17,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'pdf-extract', label: '提取页面', availability: 'planned', route: null },
       { id: 'pdf-watermark', label: '添加水印', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'large',
     featured: true,
     boardClass: 'home-app-card--area-feature'
   },
@@ -34,7 +33,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'image-compress', label: '批量压缩', availability: 'planned', route: null },
       { id: 'image-convert', label: '格式导出', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app02'
   },
@@ -51,7 +49,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'media-trim', label: '剪辑片段', availability: 'planned', route: null },
       { id: 'media-gif', label: '视频转 GIF', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app03'
   },
@@ -69,7 +66,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'convert-data', label: '数据格式', availability: 'planned', route: null },
       { id: 'convert-batch', label: '批量转换', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'medium',
     featured: false,
     boardClass: 'home-app-card--area-app04'
   },
@@ -86,7 +82,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'ebook-import', label: 'TXT 导入', availability: 'planned', route: null },
       { id: 'ebook-chapters', label: '目录整理', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app05'
   },
@@ -103,7 +98,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'markdown-focus', label: '专注模式', availability: 'planned', route: null },
       { id: 'markdown-export', label: '导出 HTML', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app06'
   },
@@ -120,7 +114,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'whiteboard-sticky', label: '便签贴纸', availability: 'planned', route: null },
       { id: 'whiteboard-map', label: '脑图草稿', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app07'
   },
@@ -137,7 +130,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'api-format', label: '响应格式化', availability: 'planned', route: null },
       { id: 'api-history', label: '请求历史', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app08'
   },
@@ -154,7 +146,6 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'tasks-projects', label: '项目分组', availability: 'planned', route: null },
       { id: 'tasks-focus', label: '专注计时', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'small',
     featured: false,
     boardClass: 'home-app-card--area-app09'
   },
@@ -172,15 +163,14 @@ export const catalogApps: readonly CatalogApp[] = [
       { id: 'diary-lock', label: '本地锁定', availability: 'planned', route: null },
       { id: 'diary-calendar', label: '回顾日历', availability: 'planned', route: null }
     ],
-    secondaryStyle: 'medium',
     featured: false,
     boardClass: 'home-app-card--area-app10'
   }
 ]
 
 export const interactiveCatalogRoutes = catalogApps.flatMap((app) => [
-  ...(app.availability === 'planned' || app.route === null ? [] : [app.route]),
+  ...(app.availability === 'planned' ? [] : [app.route]),
   ...app.quickEntries.flatMap((entry) => (
-    entry.availability === 'planned' || entry.route === null ? [] : [entry.route]
+    entry.availability === 'planned' ? [] : [entry.route]
   ))
 ])

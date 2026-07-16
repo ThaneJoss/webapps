@@ -37,7 +37,7 @@
       </p>
 
       <ul
-        class="home-app-planned-entries mt-6 flex flex-wrap gap-2.5"
+        class="mt-6 flex flex-wrap gap-2.5"
         :aria-label="`${app.title}规划条目`"
       >
         <li
@@ -45,7 +45,7 @@
           :key="entry.id"
         >
           <RouterLink
-            v-if="entry.availability !== 'planned' && entry.route"
+            v-if="entry.availability !== 'planned'"
             :to="entry.route"
             class="home-app-entry home-app-entry--interactive inline-flex items-center rounded-full border px-3 py-2 text-sm"
           >
