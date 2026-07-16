@@ -18,12 +18,12 @@
 | 产品真实性 | 已通过 CI | 10 个 APP、35 个子条目全部使用 typed `planned + route: null`；页面没有工具链接 |
 | 目录架构 | 已通过 CI | 数据、类型、卡片和完整性测试迁入 `src/features/catalog/` |
 | 框架升级 | 已通过 CI | Vue 3.5.40、Router 5.2.0、Vite 8.1.4、TS 7.0.2、Vitest 4.1.10、UnoCSS 66.7.5 |
-| TypeScript 7 工具兼容 | 已通过 CI | 按官方方案并行安装 TS 7 与 `@typescript/typescript6`；`vue-tsc` 启动器定位真实 TS 6 编译器，CI 双重检查 |
+| TypeScript 7 检查 | 已通过 CI | 仅使用 TS 7 原生编译器检查 TypeScript 源码；按用户决定移除 `vue-tsc`，Vue SFC 模板不再静态类型检查 |
 | 生产加载链路 | SSG 已通过，待公开生产实测 | 首响应包含语义内容；所有模块脚本构建后加 `data-cfasync="false"` |
 | 构建与图标 | 已通过 CI | 删除 vendor 拆包插件与全量 CSS 内联；固定图标改为构建期本地打包 |
 | SEO | 已通过 CI，待生产 HTTP 实测 | `/`、`/contact`、404 静态预渲染并输出独立 metadata；sitemap 排除 404 |
 | 无障碍 | 已通过 axe | 增加 skip link、统一焦点、字段错误关联、状态播报、焦点归还和 reduced motion |
-| 质量门禁 | 已通过并设为必需检查 | lint、双 TS、Vitest、SSG 断言、audit、Playwright 与 axe 全部通过 |
+| 质量门禁 | 已通过并设为必需检查 | 依赖新鲜度、lint、TS 7、Vitest、SSG 断言、audit、Playwright 与 axe 全部通过 |
 | 依赖安全 | 锁文件已核实 | 最新依赖图 `npm audit --package-lock-only` 为 0 漏洞 |
 | 安全响应头 | 配置与 Vercel 部署已通过，待生产实测 | 配置并自动断言 CSP、Referrer/Permissions Policy、frame 限制、COOP、nosniff 与一年期 HSTS |
 | 生产 smoke | 已实施，待合并/密钥 | 生产事件自动检查 HTTP；配置 Actions Secret 后调用 Browserless 并留存失败证据 |
