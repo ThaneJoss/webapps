@@ -37,16 +37,11 @@ Vite SSG 在构建时生成：
 
 页面首个 HTTP 响应已经包含标题、正文和完整 metadata，不依赖 JavaScript 才出现语义内容。客户端继续使用 Vue Router hydration，保留无刷新导航和交互。
 
-## TypeScript 6/7 过渡
+## TypeScript 7 检查边界
 
-TypeScript 7.0 没有旧式编译器 API，而 `vue-tsc`、typescript-eslint 仍需要该 API。因此项目同时安装：
+`@typescript/native` 指向 `typescript@7.0.2`，并由 `npm run typecheck` 检查 TypeScript 源码。项目不再安装或运行 `vue-tsc`，因此 CI 不检查 Vue SFC 模板中的表达式、组件属性和事件类型。
 
-- `@typescript/native` → `typescript@7.0.2`，提供 `tsc`；
-- `typescript` → `@typescript/typescript6@6.0.2`，提供工具 API 与 `tsc6`。
-
-`@typescript/typescript6` 的顶层 `tsc.js` 是转发 shim，`vue-tsc` 3.3.7 无法自动跟随这种 shim。`scripts/vue-tsc6.mjs` 只负责把 `vue-tsc` 指向兼容包依赖中的真实 `@typescript/old/lib/tsc`；它不复制或修改任何第三方源码。
-
-CI 必须同时通过 `vue-tsc` 和 TypeScript 7 的 `tsc`，直到 Vue 工具链原生支持 TypeScript 7 API。
+`typescript` 仍指向 `@typescript/typescript6@6.0.2`，但只作为 `typescript-eslint` 的解析器 API；它不参与类型检查。等 `typescript-eslint` 支持 TypeScript 7 原生 API 后，可删除这项最后的兼容依赖。
 
 ## 构建约束
 

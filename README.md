@@ -11,19 +11,18 @@
 - Vite 8.1.4（Rolldown/Oxc）
 - UnoCSS 66.7.5 / Wind3 preset
 - TypeScript 7.0.2 原生编译器
-- TypeScript 6.0.2 兼容 API，供 `vue-tsc` 与 ESLint 使用
+- TypeScript 6.0.2 兼容 API，仅供 `typescript-eslint` 解析 TypeScript 语法
 - Vite SSG 28.3.0
 - Vitest 4.1.10、Playwright 1.61.1、axe-core 4.12.1
 - Node.js 24.18.0 LTS、npm 12.0.1
 
-TypeScript 6/7 并行安装遵循 TypeScript 7 官方迁移方案：`tsc` 执行 7.0，依赖旧编译器 API 的工具通过 `typescript` npm alias 使用 6.0。
-`vue-tsc` 通过仓库内的 ESM 兼容启动器直接定位该兼容包中的真实 TS 6 编译器，不修改 `node_modules`。
+项目只使用 TypeScript 7 原生编译器执行类型检查。`vue-tsc` 已移除，因此 Vue SFC 模板不再做静态类型检查；TypeScript 6 兼容包仅作为 `typescript-eslint` 的解析器依赖，不参与类型检查。
 
 ## 命令
 
 - `npm run dev`：启动 Vite 开发服务器
 - `npm run lint`：检查 Vue、TypeScript 与构建脚本
-- `npm run typecheck`：执行 Vue/TypeScript 6 与 TypeScript 7 双重检查
+- `npm run typecheck`：使用 TypeScript 7 检查 TypeScript 源码
 - `npm run test:unit`：执行单元和组件测试
 - `npm run build`：类型检查并生成 SSG 静态站点
 - `npm run verify:dist`：验证静态 metadata、sitemap、链接、脚本属性和体积预算
@@ -43,7 +42,7 @@ TypeScript 6/7 并行安装遵循 TypeScript 7 官方迁移方案：`tsc` 执行
 
 ## 质量与安全
 
-PR 质量门禁会在每次提交时执行依赖新鲜度检查、lint、双 TypeScript 检查、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。任何过期的 npm 依赖都会使该提交检查失败；Dependabot 继续按计划自动创建升级 PR。
+PR 质量门禁会在每次 PR 更新及 `main` 推送时执行依赖新鲜度检查、TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。任何过期的 npm 依赖都会使该提交检查失败；Dependabot 继续按计划自动创建升级 PR。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
