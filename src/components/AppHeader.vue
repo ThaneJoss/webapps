@@ -41,7 +41,7 @@
 import { useRoute, RouterLink } from 'vue-router'
 
 import AppMark from './AppMark.vue'
-import { primaryNavItems } from '../data/navigation.js'
+import { primaryNavItems } from '../data/navigation'
 
 const route = useRoute()
 

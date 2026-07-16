@@ -39,14 +39,14 @@ Vite SSG 在构建时生成：
 
 ## TypeScript 7 检查边界
 
-`@typescript/native` 指向 `typescript@7.0.2`，并由 `npm run typecheck` 检查 TypeScript 源码。项目不再安装或运行 `vue-tsc`，因此 CI 不检查 Vue SFC 模板中的表达式、组件属性和事件类型。
+`@typescript/native` 指向 `typescript@7.0.2`，并由 `npm run typecheck` 检查 TypeScript 源码、配置和测试。Vue SFC 模板中的表达式、组件属性和事件类型不在这项静态检查的覆盖范围内。
 
-`typescript` 仍指向 `@typescript/typescript6@6.0.2`，但只作为 `typescript-eslint` 的解析器 API；它不参与类型检查。等 `typescript-eslint` 支持 TypeScript 7 原生 API 后，可删除这项最后的兼容依赖。
+`typescript` 指向 `@typescript/typescript6@6.0.2`，向 `typescript-eslint` 提供解析器 API；它不参与类型检查。
 
 ## 构建约束
 
-- 使用 Vite 8 默认 Rolldown 拆包，不维护 vendor manual chunks；
-- CSS 作为 hash 静态资源缓存，不做全量 critical CSS 内联；
+- 使用 Vite 8 默认 Rolldown 拆包；
+- CSS 作为 hash 静态资源缓存；
 - 图标从本地 Solar icon data 按需编译；
 - 页面不得包含内联脚本，以保持 CSP 不需要 `unsafe-inline`；
 - 所有生成的模块脚本必须在 `src` 前包含 `data-cfasync="false"`；

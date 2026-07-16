@@ -22,7 +22,6 @@ interface CatalogAppBase extends CatalogItemBase {
   description: string
   quickEntries: readonly CatalogEntry[]
   featured: boolean
-  secondaryStyle: 'large' | 'medium' | 'small'
   boardClass: string
 }
 
@@ -35,17 +34,6 @@ export type CatalogApp = CatalogAppBase & (
       availability: 'planned'
       route: null
     }
-)
-
-export type InteractiveCatalogItem = CatalogItemBase & {
-  availability: 'live' | 'beta'
-  route: `/${string}`
-}
-
-export const isCatalogItemInteractive = (
-  item: CatalogEntry | CatalogApp
-): item is InteractiveCatalogItem & (CatalogEntry | CatalogApp) => (
-  item.availability !== 'planned' && item.route !== null
 )
 
 export const availabilityLabels: Record<CatalogAvailability, string> = {

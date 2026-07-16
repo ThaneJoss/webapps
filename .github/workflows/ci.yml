@@ -49,7 +49,7 @@ jobs:
         run: npm run test:unit
 
       - name: 构建静态站点
-        run: npm run build:web
+        run: npm run build:ssg
 
       - name: 验证构建产物
         run: npm run verify:dist

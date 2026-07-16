@@ -61,10 +61,6 @@ import AppCard from '../features/catalog/AppCard.vue'
 import { catalogApps } from '../features/catalog/apps'
 
 function scrollToApps() {
-  if (typeof document === 'undefined') {
-    return
-  }
-
   const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   document.getElementById('home-apps')?.scrollIntoView({

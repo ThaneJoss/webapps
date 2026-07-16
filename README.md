@@ -11,12 +11,12 @@
 - Vite 8.1.4（Rolldown/Oxc）
 - UnoCSS 66.7.5 / Wind3 preset
 - TypeScript 7.0.2 原生编译器
-- TypeScript 6.0.2 兼容 API，仅供 `typescript-eslint` 解析 TypeScript 语法
+- typescript-eslint 8.64.0（解析器依赖 TypeScript 6.0.2 API）
 - Vite SSG 28.3.0
 - Vitest 4.1.10、Playwright 1.61.1、axe-core 4.12.1
 - Node.js 24.18.0 LTS、npm 12.0.1
 
-项目只使用 TypeScript 7 原生编译器执行类型检查。`vue-tsc` 已移除，因此 Vue SFC 模板不再做静态类型检查；TypeScript 6 兼容包仅作为 `typescript-eslint` 的解析器依赖，不参与类型检查。
+项目使用 TypeScript 7 原生编译器检查 TypeScript 源码。TypeScript 6 包只向 `typescript-eslint` 提供解析器 API，不参与类型检查。
 
 ## 命令
 
@@ -38,7 +38,7 @@
 - `404.html`：由 catch-all 路由静态预渲染，Vercel 对未知路径返回真实 404
 - `sitemap.xml`：只包含 `/` 与 `/contact`
 
-构建保留 Vite 的 hash CSS，不再把整份 CSS 内联到 HTML。固定 UI 图标通过 `unplugin-icons` 在构建期打包，不访问 Iconify 公共 API。构建后脚本会为所有模块入口加入 `data-cfasync="false"`，避免 Cloudflare Rocket Loader 中止并重放 Vite 模块。
+构建输出 Vite 的 hash CSS，固定 UI 图标通过 `unplugin-icons` 在构建期打包。构建后脚本会为所有模块入口加入 `data-cfasync="false"`，避免 Cloudflare Rocket Loader 中止并重放 Vite 模块。
 
 ## 质量与安全
 
@@ -48,6 +48,5 @@ Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、
 
 - [架构说明](docs/ARCHITECTURE.md)
 - [部署与边缘配置](docs/DEPLOYMENT.md)
-- [项目核查与整改记录](PROJECT_AUDIT.md)
 
 生产域名：<https://thanejoss.com>

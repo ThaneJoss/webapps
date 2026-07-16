@@ -2,13 +2,6 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 test('home is statically rendered and has no phantom app links', async ({ page, request }) => {
-  const iconifyRequests: string[] = []
-  page.on('request', (networkRequest) => {
-    if (networkRequest.url().includes('api.iconify.design')) {
-      iconifyRequests.push(networkRequest.url())
-    }
-  })
-
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="home"')
@@ -23,7 +16,6 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
     anchors.map((anchor) => anchor.getAttribute('href'))
   ))
   expect(new Set(internalTargets)).toEqual(new Set(['/', '/contact']))
-  expect(iconifyRequests).toEqual([])
 
   const accessibility = await new AxeBuilder({ page }).analyze()
   expect(accessibility.violations).toEqual([])

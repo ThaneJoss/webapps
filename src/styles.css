@@ -577,25 +577,6 @@ svg {
   transform: translate3d(0, 0, 0) scale(0.985);
 }
 
-.tech-button:disabled {
-  cursor: not-allowed;
-}
-
-.tech-button--ghost {
-  color: #0a1628;
-  border-color: rgba(93, 148, 255, 0.22);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(236, 245, 255, 0.94), rgba(255, 244, 240, 0.82)),
-    linear-gradient(135deg, rgba(82, 215, 255, 0.18), rgba(93, 148, 255, 0.14), rgba(255, 141, 107, 0.1));
-  box-shadow:
-    0 14px 30px rgba(10, 22, 40, 0.08),
-    inset 0 0 0 1px rgba(93, 148, 255, 0.08);
-}
-
-.tech-button--ghost::before {
-  background: linear-gradient(135deg, rgba(82, 215, 255, 0.2), rgba(93, 148, 255, 0.08), rgba(255, 141, 107, 0.14));
-}
-
 .tech-button--light {
   color: #0a1628;
   border-color: rgba(82, 215, 255, 0.28);

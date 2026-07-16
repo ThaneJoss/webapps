@@ -52,4 +52,4 @@ max-age=31536000; includeSubDomains; preload
 - 随机不存在路径返回 404；
 - 三个响应的静态 HTML 包含对应页面语义标记。
 
-自动检查固定访问公开生产域名 `https://thanejoss.com`，不读取或访问 Vercel Preview/部署专属地址。Preview 的部署事件只记录“非生产部署不执行网络检查”并成功结束，不再产生 skipped job。生产检查也可从 Actions 页面手动输入公开 URL 触发。
+自动检查固定访问公开生产域名 `https://thanejoss.com`，不读取或访问 Vercel Preview/部署专属地址。Preview 的部署事件记录“非生产部署不执行网络检查”并成功结束。生产检查也可从 Actions 页面手动输入公开 URL 触发。

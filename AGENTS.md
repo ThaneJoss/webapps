@@ -6,8 +6,8 @@ This repo contains a Vite + Vue frontend.
 - `src/`: frontend application code
 - `src/components/`, `src/sections/`, `src/views/`: UI building blocks and page composition
 - `src/lib/`: client-side helpers
-- `src/data/`: fallback seed data for the frontend
-- `shared/`: shared frontend content contracts and types
+- `src/data/`: small frontend-owned navigation data
+- `src/features/catalog/`: typed application catalog, cards, and integrity checks
 - `dist/`: generated build output; do not edit manually
 
 Keep new code grouped by feature or concern rather than by file type only.
@@ -15,14 +15,13 @@ Keep new code grouped by feature or concern rather than by file type only.
 ## Build, Test, and Development Commands
 - `npm install`: install dependencies
 - `npm run dev`: start the Vite frontend
-- `npm run dev:web`: run the Vite frontend only
 - `npm run check:dependencies`: fail when npm dependencies are not on their latest versions
 - `npm run lint`: run ESLint for Vue, TypeScript, and build scripts
 - `npm run typecheck`: run the TypeScript 7 native compiler check for TypeScript sources
 - `npm run test:unit`: run unit and component tests
 - `npm run test:e2e`: run Playwright and axe browser checks
 - `npm run build`: run typecheck and the static frontend build
-- `npm run verify:dist`: verify metadata, routes, CSP compatibility, and asset budgets
+- `npm run verify:dist`: verify metadata, routes, CSP constraints, and asset budgets
 - `npm run preview`: preview the built frontend
 
 Use the GitHub Actions quality workflow as the default pre-PR verification environment.
@@ -35,7 +34,7 @@ Use TypeScript throughout. Follow the existing style:
 - `PascalCase.vue` for components
 - `camelCase.ts` for helpers and libraries
 
-Prefer small, composable components and shared types in `shared/` instead of duplicating interfaces.
+Prefer small, composable components and feature-owned shared types instead of duplicating interfaces.
 
 ## Testing Guidelines
 Do not run tests on this machine. This includes `npm test`, `npm run test:unit`, `npm run test:e2e`, watch mode, direct Vitest/Playwright commands, typechecking, and local production builds.
