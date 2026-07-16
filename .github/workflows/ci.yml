@@ -36,6 +36,9 @@ jobs:
       - name: 安装依赖
         run: npm ci
 
+      - name: 检查依赖是否为最新版本
+        run: npm run check:dependencies
+
       - name: 代码规范
         run: npm run lint
 

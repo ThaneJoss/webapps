@@ -44,7 +44,7 @@ max-age=31536000; includeSubDomains; preload
 
 ## 远端验证
 
-`.github/workflows/ci.yml` 在 PR 上完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。
+`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时完成依赖新鲜度、lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`npm outdated` 检测到任一过期依赖时，质量门禁会直接失败，并由 Dependabot PR 承接实际升级。
 
 `.github/workflows/deployment-smoke.yml` 在生产部署成功后检查：
 
