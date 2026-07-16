@@ -1,7 +1,8 @@
-import { defineConfig, presetUno } from 'unocss'
+import { defineConfig } from 'unocss'
+import { presetWind3 } from '@unocss/preset-wind3'
 
 export default defineConfig({
-  presets: [presetUno()],
+  presets: [presetWind3()],
   theme: {
     colors: {
       shell: '#f2f7ff',
@@ -24,11 +25,11 @@ export default defineConfig({
       glow: '0 0 0 1px rgba(82, 215, 255, 0.16), 0 18px 52px rgba(19, 70, 118, 0.2)'
     }
   },
-    shortcuts: {
-      'surface-card':
-        'rounded-3xl border border-line/70 bg-panelSoft shadow-frame',
-      'surface-dark':
-        'rounded-3xl border border-white/10 bg-panel backdrop-blur-xl shadow-glow text-white',
+  shortcuts: {
+    'surface-card':
+      'rounded-3xl border border-line/70 bg-panelSoft shadow-frame',
+    'surface-dark':
+      'rounded-3xl border border-white/10 bg-panel backdrop-blur-xl shadow-glow text-white',
     'section-wrap':
       'mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12',
     'section-space':

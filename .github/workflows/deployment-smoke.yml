@@ -1,0 +1,47 @@
+name: 生产部署检查
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 要检查的公开部署地址
+        required: true
+        default: https://thanejoss.com
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
+    name: HTTP 与 Browserless 语义检查
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BASE_URL: ${{ github.event.inputs.base_url || github.event.deployment_status.environment_url }}
+      BROWSERLESS_TOKEN: ${{ secrets.BROWSERLESS_TOKEN }}
+      BROWSERLESS_ENDPOINT: https://browserless.thanejoss.com
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v7
+
+      - name: 配置 Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+
+      - name: 检查部署
+        run: node scripts/remote-smoke.mjs
+
+      - name: 上传失败证据
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browserless-smoke-evidence
+          path: test-results/browserless
+          if-no-files-found: ignore
+          retention-days: 7

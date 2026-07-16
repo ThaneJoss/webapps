@@ -1,0 +1,73 @@
+name: 质量门禁
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: lint、类型、测试与构建
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v7
+
+      - name: 配置 Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: 升级 npm
+        run: npm install --global npm@12.0.1
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 代码规范
+        run: npm run lint
+
+      - name: 类型检查
+        run: npm run typecheck
+
+      - name: 单元与组件测试
+        run: npm run test:unit
+
+      - name: 构建静态站点
+        run: npm run build:web
+
+      - name: 验证构建产物
+        run: npm run verify:dist
+
+      - name: 依赖安全审计
+        run: npm audit --audit-level=high
+
+      - name: 安装 Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: 浏览器验收
+        run: npm run test:e2e
+
+      - name: 上传构建与浏览器证据
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: webapps-ci-evidence
+          path: |
+            dist
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 7

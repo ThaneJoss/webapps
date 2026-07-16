@@ -7,18 +7,16 @@ import ContactSection from './ContactSection.vue'
 describe('ContactSection', () => {
   it('flips cards open and keeps only one active at a time', async () => {
     const wrapper = mount(ContactSection, {
-      attachTo: document.body,
-      global: {
-        stubs: {
-          Icon: {
-            template: '<span />'
-          }
-        }
-      }
+      attachTo: document.body
     })
 
     await wrapper.get('[data-contact-card-front="email"]').trigger('click')
     expect(wrapper.get('[data-contact-card="email"]').classes()).toContain('is-flipped')
+    expect(document.activeElement).toBe(wrapper.get('[data-contact-card="email"] [data-contact-card-close]').element)
+
+    await wrapper.get('[data-contact-card="email"] [data-contact-card-close]').trigger('click')
+    await nextTick()
+    expect(document.activeElement).toBe(wrapper.get('[data-contact-card-front="email"]').element)
 
     await wrapper.get('[data-contact-card-front="form"]').trigger('click')
     expect(wrapper.get('[data-contact-card="email"]').classes()).not.toContain('is-flipped')
@@ -27,6 +25,7 @@ describe('ContactSection', () => {
     document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
     await nextTick()
     expect(wrapper.get('[data-contact-card="form"]').classes()).not.toContain('is-flipped')
+    expect(document.activeElement).toBe(wrapper.get('[data-contact-card-front="form"]').element)
 
     wrapper.unmount()
   })

@@ -3,34 +3,56 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "packageManager": "npm@12.0.1",
+  "engines": {
+    "node": "24.x",
+    "npm": ">=12.0.0"
+  },
+  "overrides": {
+    "js-cookie": "3.0.8"
+  },
   "scripts": {
     "dev": "vite",
     "dev:web": "vite",
     "build": "npm run typecheck && npm run build:web",
-    "build:web": "vite build && node scripts/inline-critical-css.mjs",
+    "build:web": "vite-ssg build && node scripts/harden-build.mjs",
+    "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "typecheck": "npm run typecheck:vue && npm run typecheck:native",
+    "typecheck:vue": "node scripts/vue-tsc6.mjs --noEmit -p tsconfig.app.json && node scripts/vue-tsc6.mjs --noEmit -p tsconfig.node.json",
+    "typecheck:native": "tsc --noEmit -p tsconfig.native.json",
     "test": "npm run test:unit",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "test:e2e": "playwright test",
+    "verify:dist": "node scripts/verify-dist.mjs"
   },
   "dependencies": {
-    "@iconify/vue": "^5.0.0",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.1"
+    "vue": "3.5.39",
+    "vue-router": "5.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.6.0",
-    "@unocss/preset-uno": "^66.5.4",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/test-utils": "^2.4.6",
-    "jsdom": "^29.0.2",
-    "split-vendor-chunk-plugin": "^7.0.0",
-    "typescript": "^5.9.3",
-    "unocss": "^66.5.4",
-    "vite": "^7.1.10",
-    "vite-plugin-sitemap": "^0.8.2",
-    "vitest": "^4.1.3",
-    "vue-tsc": "^3.1.1"
+    "@axe-core/playwright": "4.12.1",
+    "@eslint/js": "10.0.1",
+    "@iconify-json/solar": "1.2.5",
+    "@playwright/test": "1.61.1",
+    "@types/node": "26.1.1",
+    "@typescript/native": "npm:typescript@7.0.2",
+    "@unocss/preset-wind3": "66.7.5",
+    "@vitejs/plugin-vue": "6.0.8",
+    "@vue/test-utils": "2.4.11",
+    "axe-core": "4.12.1",
+    "eslint": "10.7.0",
+    "eslint-plugin-vue": "10.9.2",
+    "globals": "17.7.0",
+    "jsdom": "29.1.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-eslint": "8.64.0",
+    "unocss": "66.7.5",
+    "unplugin-icons": "23.0.1",
+    "vite": "8.1.4",
+    "vite-ssg": "28.3.0",
+    "vitest": "4.1.10",
+    "vue-tsc": "3.3.7"
   }
 }

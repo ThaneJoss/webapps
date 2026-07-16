@@ -1,26 +1,48 @@
+import axe from 'axe-core'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import HomeView from './HomeView.vue'
 
-describe('HomeView', () => {
-  it('renders the single main section for the homepage', () => {
-    const wrapper = mount(HomeView)
+let wrapper: ReturnType<typeof mount> | null = null
+let container: HTMLElement | null = null
 
-    expect(wrapper.text()).toContain('网站介绍')
-    expect(wrapper.text()).toContain('你的第一个原生网页APP')
-    expect(wrapper.text()).toContain('所有 APP 无需下载，打开网页就能直接使用')
-    expect(wrapper.text()).toContain('APP 展示区')
-    expect(wrapper.text()).toContain('正在上线的网页 APP')
-    expect(wrapper.text()).toContain('更多无需下载、打开即用的网页 APP 会陆续加入')
+const mountHomeView = () => {
+  container = document.createElement('main')
+  document.body.append(container)
+  wrapper = mount(HomeView, { attachTo: container })
+  return wrapper
+}
+
+afterEach(() => {
+  wrapper?.unmount()
+  container?.remove()
+  wrapper = null
+  container = null
+})
+
+describe('HomeView', () => {
+  it('only presents unimplemented apps as disabled plans', () => {
+    wrapper = mountHomeView()
+
+    expect(wrapper.text()).toContain('规划中的原生网页 APP')
+    expect(wrapper.text()).toContain('当前没有工具开放使用')
     expect(wrapper.text()).toContain('PDF 工具箱')
-    expect(wrapper.text()).toContain('图片工具箱')
-    expect(wrapper.text()).toContain('合并 PDF')
-    expect(wrapper.text()).toContain('裁剪尺寸')
-    expect(wrapper.text()).toContain('批量转换')
-    expect(wrapper.text()).toContain('口袋写作')
     expect(wrapper.text()).toContain('私密日记')
-    expect(wrapper.text()).toContain('App 10')
-    expect(wrapper.text()).toContain('开始使用')
+    expect(wrapper.text()).toContain('查看规划')
+    expect(wrapper.findAll('[data-catalog-availability="planned"]')).toHaveLength(10)
+    expect(wrapper.findAll('.home-app-entry[aria-disabled="true"]')).toHaveLength(35)
+    expect(wrapper.findAll('a')).toHaveLength(0)
+  })
+
+  it('has no detectable structural accessibility violations', async () => {
+    wrapper = mountHomeView()
+    const results = await axe.run(document.body, {
+      rules: {
+        'color-contrast': { enabled: false }
+      }
+    })
+
+    expect(results.violations).toEqual([])
   })
 })

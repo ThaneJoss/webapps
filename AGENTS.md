@@ -16,11 +16,16 @@ Keep new code grouped by feature or concern rather than by file type only.
 - `npm install`: install dependencies
 - `npm run dev`: start the Vite frontend
 - `npm run dev:web`: run the Vite frontend only
+- `npm run lint`: run ESLint for Vue, TypeScript, and build scripts
 - `npm run typecheck`: run Vue TypeScript checks
-- `npm run build`: run typecheck and frontend build
+- `npm run typecheck:native`: run the TypeScript 7 native compiler check
+- `npm run test:unit`: run unit and component tests
+- `npm run test:e2e`: run Playwright and axe browser checks
+- `npm run build`: run typecheck and the static frontend build
+- `npm run verify:dist`: verify metadata, routes, CSP compatibility, and asset budgets
 - `npm run preview`: preview the built frontend
 
-Use `npm run build` as the default pre-PR verification step.
+Use the GitHub Actions quality workflow as the default pre-PR verification environment.
 
 ## Coding Style & Naming Conventions
 Use TypeScript throughout. Follow the existing style:
@@ -33,12 +38,12 @@ Use TypeScript throughout. Follow the existing style:
 Prefer small, composable components and shared types in `shared/` instead of duplicating interfaces.
 
 ## Testing Guidelines
-There is no automated test suite yet. For now, validate changes with:
+Do not run tests on this machine. This includes `npm test`, `npm run test:unit`, `npm run test:e2e`, watch mode, direct Vitest/Playwright commands, typechecking, and local production builds.
 
-- `npm run typecheck`
-- `npm run build`
-
-If you add tests later, place them near the relevant code or in a top-level `tests/` directory, and use names like `*.test.ts`.
+- Run automated checks only in CI or another environment with sufficient resources.
+- Limit local review to static, read-only inspection; report tests and builds as not run because of this repository rule.
+- Place unit tests near the relevant code and browser tests in `tests/e2e/`; use names like `*.test.ts` and `*.spec.ts`.
+- Every PR must pass lint, Vue/TypeScript 6 typechecking, TypeScript 7 native typechecking, unit tests, SSG build assertions, dependency audit, and Playwright/axe checks.
 
 ## Commit & Pull Request Guidelines
 Current history uses short imperative subjects and conventional-style prefixes, e.g. `feat: add production domain defaults`.
@@ -48,6 +53,7 @@ Current history uses short imperative subjects and conventional-style prefixes, 
 - Open a PR against `main`
 - Include a short summary, validation steps, and screenshots for UI changes
 - Use Chinese for commit messages and PR titles/descriptions.
+- After each completed modification, create a new branch, commit the change, open a PR, switch back to the base branch, delete the local feature branch, wait 60 seconds, and if the PR is already merged, pull the base branch automatically.
 
 ## Security & Configuration Tips
 Do not commit secrets. Keep sensitive production values in environment variables.
