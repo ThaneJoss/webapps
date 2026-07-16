@@ -8,7 +8,7 @@
 
 - Vue 3.5.40
 - Vue Router 5.2.0
-- Vite 8.1.4（Rolldown/Oxc）
+- Vite 8.1.5（Rolldown/Oxc）
 - UnoCSS 66.7.5 / Wind3 preset
 - TypeScript 7.0.2 原生编译器
 - typescript-eslint 8.64.0（解析器依赖 TypeScript 6.0.2 API）
