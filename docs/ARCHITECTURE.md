@@ -17,7 +17,7 @@ src/
 scripts/
   harden-build.mjs       给生成的模块脚本添加 Rocket Loader 排除标记
   verify-dist.mjs        检查 SSG、链接、metadata、sitemap 与体积预算
-  remote-smoke.mjs       生产 HTTP/Browserless 语义检查
+  remote-smoke.mjs       公开生产域名 HTTP 与静态语义检查
 tests/e2e/               桌面和移动端浏览器验收
 ```
 

@@ -26,9 +26,9 @@
 | 质量门禁 | 已通过并设为必需检查 | 依赖新鲜度、lint、TS 7、Vitest、SSG 断言、audit、Playwright 与 axe 全部通过 |
 | 依赖安全 | 锁文件已核实 | 最新依赖图 `npm audit --package-lock-only` 为 0 漏洞 |
 | 安全响应头 | 配置与 Vercel 部署已通过，待生产实测 | 配置并自动断言 CSP、Referrer/Permissions Policy、frame 限制、COOP、nosniff 与一年期 HSTS |
-| 生产 smoke | 已实施，待合并/密钥 | 生产事件自动检查 HTTP；配置 Actions Secret 后调用 Browserless 并留存失败证据 |
+| 生产 smoke | 已实施 | 只检查公开生产域名的 HTTP 状态与静态语义标记；不访问 Vercel Preview，不再调用 Browserless |
 
-Cloudflare CLI 当前未登录，因此不能从本仓库会话直接修改区域级 Configuration Rule。代码已使用 Cloudflare 官方支持的 `data-cfasync="false"` 方式排除全部模块入口；区域级关闭 Rocket Loader 仍作为部署侧的优先配置写入 `docs/DEPLOYMENT.md`，并以生产 Browserless 是否还发生请求中止/重放作为最终判据。
+Cloudflare CLI 当前未登录，因此不能从本仓库会话直接修改区域级 Configuration Rule。代码已使用 Cloudflare 官方支持的 `data-cfasync="false"` 方式排除全部模块入口；区域级关闭 Rocket Loader 仍作为部署侧的优先配置写入 `docs/DEPLOYMENT.md`。
 
 ### 远端验收证据
 
