@@ -16,6 +16,7 @@
     "dev:web": "vite",
     "build": "npm run typecheck && npm run build:web",
     "build:web": "vite-ssg build && node scripts/harden-build.mjs",
+    "check:dependencies": "npm outdated",
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
     "typecheck": "npm run typecheck:vue && npm run typecheck:native",
@@ -28,7 +29,7 @@
     "verify:dist": "node scripts/verify-dist.mjs"
   },
   "dependencies": {
-    "vue": "3.5.39",
+    "vue": "3.5.40",
     "vue-router": "5.2.0"
   },
   "devDependencies": {

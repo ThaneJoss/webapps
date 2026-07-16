@@ -6,7 +6,7 @@
 
 ## 技术栈
 
-- Vue 3.5.39
+- Vue 3.5.40
 - Vue Router 5.2.0
 - Vite 8.1.4（Rolldown/Oxc）
 - UnoCSS 66.7.5 / Wind3 preset
@@ -43,7 +43,7 @@ TypeScript 6/7 并行安装遵循 TypeScript 7 官方迁移方案：`tsc` 执行
 
 ## 质量与安全
 
-PR 质量门禁包括 lint、双 TypeScript 检查、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。Dependabot 每周检查 npm 与 GitHub Actions 更新。
+PR 质量门禁会在每次提交时执行依赖新鲜度检查、lint、双 TypeScript 检查、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。任何过期的 npm 依赖都会使该提交检查失败；Dependabot 继续按计划自动创建升级 PR。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
