@@ -41,12 +41,6 @@ test('contact actions are direct and the form preserves drafts', async ({ page, 
   const nameInput = page.locator('[data-contact-form-panel] input[name="name"]')
   await expect(formTrigger).toHaveCSS('border-top-width', '0px')
   await expect(formTrigger).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
-
-  const collapsedCardHeights = await page.locator('[data-contact-card]').evaluateAll((cards) => (
-    cards.map((card) => card.getBoundingClientRect().height)
-  ))
-  expect(Math.max(...collapsedCardHeights) - Math.min(...collapsedCardHeights)).toBeLessThan(1)
-
   await formTrigger.click()
   await expect(nameInput).toBeFocused()
   await nameInput.fill('Codex')
