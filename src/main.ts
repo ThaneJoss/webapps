@@ -1,7 +1,7 @@
 import { ViteSSG } from 'vite-ssg'
 
 import App from './App.vue'
-import { installRouterMetadata, routes, scrollBehavior } from './router'
+import { installRouterClientBehavior, routes, scrollBehavior } from './router'
 import './styles.css'
 import 'virtual:uno.css'
 
@@ -13,7 +13,7 @@ export const createApp = ViteSSG(
   },
   ({ router }) => {
     if (!import.meta.env.SSR) {
-      installRouterMetadata(router)
+      installRouterClientBehavior(router)
     }
   },
   {

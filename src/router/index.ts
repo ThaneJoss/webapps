@@ -1,21 +1,44 @@
 import type { Router, RouterScrollBehavior, RouteRecordRaw } from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
+import { prefersReducedMotion } from '../lib/motion'
 import { applyPageMetadata } from '../lib/seoClient'
+import HomeView from '../views/HomeView.vue'
 
-const routeTransitionScrollDelayMs = 180
+let routeTransitionPromise: Promise<void> = Promise.resolve()
+let resolveRouteTransition: (() => void) | null = null
 
-const prefersReducedMotion = () => typeof window !== 'undefined'
-  && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const beginRouteTransition = () => {
+  resolveRouteTransition?.()
+  routeTransitionPromise = new Promise((resolve) => {
+    resolveRouteTransition = resolve
+  })
+}
+
+export const completeRouteTransition = () => {
+  if (!resolveRouteTransition) {
+    return false
+  }
+
+  const resolve = resolveRouteTransition
+  resolveRouteTransition = null
+  resolve()
+  return true
+}
 
 const afterRouteTransition = <T>(position: T) => {
-  if (typeof window === 'undefined' || prefersReducedMotion()) {
+  if (typeof window === 'undefined') {
     return Promise.resolve(position)
   }
 
-  return new Promise<T>((resolve) => {
-    window.setTimeout(() => resolve(position), routeTransitionScrollDelayMs)
-  })
+  return routeTransitionPromise.then(() => position)
+}
+
+const getHeaderOffset = () => {
+  if (typeof document === 'undefined') {
+    return 96
+  }
+
+  return Math.ceil(document.querySelector('header')?.getBoundingClientRect().height ?? 80) + 16
 }
 
 export const routes: Readonly<RouteRecordRaw[]> = [
@@ -38,13 +61,13 @@ export const routes: Readonly<RouteRecordRaw[]> = [
 
 export const scrollBehavior: RouterScrollBehavior = (to, _, savedPosition) => {
   if (savedPosition) {
-    return savedPosition
+    return afterRouteTransition(savedPosition)
   }
 
   if (to.hash) {
     return afterRouteTransition({
       el: to.hash,
-      top: 96,
+      top: getHeaderOffset(),
       behavior: prefersReducedMotion() ? 'auto' : 'smooth'
     })
   }
@@ -52,9 +75,24 @@ export const scrollBehavior: RouterScrollBehavior = (to, _, savedPosition) => {
   return afterRouteTransition({ top: 0 })
 }
 
-export const installRouterMetadata = (router: Router) => {
-  router.afterEach((to) => {
+export const installRouterClientBehavior = (router: Router) => {
+  router.beforeEach((to, from) => {
+    if (from.matched.length > 0 && to.path !== from.path) {
+      beginRouteTransition()
+    }
+  })
+
+  router.afterEach((to, _, failure) => {
+    if (failure) {
+      completeRouteTransition()
+      return
+    }
+
     applyPageMetadata(to.path)
+  })
+
+  router.onError(() => {
+    completeRouteTransition()
   })
 
   applyPageMetadata(router.currentRoute.value.path)

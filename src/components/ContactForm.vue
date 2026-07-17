@@ -8,6 +8,7 @@
       <label class="block">
         <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
         <input
+          ref="nameInput"
           v-model="form.name"
           type="text"
           name="name"
@@ -17,6 +18,7 @@
           :aria-describedby="errors.name ? fieldIds.nameError : undefined"
           :class="controlClass"
           placeholder="例如：Joss"
+          @input="clearFieldState('name')"
         />
         <p
           v-if="errors.name"
@@ -30,6 +32,7 @@
       <label class="block">
         <span class="mb-2 block text-sm text-steel">联系邮箱</span>
         <input
+          ref="emailInput"
           v-model="form.email"
           type="email"
           name="email"
@@ -39,6 +42,7 @@
           :aria-describedby="errors.email ? fieldIds.emailError : undefined"
           :class="controlClass"
           placeholder="you@example.com"
+          @input="clearFieldState('email')"
         />
         <p
           v-if="errors.email"
@@ -53,6 +57,7 @@
     <label class="block">
       <span class="mb-2 block text-sm text-steel">填写你的建议</span>
       <textarea
+        ref="messageInput"
         v-model="form.message"
         name="message"
         required
@@ -61,6 +66,7 @@
         :aria-describedby="errors.message ? fieldIds.messageError : undefined"
         :class="[controlClass, 'resize-y']"
         placeholder="比如你想做什么、遇到了什么问题，或者希望我先给你什么建议。"
+        @input="clearFieldState('message')"
       ></textarea>
       <p
         v-if="errors.message"
@@ -80,30 +86,36 @@
       </button>
     </div>
 
-    <div
-      v-if="feedback"
-      class="rounded-2xl border px-4 py-3 text-sm"
-      :class="feedback.type === 'success'
-        ? 'border-[#167258]/35 bg-[#e7f7f1] text-[#0b5945]'
-        : 'border-[#a54025]/35 bg-[#fff0eb] text-[#842b18]'"
-      :role="feedback.type === 'error' ? 'alert' : 'status'"
-      :aria-live="feedback.type === 'error' ? 'assertive' : 'polite'"
-      data-form-feedback
+    <Transition
+      name="form-feedback"
+      mode="out-in"
     >
-      <p>{{ feedback.message }}</p>
-      <a
-        v-if="mailtoHref"
-        :href="mailtoHref"
-        class="mt-3 inline-flex rounded-full border border-current/35 px-3 py-1.5 font-semibold"
+      <div
+        v-if="feedback"
+        :key="feedback.type"
+        class="rounded-2xl border px-4 py-3 text-sm"
+        :class="feedback.type === 'success'
+          ? 'border-[#167258]/35 bg-[#e7f7f1] text-[#0b5945]'
+          : 'border-[#a54025]/35 bg-[#fff0eb] text-[#842b18]'"
+        :role="feedback.type === 'error' ? 'alert' : 'status'"
+        :aria-live="feedback.type === 'error' ? 'assertive' : 'polite'"
+        data-form-feedback
       >
-        打开邮件草稿
-      </a>
-    </div>
+        <p>{{ feedback.message }}</p>
+        <a
+          v-if="mailtoHref"
+          :href="mailtoHref"
+          class="mt-3 inline-flex rounded-full border border-current/35 px-3 py-1.5 font-semibold"
+        >
+          打开邮件草稿
+        </a>
+      </div>
+    </Transition>
   </form>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, useId } from 'vue'
+import { nextTick, reactive, ref, useId } from 'vue'
 
 const formId = useId()
 const fieldIds = {
@@ -112,7 +124,13 @@ const fieldIds = {
   messageError: `${formId}-message-error`
 }
 
-const controlClass = 'w-full rounded-[1.1rem] border border-[#12304c]/18 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] transition placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
+const controlClass = 'form-control w-full rounded-[1.1rem] border border-[#12304c]/18 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
+
+type FormField = 'name' | 'email' | 'message'
+
+const nameInput = ref<HTMLInputElement | null>(null)
+const emailInput = ref<HTMLInputElement | null>(null)
+const messageInput = ref<HTMLTextAreaElement | null>(null)
 
 const form = reactive({
   name: '',
@@ -135,11 +153,13 @@ const clearErrors = () => {
   errors.message = ''
 }
 
-const resetForm = () => {
-  form.name = ''
-  form.email = ''
-  form.message = ''
-  clearErrors()
+const clearFieldState = (field: FormField) => {
+  errors[field] = ''
+  mailtoHref.value = null
+
+  if (feedback.value?.type === 'success' || (!errors.name && !errors.email && !errors.message)) {
+    feedback.value = null
+  }
 }
 
 const isValidEmail = (value: string) => /\S+@\S+\.\S+/.test(value)
@@ -156,7 +176,19 @@ const buildMailtoHref = (payload: typeof form) => {
   return `mailto:support@thanejoss.com?subject=${subject}&body=${body}`
 }
 
-const handleSubmit = () => {
+const focusFirstInvalidField = async () => {
+  await nextTick()
+
+  if (errors.name) {
+    nameInput.value?.focus()
+  } else if (errors.email) {
+    emailInput.value?.focus()
+  } else if (errors.message) {
+    messageInput.value?.focus()
+  }
+}
+
+const handleSubmit = async () => {
   feedback.value = null
   mailtoHref.value = null
   clearErrors()
@@ -178,6 +210,7 @@ const handleSubmit = () => {
       type: 'error',
       message: '请检查邮箱格式，并确认姓名、邮箱和项目需求都已经填写完整。'
     }
+    await focusFirstInvalidField()
     return
   }
 
@@ -186,6 +219,5 @@ const handleSubmit = () => {
     type: 'success',
     message: '已生成邮件草稿，请在邮件客户端里确认并发送。'
   }
-  resetForm()
 }
 </script>

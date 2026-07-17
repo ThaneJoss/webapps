@@ -10,6 +10,8 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('规划中的原生网页 APP | Thane Joss')
   await expect(page.locator('[data-catalog-availability="planned"]')).toHaveCount(10)
+  await expect(page.locator('[data-roadmap-stage="next"]')).toHaveCount(1)
+  await expect(page.locator('[data-roadmap-stage="later"]')).toHaveCount(9)
   await expect(page.locator('.home-app-entry[aria-disabled="true"]')).toHaveCount(35)
 
   const internalTargets = await page.locator('a[href^="/"]').evaluateAll((anchors) => (
@@ -19,9 +21,12 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
 
   const accessibility = await new AxeBuilder({ page }).analyze()
   expect(accessibility.violations).toEqual([])
+
+  await page.getByRole('link', { name: '联系', exact: true }).click()
+  await expect(page.locator('#main-content')).toBeFocused()
 })
 
-test('contact form reports errors and restores card focus', async ({ page, request }) => {
+test('contact actions are direct and the form preserves drafts', async ({ page, request }) => {
   const sourceResponse = await request.get('/contact')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="contact"')
@@ -30,17 +35,28 @@ test('contact form reports errors and restores card focus', async ({ page, reque
   await expect(page.locator('[data-page-ready="contact"]')).toBeVisible()
   await expect(page).toHaveTitle('联系 | Thane Joss')
 
-  const formTrigger = page.locator('[data-contact-card-front="form"]')
+  await expect(page.locator('[data-contact-card="email"]')).toHaveAttribute('href', /mailto:support@thanejoss\.com/)
+
+  const formTrigger = page.locator('[data-contact-form-trigger]')
+  const nameInput = page.locator('[data-contact-form-panel] input[name="name"]')
   await formTrigger.click()
-  const closeButton = page.locator('[data-contact-card="form"] [data-contact-card-close]')
-  await expect(closeButton).toBeFocused()
-  await closeButton.click()
+  await expect(nameInput).toBeFocused()
+  await nameInput.fill('Codex')
+
+  await page.locator('[data-page-ready="contact"] h1').click()
+  await expect(formTrigger).toHaveAttribute('aria-expanded', 'false')
+
+  await formTrigger.click()
+  await expect(nameInput).toHaveValue('Codex')
+  await nameInput.press('Escape')
   await expect(formTrigger).toBeFocused()
 
   await formTrigger.click()
+  await nameInput.fill('')
   await page.locator('[data-contact-card="form"] button[type="submit"]').click()
   await expect(page.locator('[data-contact-card="form"] [role="alert"]')).toBeVisible()
   await expect(page.locator('[data-contact-card="form"] input[name="name"]')).toHaveAttribute('aria-invalid', 'true')
+  await expect(page.locator('[data-contact-card="form"] input[name="name"]')).toBeFocused()
 
   const accessibility = await new AxeBuilder({ page }).analyze()
   expect(accessibility.violations).toEqual([])

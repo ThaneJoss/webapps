@@ -3,7 +3,7 @@
     <RouterView v-slot="{ Component, route }">
       <Transition
         name="route-content"
-        mode="out-in"
+        @after-enter="handleRouteEntered"
       >
         <div
           :key="route.path"
@@ -20,4 +20,13 @@
 import { RouterView } from 'vue-router'
 
 import SiteShell from './components/SiteShell.vue'
+import { completeRouteTransition } from './router'
+
+const handleRouteEntered = () => {
+  if (!completeRouteTransition()) {
+    return
+  }
+
+  document.getElementById('main-content')?.focus({ preventScroll: true })
+}
 </script>

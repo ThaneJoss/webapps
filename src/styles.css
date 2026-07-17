@@ -11,6 +11,12 @@
   --ink-strong: #0a1628;
   --grid-line: rgba(92, 121, 160, 0.08);
   --app-header-height: 5.75rem;
+  --motion-duration-fast: 120ms;
+  --motion-duration-standard: 180ms;
+  --motion-duration-panel: 280ms;
+  --motion-duration-slow: 320ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
   background:
     radial-gradient(circle at top left, var(--bg-top-left), transparent 28%),
     radial-gradient(circle at top right, var(--bg-top-right), transparent 30%),
@@ -115,7 +121,7 @@ svg {
   color: #fff;
   background: #071729;
   transform: translateY(-160%);
-  transition: transform 150ms ease;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard);
 }
 
 .skip-link:focus-visible {
@@ -184,7 +190,6 @@ svg {
   --home-hero-top-space: 1.5rem;
   --home-hero-bottom-space: 1rem;
   display: flex;
-  min-height: calc(100svh - var(--app-header-height, 0px));
   padding-top: var(--home-hero-top-space);
   padding-bottom: var(--home-hero-bottom-space);
 }
@@ -198,10 +203,70 @@ svg {
 .home-hero-card {
   display: flex;
   width: 100%;
-  min-height: calc(
-    100svh - var(--app-header-height, 0px) - var(--home-hero-top-space) - var(--home-hero-bottom-space)
-  );
+  min-height: clamp(28rem, 68svh, 40rem);
   align-items: center;
+}
+
+.home-hero-content {
+  width: 100%;
+}
+
+.home-roadmap-summary__item {
+  min-width: 0;
+  border: 1px solid rgba(23, 48, 75, 0.12);
+  border-radius: 1.25rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.54);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.54);
+}
+
+.home-roadmap-summary dt {
+  color: #60758d;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.home-roadmap-summary dd {
+  overflow: hidden;
+  margin: 0.35rem 0 0;
+  color: #0a1628;
+  font-size: 1rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-hero-enter {
+  animation: home-content-enter var(--motion-duration-panel) var(--motion-ease-emphasized) both;
+}
+
+.home-hero-enter--title {
+  animation-delay: 50ms;
+}
+
+.home-hero-enter--copy {
+  animation-delay: 100ms;
+}
+
+.home-hero-enter--actions {
+  animation-delay: 150ms;
+}
+
+.home-hero-enter--summary {
+  animation-delay: 200ms;
+}
+
+@keyframes home-content-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .home-apps-section {
@@ -212,12 +277,21 @@ svg {
   align-items: stretch;
 }
 
+.home-roadmap-group__heading {
+  border-left: 3px solid rgba(82, 215, 255, 0.72);
+  padding-left: 0.9rem;
+}
+
+.home-roadmap-group--priority .home-roadmap-group__heading {
+  border-left-color: #167258;
+}
+
 .home-app-card {
   min-height: 236px;
 }
 
 .home-app-card--featured {
-  min-height: 620px;
+  min-height: 360px;
 }
 
 .home-app-card--tile {
@@ -241,15 +315,49 @@ svg {
 .home-app-entry--interactive {
   color: #0a1628;
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease;
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    border-color var(--motion-duration-standard) ease,
+    background-color var(--motion-duration-standard) ease;
 }
 
-.home-app-entry--interactive:hover {
-  transform: translate3d(0, -1px, 0);
-  border-color: rgba(82, 215, 255, 0.26);
-  background: rgba(82, 215, 255, 0.08);
+.home-app-stage {
+  border-color: rgba(53, 80, 110, 0.18);
+  color: #35506e;
+  background: rgba(53, 80, 110, 0.06);
+}
+
+.home-app-stage--next {
+  border-color: rgba(22, 114, 88, 0.24);
+  color: #0b5945;
+  background: rgba(22, 114, 88, 0.08);
+}
+
+.home-app-stage__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.catalog-reveal.is-reveal-pending {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+}
+
+.catalog-reveal.is-reveal-pending.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--motion-duration-panel) var(--motion-ease-standard),
+    transform var(--motion-duration-panel) var(--motion-ease-emphasized);
+}
+
+.catalog-reveal[data-reveal-order='1'] {
+  transition-delay: 45ms;
+}
+
+.catalog-reveal[data-reveal-order='2'] {
+  transition-delay: 90ms;
 }
 
 .not-found-section {
@@ -280,7 +388,7 @@ svg {
   line-height: 0.8;
 }
 
-.not-found-secondary-link {
+.secondary-action {
   border-color: rgba(23, 48, 75, 0.14);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(240, 247, 255, 0.88));
@@ -288,12 +396,11 @@ svg {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.36),
     0 8px 18px rgba(10, 22, 40, 0.03);
-}
-
-.not-found-secondary-link:hover {
-  transform: translate3d(0, -1px, 0);
-  border-color: rgba(82, 215, 255, 0.26);
-  background: rgba(82, 215, 255, 0.08);
+  transition:
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    border-color var(--motion-duration-standard) ease,
+    background-color var(--motion-duration-standard) ease,
+    box-shadow var(--motion-duration-standard) ease;
 }
 
 .not-found-orbit {
@@ -357,122 +464,93 @@ svg {
 .contact-entry-card {
   position: relative;
   min-height: 236px;
-  perspective: 1600px;
-  transition: transform 220ms ease;
-}
-
-.contact-entry-card--form {
-  min-height: 340px;
-}
-
-.contact-entry-card--active {
-  z-index: 2;
-  transform: translate3d(0, -4px, 0);
-}
-
-.contact-entry-card__inner {
-  position: relative;
-  min-height: inherit;
-  height: 100%;
-  isolation: isolate;
-  transform-style: preserve-3d;
-}
-
-.contact-entry-card__face {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: 2rem;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  transform-origin: center center;
   transition:
-    transform 460ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 180ms ease;
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    border-color var(--motion-duration-standard) ease,
+    box-shadow var(--motion-duration-standard) ease;
 }
 
-.contact-entry-card__face--front {
-  z-index: 1;
-  opacity: 1;
-  transform: rotateY(0deg);
+.contact-entry-card--action {
+  min-height: 236px;
 }
 
-.contact-entry-card.is-flipped .contact-entry-card__face--front {
-  opacity: 0;
-  pointer-events: none;
-  transform: rotateY(-180deg);
+.contact-entry-card__icon,
+.contact-entry-card__cta,
+.contact-form-card__trigger {
+  transition:
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    border-color var(--motion-duration-standard) ease,
+    background-color var(--motion-duration-standard) ease;
 }
 
-.contact-entry-card__face--back {
-  opacity: 0;
-  pointer-events: none;
-  transform: rotateY(180deg);
+.contact-entry-card__cta {
+  border-color: rgba(6, 182, 212, 0.18);
+  background: rgba(34, 211, 238, 0.08);
 }
 
-.contact-entry-card.is-flipped .contact-entry-card__face--back {
-  opacity: 1;
-  pointer-events: auto;
-  transform: rotateY(0deg);
-}
-
-.contact-entry-card--active .contact-entry-card__face--back {
+.contact-entry-card--form.is-expanded {
   border-color: rgba(82, 215, 255, 0.3);
   box-shadow:
-    0 26px 52px rgba(10, 22, 40, 0.14),
+    0 26px 52px rgba(10, 22, 40, 0.12),
     0 0 0 1px rgba(82, 215, 255, 0.08);
 }
 
-@media (min-width: 1280px) {
-  .home-app-board {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-areas:
-      'feature feature app02'
-      'feature feature app03'
-      'app04 app04 app05'
-      'app06 app07 app08'
-      'app09 app10 app10';
-  }
+.contact-form-card__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    grid-template-rows var(--motion-duration-panel) var(--motion-ease-emphasized),
+    opacity var(--motion-duration-fast) ease,
+    visibility 0s linear var(--motion-duration-panel);
+}
 
-  .home-app-card--area-feature {
-    grid-area: feature;
-  }
+.contact-form-card__panel.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
 
-  .home-app-card--area-app02 {
-    grid-area: app02;
-  }
+.contact-form-card__panel-clip {
+  min-height: 0;
+  overflow: hidden;
+}
 
-  .home-app-card--area-app03 {
-    grid-area: app03;
-  }
+.contact-form-card__panel-body {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(244, 249, 255, 0.92));
+}
 
-  .home-app-card--area-app04 {
-    grid-area: app04;
-  }
+.contact-form-card__indicator {
+  display: inline-block;
+  transition: transform var(--motion-duration-standard) var(--motion-ease-standard);
+}
 
-  .home-app-card--area-app05 {
-    grid-area: app05;
-  }
+.contact-entry-card--form.is-expanded .contact-form-card__indicator {
+  transform: rotate(180deg);
+}
 
-  .home-app-card--area-app06 {
-    grid-area: app06;
-  }
+.form-feedback-enter-active,
+.form-feedback-leave-active {
+  transition:
+    opacity var(--motion-duration-standard) ease,
+    transform var(--motion-duration-standard) var(--motion-ease-standard);
+}
 
-  .home-app-card--area-app07 {
-    grid-area: app07;
-  }
+.form-feedback-enter-from,
+.form-feedback-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 4px, 0);
+}
 
-  .home-app-card--area-app08 {
-    grid-area: app08;
-  }
-
-  .home-app-card--area-app09 {
-    grid-area: app09;
-  }
-
-  .home-app-card--area-app10 {
-    grid-area: app10;
-  }
+.form-control {
+  transition:
+    border-color var(--motion-duration-standard) ease,
+    background-color var(--motion-duration-standard) ease,
+    box-shadow var(--motion-duration-standard) ease;
 }
 
 @media (min-width: 640px) {
@@ -502,8 +580,8 @@ svg {
 }
 
 @media (max-width: 767px) {
-  .contact-entry-card--form {
-    min-height: 360px;
+  .catalog-reveal[data-reveal-order] {
+    transition-delay: 0ms;
   }
 }
 
@@ -529,10 +607,10 @@ svg {
     0 0 0 1px rgba(82, 215, 255, 0.08),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   transition:
-    transform 180ms ease,
-    box-shadow 220ms ease,
-    border-color 220ms ease,
-    color 220ms ease;
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-standard) ease,
+    border-color var(--motion-duration-standard) ease,
+    color var(--motion-duration-standard) ease;
 }
 
 .tech-button::before {
@@ -555,26 +633,8 @@ svg {
   opacity: 0;
   transform: translate3d(-10%, 0, 0) rotate(24deg);
   transition:
-    transform 420ms ease,
-    opacity 320ms ease;
-}
-
-.tech-button:hover {
-  transform: translate3d(0, -2px, 0);
-  border-color: rgba(82, 215, 255, 0.52);
-  box-shadow:
-    0 18px 42px rgba(10, 22, 40, 0.22),
-    0 0 0 1px rgba(82, 215, 255, 0.12),
-    0 0 28px rgba(93, 148, 255, 0.12);
-}
-
-.tech-button:hover::after {
-  opacity: 0.92;
-  transform: translate3d(220%, 0, 0) rotate(24deg);
-}
-
-.tech-button:active {
-  transform: translate3d(0, 0, 0) scale(0.985);
+    transform var(--motion-duration-slow) ease,
+    opacity var(--motion-duration-panel) ease;
 }
 
 .tech-button--light {
@@ -603,22 +663,11 @@ svg {
     inset 0 0 0 1px rgba(255, 255, 255, 0.1),
     0 8px 20px rgba(10, 22, 40, 0.04);
   transition:
-    transform 180ms ease,
-    border-color 220ms ease,
-    background-color 220ms ease,
-    color 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.tech-nav-link:hover {
-  transform: translate3d(0, -1px, 0);
-  color: #0a1628;
-  border-color: rgba(82, 215, 255, 0.34);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(227, 245, 255, 0.96), rgba(255, 241, 235, 0.88));
-  box-shadow:
-    0 12px 24px rgba(10, 22, 40, 0.08),
-    0 0 0 1px rgba(82, 215, 255, 0.08);
+    transform var(--motion-duration-standard) var(--motion-ease-standard),
+    border-color var(--motion-duration-standard) ease,
+    background-color var(--motion-duration-standard) ease,
+    color var(--motion-duration-standard) ease,
+    box-shadow var(--motion-duration-standard) ease;
 }
 
 .tech-nav-link.is-active {
@@ -632,22 +681,99 @@ svg {
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .home-app-entry--interactive:hover {
+    transform: translate3d(0, -1px, 0);
+    border-color: rgba(82, 215, 255, 0.26);
+    background: rgba(82, 215, 255, 0.08);
+  }
+
+  .secondary-action:hover {
+    transform: translate3d(0, -1px, 0);
+    border-color: rgba(82, 215, 255, 0.26);
+    background: rgba(82, 215, 255, 0.08);
+    box-shadow: 0 12px 24px rgba(10, 22, 40, 0.08);
+  }
+
+  .contact-entry-card--action:hover {
+    transform: translate3d(0, -4px, 0);
+    border-color: rgba(82, 215, 255, 0.3);
+    box-shadow: 0 26px 48px rgba(10, 22, 40, 0.12);
+  }
+
+  .contact-entry-card--action:hover .contact-entry-card__icon {
+    transform: translate3d(0, -1px, 0) scale(1.04);
+  }
+
+  .contact-entry-card--action:hover .contact-entry-card__cta,
+  .contact-form-card__trigger:hover .contact-entry-card__cta {
+    border-color: rgba(6, 182, 212, 0.3);
+    background: rgba(34, 211, 238, 0.12);
+  }
+
+  .contact-form-card__trigger:hover {
+    background: rgba(239, 247, 255, 0.48);
+  }
+
+  .tech-button:hover {
+    transform: translate3d(0, -2px, 0);
+    border-color: rgba(82, 215, 255, 0.52);
+    box-shadow:
+      0 18px 42px rgba(10, 22, 40, 0.22),
+      0 0 0 1px rgba(82, 215, 255, 0.12),
+      0 0 28px rgba(93, 148, 255, 0.12);
+  }
+
+  .tech-button:hover::after {
+    opacity: 0.92;
+    transform: translate3d(220%, 0, 0) rotate(24deg);
+  }
+
+  .tech-nav-link:hover {
+    transform: translate3d(0, -1px, 0);
+    color: #0a1628;
+    border-color: rgba(82, 215, 255, 0.34);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(227, 245, 255, 0.96), rgba(255, 241, 235, 0.88));
+    box-shadow:
+      0 12px 24px rgba(10, 22, 40, 0.08),
+      0 0 0 1px rgba(82, 215, 255, 0.08);
+  }
+}
+
+.tech-button:active {
+  transform: translate3d(0, 0, 0) scale(0.985);
+}
+
+.home-app-entry--interactive:active {
+  transform: scale(0.98);
+}
+
+.secondary-action:active,
+.contact-entry-card--action:active,
+.contact-form-card__trigger:active,
+.tech-nav-link:active {
+  transform: scale(0.985);
+}
+
 .route-stage {
   min-height: 100%;
 }
 
-.route-content-enter-active,
-.route-content-leave-active {
+.route-content-enter-active {
   transition:
-    opacity 120ms ease,
-    transform 140ms ease;
+    opacity var(--motion-duration-standard) ease,
+    transform var(--motion-duration-standard) var(--motion-ease-standard);
   will-change: opacity, transform;
 }
 
-.route-content-enter-from,
-.route-content-leave-to {
+.route-content-enter-from {
   opacity: 0;
-  transform: translate3d(0, 8px, 0);
+  transform: translate3d(0, 6px, 0);
+}
+
+.route-content-leave-active {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -659,23 +785,47 @@ svg {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation-delay: 0ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
 
-  .contact-entry-card__inner,
-  .contact-entry-card__face,
+  .contact-form-card__panel,
+  .contact-form-card__indicator,
+  .form-feedback-enter-active,
+  .form-feedback-leave-active,
   .route-content-enter-active,
   .route-content-leave-active {
-    transition: none;
+    transition: none !important;
+    transition-delay: 0ms !important;
   }
 
-  .contact-entry-card--active,
+  .home-hero-enter {
+    opacity: 1;
+    transform: none;
+    animation-delay: 0ms !important;
+  }
+
+  .tech-button::after {
+    display: none;
+  }
+
+  .catalog-reveal.is-reveal-pending,
+  .catalog-reveal.is-reveal-pending.is-revealed,
   .home-app-entry--interactive:hover,
-  .not-found-secondary-link:hover,
+  .home-app-entry--interactive:active,
+  .secondary-action:hover,
+  .secondary-action:active,
+  .contact-entry-card--action:hover,
+  .contact-entry-card--action:active,
+  .contact-form-card__trigger:active,
   .tech-button:hover,
+  .tech-button:active,
+  .tech-nav-link:active,
   .tech-nav-link:hover {
+    opacity: 1;
     transform: none;
   }
 }

@@ -20,7 +20,7 @@
             v-for="item in navItems"
             :key="item.to"
             :to="item.to"
-            class="tech-nav-link shrink-0 rounded-full border px-3 py-2 transition-colors"
+            class="tech-nav-link shrink-0 rounded-full border px-3 py-2"
             :class="isActive(item.to) ? 'is-active' : ''"
             :aria-current="isActive(item.to) ? 'page' : undefined"
           >

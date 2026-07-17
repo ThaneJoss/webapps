@@ -5,35 +5,67 @@
     aria-label="联系方式"
   >
     <div class="mx-auto max-w-6xl">
-      <div class="grid gap-5 lg:grid-cols-3">
-        <article
+      <div class="contact-entry-grid grid items-start gap-5 lg:grid-cols-3">
+        <template
           v-for="entry in contactEntries"
           :key="entry.id"
-          class="contact-entry-card"
-          :class="[
-            isCardActive(entry.id) ? 'is-flipped contact-entry-card--active' : '',
-            entry.kind === 'form' ? 'contact-entry-card--form' : ''
-          ]"
-          :data-contact-card="entry.id"
         >
-          <div class="contact-entry-card__inner">
+          <a
+            v-if="entry.kind === 'action'"
+            :href="entry.actionHref"
+            :target="entry.external ? '_blank' : undefined"
+            :rel="entry.external ? 'noopener noreferrer' : undefined"
+            class="contact-entry-card contact-entry-card--action surface-card group flex flex-col items-start rounded-[2rem] border border-[#122540]/18 bg-white/88 p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] sm:p-5"
+            :data-contact-card="entry.id"
+            data-contact-action
+          >
+            <div class="flex w-full items-start justify-between gap-4">
+              <h2 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
+                {{ entry.title }}
+              </h2>
+
+              <div class="contact-entry-card__icon flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                <component
+                  :is="entry.icon"
+                  class="h-4 w-4"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+
+            <p class="mt-4 max-w-[22ch] flex-1 text-[0.95rem] leading-6 text-steel">
+              {{ entry.description }}
+            </p>
+
+            <span class="contact-entry-card__cta mt-6 inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-ink">
+              {{ entry.actionLabel }}
+            </span>
+          </a>
+
+          <article
+            v-else
+            class="contact-entry-card contact-entry-card--form surface-card overflow-hidden rounded-[2rem] border border-[#122540]/18 bg-white/88 shadow-[0_20px_40px_rgba(10,22,40,0.08)]"
+            :class="isFormOpen ? 'is-expanded' : ''"
+            :data-contact-card="entry.id"
+            data-contact-form-card
+            @keydown.esc.stop="closeForm()"
+          >
             <button
-              :id="`contact-card-trigger-${entry.id}`"
+              id="contact-form-trigger"
+              ref="formTrigger"
               type="button"
-              class="contact-entry-card__face contact-entry-card__face--front surface-card group flex h-full w-full flex-col items-start rounded-[2rem] border border-[#122540]/18 bg-white/88 p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] transition duration-200 hover:-translate-y-1.5 hover:border-cyan-500/28 hover:shadow-[0_26px_48px_rgba(10,22,40,0.12)] sm:p-5"
-              :data-contact-card-front="entry.id"
-              :aria-controls="`contact-card-panel-${entry.id}`"
-              :aria-expanded="isCardActive(entry.id)"
-              :aria-hidden="isCardActive(entry.id)"
-              :tabindex="isCardActive(entry.id) ? -1 : undefined"
-              @click="openCard(entry.id)"
+              class="contact-form-card__trigger group flex min-h-[236px] w-full flex-col items-start p-4 text-left sm:p-5"
+              aria-controls="contact-form-panel"
+              :aria-expanded="isFormOpen"
+              data-contact-form-trigger
+              @click="toggleForm"
             >
               <div class="flex w-full items-start justify-between gap-4">
                 <h2 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
                   {{ entry.title }}
                 </h2>
 
-                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                <div class="contact-entry-card__icon flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
                   <component
                     :is="entry.icon"
                     class="h-4 w-4"
@@ -46,58 +78,37 @@
                 {{ entry.description }}
               </p>
 
-              <span class="mt-6 inline-flex items-center rounded-full border border-cyan-500/18 bg-cyan-400/8 px-3 py-1 text-sm font-medium text-ink transition group-hover:border-cyan-500/28 group-hover:bg-cyan-400/12">
-                {{ entry.frontCta }}
+              <span class="contact-entry-card__cta mt-6 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium text-ink">
+                {{ isFormOpen ? '收起表单' : entry.frontCta }}
+                <span
+                  class="contact-form-card__indicator"
+                  aria-hidden="true"
+                >↓</span>
               </span>
             </button>
 
             <div
-              :id="`contact-card-panel-${entry.id}`"
-              class="contact-entry-card__face contact-entry-card__face--back surface-card relative flex h-full w-full flex-col rounded-[2rem] border border-[#122540]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(244,249,255,0.96))] p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.1)] sm:p-5"
-              :aria-hidden="!isCardActive(entry.id)"
-              :aria-labelledby="`contact-card-trigger-${entry.id}`"
-              :data-contact-card-back="entry.id"
+              id="contact-form-panel"
+              ref="formPanel"
+              class="contact-form-card__panel"
+              :class="isFormOpen ? 'is-open' : ''"
+              :aria-hidden="!isFormOpen"
+              :inert="!isFormOpen"
+              aria-labelledby="contact-form-trigger"
+              data-contact-form-panel
               role="region"
-              @keydown.esc="closeCard"
             >
-              <template v-if="isCardActive(entry.id)">
-                <button
-                  type="button"
-                  class="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#17304b]/14 bg-white/86 text-[#123a63] shadow-[0_8px_18px_rgba(10,22,40,0.08)] transition hover:border-cyan-500/30"
-                  :aria-label="`关闭${entry.title}联系卡片`"
-                  data-contact-card-close
-                  @click.stop="closeCard"
-                >
-                  <CloseIcon
-                    class="h-5 w-5"
-                    aria-hidden="true"
-                  />
-                </button>
-
-                <div
-                  v-if="entry.kind === 'form'"
-                  class="flex flex-1 items-center"
-                >
+              <div class="contact-form-card__panel-clip">
+                <div class="contact-form-card__panel-body border-t border-[#17304b]/12 p-4 sm:p-5">
+                  <p class="mb-4 text-sm leading-6 text-steel">
+                    内容只会用于生成本地邮件草稿，关闭面板后也会继续保留。
+                  </p>
                   <ContactForm />
                 </div>
-
-                <div
-                  v-else
-                  class="flex flex-1 items-center justify-center"
-                >
-                  <a
-                    :href="entry.actionHref"
-                    :target="entry.external ? '_blank' : undefined"
-                    :rel="entry.external ? 'noreferrer' : undefined"
-                    class="tech-button inline-flex min-w-[10rem] items-center justify-center rounded-full px-5 py-3 text-sm font-medium"
-                  >
-                    {{ entry.actionLabel }}
-                  </a>
-                </div>
-              </template>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </template>
       </div>
     </div>
   </section>
@@ -108,7 +119,6 @@ import type { Component } from 'vue'
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import ChatIcon from '~icons/solar/chat-round-line-bold-duotone'
 import ClipboardIcon from '~icons/solar/clipboard-list-bold-duotone'
-import CloseIcon from '~icons/solar/close-circle-bold-duotone'
 import LetterIcon from '~icons/solar/letter-bold-duotone'
 
 import ContactForm from '../components/ContactForm.vue'
@@ -117,51 +127,63 @@ interface ContactEntryBase {
   id: string
   title: string
   description: string
-  frontCta: string
   icon: Component
 }
 
 type ContactEntry = ContactEntryBase & (
-  | { kind: 'form' }
   | {
-      kind: 'confirm'
+      kind: 'form'
+      frontCta: string
+    }
+  | {
+      kind: 'action'
       actionLabel: string
       actionHref: string
       external: boolean
     }
 )
 
-const activeCardId = ref<string | null>(null)
+const isFormOpen = ref(false)
+const formTrigger = ref<HTMLButtonElement | null>(null)
+const formPanel = ref<HTMLElement | null>(null)
 
-const openCard = (id: string) => {
-  activeCardId.value = id
-  void nextTick(() => {
-    document.querySelector<HTMLElement>(`[data-contact-card="${id}"] [data-contact-card-close]`)?.focus()
-  })
-}
-
-const closeCard = async () => {
-  const closingCardId = activeCardId.value
-  activeCardId.value = null
-
-  if (!closingCardId) {
+const closeForm = async (restoreFocus = true) => {
+  if (!isFormOpen.value) {
     return
   }
 
+  isFormOpen.value = false
   await nextTick()
-  document.querySelector<HTMLElement>(`[data-contact-card-front="${closingCardId}"]`)?.focus()
+
+  if (restoreFocus) {
+    formTrigger.value?.focus()
+  }
 }
 
-const isCardActive = (id: string) => activeCardId.value === id
+const toggleForm = async () => {
+  if (isFormOpen.value) {
+    await closeForm()
+    return
+  }
+
+  isFormOpen.value = true
+  await nextTick()
+  formPanel.value?.querySelector<HTMLInputElement>('input[name="name"]')?.focus()
+}
 
 const handleDocumentPointerDown = (event: PointerEvent) => {
   const target = event.target
 
-  if (!(target instanceof Element) || target.closest('[data-contact-card]')) {
+  if (!isFormOpen.value || !(target instanceof Element) || target.closest('[data-contact-form-card]')) {
     return
   }
 
-  void closeCard()
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && formPanel.value?.contains(activeElement)) {
+    activeElement.blur()
+  }
+
+  isFormOpen.value = false
 }
 
 onMounted(() => {
@@ -175,10 +197,9 @@ onBeforeUnmount(() => {
 const contactEntries: readonly ContactEntry[] = [
   {
     id: 'email',
-    kind: 'confirm',
+    kind: 'action',
     title: '邮件',
     description: '发送邮件到 support@thanejoss.com。',
-    frontCta: '点击展开',
     icon: LetterIcon,
     actionLabel: '发送邮件',
     actionHref: 'mailto:support@thanejoss.com?subject=Web%20Apps%20Inquiry',
@@ -194,10 +215,9 @@ const contactEntries: readonly ContactEntry[] = [
   },
   {
     id: 'issues',
-    kind: 'confirm',
+    kind: 'action',
     title: 'GitHub 留言',
     description: '前往 GitHub 留言页，公开留下你的想法。',
-    frontCta: '点击展开',
     icon: ChatIcon,
     actionLabel: '前往留言',
     actionHref: 'https://github.com/ThaneJoss/webapps/issues/new',

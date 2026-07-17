@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import ContactForm from './ContactForm.vue'
 
 describe('ContactForm', () => {
-  it('generates a mail draft and clears the form', async () => {
+  it('generates a mail draft and preserves the form values', async () => {
     const wrapper = mount(ContactForm)
 
     await wrapper.get('input[name="name"]').setValue('Codex')
@@ -18,13 +18,13 @@ describe('ContactForm', () => {
     expect(wrapper.get('a').attributes('href')).toContain('mailto:support@thanejoss.com')
     expect(wrapper.get('a').attributes('href')).toContain('Codex')
     expect(wrapper.get('a').attributes('href')).toContain('codex%40thanejoss.com')
-    expect((wrapper.get('input[name="name"]').element as HTMLInputElement).value).toBe('')
-    expect((wrapper.get('input[name="email"]').element as HTMLInputElement).value).toBe('')
-    expect((wrapper.get('textarea[name="message"]').element as HTMLTextAreaElement).value).toBe('')
+    expect((wrapper.get('input[name="name"]').element as HTMLInputElement).value).toBe('Codex')
+    expect((wrapper.get('input[name="email"]').element as HTMLInputElement).value).toBe('codex@thanejoss.com')
+    expect((wrapper.get('textarea[name="message"]').element as HTMLTextAreaElement).value).toBe('Need a launch page')
   })
 
   it('shows validation errors without clearing the form', async () => {
-    const wrapper = mount(ContactForm)
+    const wrapper = mount(ContactForm, { attachTo: document.body })
 
     await wrapper.get('input[name="name"]').setValue('Codex')
     await wrapper.get('input[name="email"]').setValue('bad-email')
@@ -35,8 +35,15 @@ describe('ContactForm', () => {
     expect(wrapper.get('[data-form-feedback]').attributes('role')).toBe('alert')
     expect(wrapper.get('input[name="email"]').attributes('aria-invalid')).toBe('true')
     expect(wrapper.get('input[name="email"]').attributes('aria-describedby')).toBeTruthy()
+    expect(document.activeElement).toBe(wrapper.get('input[name="email"]').element)
     expect((wrapper.get('input[name="name"]').element as HTMLInputElement).value).toBe('Codex')
     expect((wrapper.get('input[name="email"]').element as HTMLInputElement).value).toBe('bad-email')
     expect((wrapper.get('textarea[name="message"]').element as HTMLTextAreaElement).value).toBe('Need a launch page')
+
+    await wrapper.get('input[name="email"]').setValue('codex@thanejoss.com')
+    expect(wrapper.find('[data-form-feedback]').exists()).toBe(false)
+    expect(wrapper.get('input[name="email"]').attributes('aria-invalid')).toBeUndefined()
+
+    wrapper.unmount()
   })
 })

@@ -9,6 +9,8 @@ describe('catalog integrity', () => {
 
     expect(catalogApps).toHaveLength(10)
     expect(entries).toHaveLength(35)
+    expect(catalogApps.filter((app) => app.roadmapStage === 'next')).toHaveLength(1)
+    expect(catalogApps.filter((app) => app.roadmapStage === 'later')).toHaveLength(9)
     expect(catalogApps.every((app) => app.availability === 'planned' && app.route === null)).toBe(true)
     expect(entries.every((entry) => entry.availability === 'planned' && entry.route === null)).toBe(true)
     expect(interactiveCatalogRoutes).toEqual([])
