@@ -1,113 +1,92 @@
 <template>
   <section
     id="contact"
-    ref="contactSection"
-    class="section-wrap section-space pt-5 sm:pt-6"
-    aria-label="联系方式"
+    class="contact-section section-wrap"
+    aria-labelledby="contact-channels-title"
   >
     <div class="mx-auto max-w-6xl">
-      <div class="contact-entry-grid grid items-start gap-5 lg:grid-cols-3">
-        <template
-          v-for="entry in contactEntries"
-          :key="entry.id"
-        >
-          <a
-            v-if="entry.kind === 'action'"
-            :href="entry.actionHref"
-            :target="entry.external ? '_blank' : undefined"
-            :rel="entry.external ? 'noopener noreferrer' : undefined"
-            class="contact-entry-card contact-entry-card--action surface-card group flex flex-col items-start rounded-[2rem] border border-[#122540]/18 bg-white/88 p-4 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)] sm:p-5"
-            :data-contact-card="entry.id"
-            data-contact-action
-          >
-            <div class="flex w-full items-start justify-between gap-4">
-              <h2 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
-                {{ entry.title }}
-              </h2>
+      <div class="contact-workspace">
+        <aside class="contact-channels">
+          <header class="contact-channels__header">
+            <p class="contact-step">01 / 选择渠道</p>
+            <h2 id="contact-channels-title">
+              直接联系
+            </h2>
+            <p>
+              简短问题可以直接发出；需要补充上下文时，右侧的项目简报会更合适。
+            </p>
+          </header>
 
-              <div class="contact-entry-card__icon flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+          <div class="contact-channel-list">
+            <a
+              v-for="channel in contactChannels"
+              :key="channel.id"
+              :href="channel.href"
+              :target="channel.external ? '_blank' : undefined"
+              :rel="channel.external ? 'noopener noreferrer' : undefined"
+              class="contact-channel"
+              :data-contact-card="channel.id"
+              data-contact-action
+            >
+              <span class="contact-channel__icon">
                 <component
-                  :is="entry.icon"
-                  class="h-4 w-4"
+                  :is="channel.icon"
                   aria-hidden="true"
                 />
-              </div>
-            </div>
-
-            <p class="mt-4 max-w-[22ch] flex-1 text-[0.95rem] leading-6 text-steel">
-              {{ entry.description }}
-            </p>
-
-            <span class="contact-entry-card__cta mt-6 inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium text-ink">
-              {{ entry.actionLabel }}
-            </span>
-          </a>
-
-          <article
-            v-else
-            class="contact-entry-card contact-entry-card--form surface-card overflow-hidden rounded-[2rem] border border-[#122540]/18 bg-white/88 shadow-[0_20px_40px_rgba(10,22,40,0.08)]"
-            :class="isFormOpen ? 'is-expanded' : ''"
-            :data-contact-card="entry.id"
-            data-contact-form-card
-            @keydown.esc.stop="closeForm()"
-          >
-            <button
-              id="contact-form-trigger"
-              type="button"
-              class="contact-form-card__trigger group flex min-h-[236px] w-full flex-col items-start p-4 text-left sm:p-5"
-              aria-controls="contact-form-panel"
-              :aria-expanded="isFormOpen"
-              data-contact-form-trigger
-              @click="toggleForm"
-            >
-              <div class="flex w-full items-start justify-between gap-4">
-                <h2 class="max-w-[10ch] text-[1.55rem] font-semibold leading-tight text-ink sm:text-[1.7rem]">
-                  {{ entry.title }}
-                </h2>
-
-                <div class="contact-entry-card__icon flex h-10 w-10 shrink-0 items-center justify-center rounded-[1.1rem] border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
-                  <component
-                    :is="entry.icon"
-                    class="h-4 w-4"
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-
-              <p class="mt-4 max-w-[22ch] flex-1 text-[0.95rem] leading-6 text-steel">
-                {{ entry.description }}
-              </p>
-
-              <span class="contact-entry-card__cta mt-6 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-medium text-ink">
-                {{ isFormOpen ? '收起表单' : entry.frontCta }}
-                <span
-                  class="contact-form-card__indicator"
-                  aria-hidden="true"
-                >↓</span>
               </span>
-            </button>
 
-            <div
-              id="contact-form-panel"
-              class="contact-form-card__panel"
-              :class="isFormOpen ? 'is-open' : ''"
-              :aria-hidden="!isFormOpen"
-              :inert="!isFormOpen"
-              aria-labelledby="contact-form-trigger"
-              data-contact-form-panel
-              role="region"
-            >
-              <div class="contact-form-card__panel-clip">
-                <div class="contact-form-card__panel-body border-t border-[#17304b]/12 p-4 sm:p-5">
-                  <p class="mb-4 text-sm leading-6 text-steel">
-                    内容只会用于生成本地邮件草稿，关闭面板后也会继续保留。
-                  </p>
-                  <ContactForm />
-                </div>
-              </div>
+              <span class="contact-channel__body">
+                <small>{{ channel.kicker }}</small>
+                <strong>{{ channel.title }}</strong>
+                <span>{{ channel.description }}</span>
+                <em>{{ channel.meta }}</em>
+              </span>
+
+              <span
+                class="contact-channel__arrow"
+                aria-hidden="true"
+              >↗</span>
+            </a>
+          </div>
+
+          <div class="contact-context-note">
+            <span aria-hidden="true"></span>
+            <p>
+              公开问题适合 GitHub；包含个人信息或附件时，请使用邮件或项目简报。
+            </p>
+          </div>
+        </aside>
+
+        <section
+          class="contact-brief"
+          data-contact-card="form"
+          aria-labelledby="contact-brief-title"
+        >
+          <header class="contact-brief__header">
+            <div>
+              <p class="contact-step">02 / 描述需求</p>
+              <h2 id="contact-brief-title">
+                项目简报
+              </h2>
             </div>
-          </article>
-        </template>
+
+            <span class="contact-brief__badge">
+              <ClipboardIcon aria-hidden="true" />
+              本地生成
+            </span>
+          </header>
+
+          <p class="contact-brief__intro">
+            写下必要背景和你期待的结果。内容只在浏览器中用于生成邮件草稿，不会自动上传。
+          </p>
+
+          <div
+            class="contact-brief__form"
+            data-contact-form-panel
+          >
+            <ContactForm />
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -115,114 +94,43 @@
 
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import ChatIcon from '~icons/solar/chat-round-line-bold-duotone'
 import ClipboardIcon from '~icons/solar/clipboard-list-bold-duotone'
 import LetterIcon from '~icons/solar/letter-bold-duotone'
 
 import ContactForm from '../components/ContactForm.vue'
 
-interface ContactEntryBase {
-  id: string
+interface ContactChannel {
+  id: 'email' | 'issues'
+  kicker: string
   title: string
   description: string
+  meta: string
+  href: string
+  external: boolean
   icon: Component
 }
 
-type ContactEntry = ContactEntryBase & (
-  | {
-      kind: 'form'
-      frontCta: string
-    }
-  | {
-      kind: 'action'
-      actionLabel: string
-      actionHref: string
-      external: boolean
-    }
-)
-
-const isFormOpen = ref(false)
-const contactSection = ref<HTMLElement | null>(null)
-
-const getFormTrigger = () => contactSection.value?.querySelector<HTMLButtonElement>('[data-contact-form-trigger]')
-const getFormPanel = () => contactSection.value?.querySelector<HTMLElement>('[data-contact-form-panel]')
-
-const closeForm = async (restoreFocus = true) => {
-  if (!isFormOpen.value) {
-    return
-  }
-
-  isFormOpen.value = false
-  await nextTick()
-
-  if (restoreFocus) {
-    getFormTrigger()?.focus()
-  }
-}
-
-const toggleForm = async () => {
-  if (isFormOpen.value) {
-    await closeForm()
-    return
-  }
-
-  isFormOpen.value = true
-  await nextTick()
-  getFormPanel()?.querySelector<HTMLInputElement>('input[name="name"]')?.focus()
-}
-
-const handleDocumentPointerDown = (event: PointerEvent) => {
-  const target = event.target
-
-  if (!isFormOpen.value || !(target instanceof Element) || target.closest('[data-contact-form-card]')) {
-    return
-  }
-
-  const activeElement = document.activeElement
-  if (activeElement instanceof HTMLElement && getFormPanel()?.contains(activeElement)) {
-    activeElement.blur()
-  }
-
-  isFormOpen.value = false
-}
-
-onMounted(() => {
-  document.addEventListener('pointerdown', handleDocumentPointerDown)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('pointerdown', handleDocumentPointerDown)
-})
-
-const contactEntries: readonly ContactEntry[] = [
+const contactChannels: readonly ContactChannel[] = [
   {
     id: 'email',
-    kind: 'action',
-    title: '邮件',
-    description: '发送邮件到 support@thanejoss.com。',
-    icon: LetterIcon,
-    actionLabel: '发送邮件',
-    actionHref: 'mailto:support@thanejoss.com?subject=Web%20Apps%20Inquiry',
-    external: false
-  },
-  {
-    id: 'form',
-    kind: 'form',
-    title: '网页表单',
-    description: '打开网页表单，填写联系方式与建议。',
-    frontCta: '点击展开',
-    icon: ClipboardIcon
+    kicker: 'PRIVATE / EMAIL',
+    title: '发送邮件',
+    description: '适合附件、截图，或包含私密信息的反馈。',
+    meta: 'support@thanejoss.com',
+    href: 'mailto:support@thanejoss.com?subject=Web%20Apps%20Inquiry',
+    external: false,
+    icon: LetterIcon
   },
   {
     id: 'issues',
-    kind: 'action',
-    title: 'GitHub 留言',
-    description: '前往 GitHub 留言页，公开留下你的想法。',
-    icon: ChatIcon,
-    actionLabel: '前往留言',
-    actionHref: 'https://github.com/ThaneJoss/webapps/issues/new',
-    external: true
+    kicker: 'PUBLIC / GITHUB',
+    title: '公开留言',
+    description: '适合功能建议、可复现问题和公开讨论。',
+    meta: '新建 GitHub Issue',
+    href: 'https://github.com/ThaneJoss/webapps/issues/new',
+    external: true,
+    icon: ChatIcon
   }
 ]
 </script>

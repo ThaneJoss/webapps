@@ -26,7 +26,7 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
   await expect(page.locator('#main-content')).toBeFocused()
 })
 
-test('contact actions are direct and the form preserves drafts', async ({ page, request }) => {
+test('contact workspace keeps channels direct and the project brief available', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/contact')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="contact"')
@@ -35,25 +35,25 @@ test('contact actions are direct and the form preserves drafts', async ({ page, 
   await expect(page.locator('[data-page-ready="contact"]')).toBeVisible()
   await expect(page).toHaveTitle('联系 | Thane Joss')
 
-  await expect(page.locator('[data-contact-card="email"]')).toHaveAttribute('href', /mailto:support@thanejoss\.com/)
+  const emailChannel = page.locator('[data-contact-card="email"]')
+  await expect(emailChannel).toHaveAttribute('href', /mailto:support@thanejoss\.com/)
+  await expect(page.locator('[data-contact-card="issues"]')).toHaveAttribute('target', '_blank')
 
-  const formTrigger = page.locator('[data-contact-form-trigger]')
+  if (!testInfo.project.use.isMobile) {
+    expect(await emailChannel.evaluate((element) => getComputedStyle(element).transform)).toBe('none')
+    await emailChannel.hover()
+    await expect.poll(() => emailChannel.evaluate((element) => getComputedStyle(element).transform)).not.toBe('none')
+  }
+
+  const formPanel = page.locator('[data-contact-form-panel]')
   const nameInput = page.locator('[data-contact-form-panel] input[name="name"]')
-  await expect(formTrigger).toHaveCSS('border-top-width', '0px')
-  await expect(formTrigger).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
-  await formTrigger.click()
-  await expect(nameInput).toBeFocused()
+  await expect(formPanel).toBeVisible()
+  await expect(page.locator('[data-contact-form-trigger]')).toHaveCount(0)
   await nameInput.fill('Codex')
 
   await page.locator('[data-page-ready="contact"] h1').click()
-  await expect(formTrigger).toHaveAttribute('aria-expanded', 'false')
-
-  await formTrigger.click()
   await expect(nameInput).toHaveValue('Codex')
-  await nameInput.press('Escape')
-  await expect(formTrigger).toBeFocused()
 
-  await formTrigger.click()
   await nameInput.fill('')
   await page.locator('[data-contact-card="form"] button[type="submit"]').click()
   await expect(page.locator('[data-contact-card="form"] [role="alert"]')).toBeVisible()
