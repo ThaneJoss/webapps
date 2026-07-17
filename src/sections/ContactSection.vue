@@ -1,6 +1,7 @@
 <template>
   <section
     id="contact"
+    ref="contactSection"
     class="section-wrap section-space pt-5 sm:pt-6"
     aria-label="联系方式"
   >
@@ -52,7 +53,6 @@
           >
             <button
               id="contact-form-trigger"
-              ref="formTrigger"
               type="button"
               class="contact-form-card__trigger group flex min-h-[236px] w-full flex-col items-start p-4 text-left sm:p-5"
               aria-controls="contact-form-panel"
@@ -89,7 +89,6 @@
 
             <div
               id="contact-form-panel"
-              ref="formPanel"
               class="contact-form-card__panel"
               :class="isFormOpen ? 'is-open' : ''"
               :aria-hidden="!isFormOpen"
@@ -144,8 +143,10 @@ type ContactEntry = ContactEntryBase & (
 )
 
 const isFormOpen = ref(false)
-const formTrigger = ref<HTMLButtonElement | null>(null)
-const formPanel = ref<HTMLElement | null>(null)
+const contactSection = ref<HTMLElement | null>(null)
+
+const getFormTrigger = () => contactSection.value?.querySelector<HTMLButtonElement>('[data-contact-form-trigger]')
+const getFormPanel = () => contactSection.value?.querySelector<HTMLElement>('[data-contact-form-panel]')
 
 const closeForm = async (restoreFocus = true) => {
   if (!isFormOpen.value) {
@@ -156,7 +157,7 @@ const closeForm = async (restoreFocus = true) => {
   await nextTick()
 
   if (restoreFocus) {
-    formTrigger.value?.focus()
+    getFormTrigger()?.focus()
   }
 }
 
@@ -168,7 +169,7 @@ const toggleForm = async () => {
 
   isFormOpen.value = true
   await nextTick()
-  formPanel.value?.querySelector<HTMLInputElement>('input[name="name"]')?.focus()
+  getFormPanel()?.querySelector<HTMLInputElement>('input[name="name"]')?.focus()
 }
 
 const handleDocumentPointerDown = (event: PointerEvent) => {
@@ -179,7 +180,7 @@ const handleDocumentPointerDown = (event: PointerEvent) => {
   }
 
   const activeElement = document.activeElement
-  if (activeElement instanceof HTMLElement && formPanel.value?.contains(activeElement)) {
+  if (activeElement instanceof HTMLElement && getFormPanel()?.contains(activeElement)) {
     activeElement.blur()
   }
 
