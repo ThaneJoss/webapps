@@ -1,12 +1,13 @@
 <template>
   <form
-    class="space-y-3 text-ink"
+    class="contact-brief-form text-ink"
     novalidate
+    data-contact-form
     @submit.prevent="handleSubmit"
   >
-    <div class="grid gap-3 sm:grid-cols-2">
-      <label class="block">
-        <span class="mb-2 block text-sm text-steel">怎么称呼你</span>
+    <div class="contact-form-grid">
+      <label class="contact-form-field">
+        <span class="contact-form-label">你的称呼</span>
         <input
           ref="nameInput"
           v-model="form.name"
@@ -29,8 +30,8 @@
         </p>
       </label>
 
-      <label class="block">
-        <span class="mb-2 block text-sm text-steel">联系邮箱</span>
+      <label class="contact-form-field">
+        <span class="contact-form-label">回复邮箱</span>
         <input
           ref="emailInput"
           v-model="form.email"
@@ -54,14 +55,14 @@
       </label>
     </div>
 
-    <label class="block">
-      <span class="mb-2 block text-sm text-steel">填写你的建议</span>
+    <label class="contact-form-field">
+      <span class="contact-form-label">想做什么 / 遇到什么</span>
       <textarea
         ref="messageInput"
         v-model="form.message"
         name="message"
         required
-        rows="3"
+        rows="5"
         :aria-invalid="errors.message ? 'true' : undefined"
         :aria-describedby="errors.message ? fieldIds.messageError : undefined"
         :class="[controlClass, 'resize-y']"
@@ -77,14 +78,13 @@
       </p>
     </label>
 
-    <div class="space-y-3">
-      <button
-        type="submit"
-        class="tech-button tech-button--light inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-medium"
-      >
-        生成邮件草稿
-      </button>
-    </div>
+    <button
+      type="submit"
+      class="contact-submit tech-button tech-button--light"
+    >
+      <span>生成邮件草稿</span>
+      <span aria-hidden="true">↗</span>
+    </button>
 
     <Transition
       name="form-feedback"
@@ -93,7 +93,7 @@
       <div
         v-if="feedback"
         :key="feedback.type"
-        class="rounded-2xl border px-4 py-3 text-sm"
+        class="contact-form-feedback rounded-2xl border px-4 py-3 text-sm"
         :class="feedback.type === 'success'
           ? 'border-[#167258]/35 bg-[#e7f7f1] text-[#0b5945]'
           : 'border-[#a54025]/35 bg-[#fff0eb] text-[#842b18]'"
@@ -124,7 +124,7 @@ const fieldIds = {
   messageError: `${formId}-message-error`
 }
 
-const controlClass = 'form-control w-full rounded-[1.1rem] border border-[#12304c]/18 bg-white px-3.5 py-2.5 text-ink shadow-[0_8px_20px_rgba(10,22,40,0.04)] placeholder:text-steel/60 focus:border-[#006b8f] focus:bg-[#fbfdff]'
+const controlClass = 'form-control contact-form-control'
 
 type FormField = 'name' | 'email' | 'message'
 

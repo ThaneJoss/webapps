@@ -1,4 +1,3 @@
-import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
@@ -16,35 +15,18 @@ describe('ContactSection', () => {
     wrapper.unmount()
   })
 
-  it('expands the form, preserves its draft, and restores trigger focus', async () => {
-    const wrapper = mount(ContactSection, {
-      attachTo: document.body
-    })
-
-    const trigger = wrapper.get('[data-contact-form-trigger]')
+  it('keeps the project brief form visible without disclosure state', async () => {
+    const wrapper = mount(ContactSection)
     const panel = wrapper.get('[data-contact-form-panel]')
     const nameInput = wrapper.get('input[name="name"]')
 
-    await trigger.trigger('click')
-    await nextTick()
-    expect(trigger.attributes('aria-expanded')).toBe('true')
-    expect(panel.attributes('aria-hidden')).toBe('false')
-    expect(document.activeElement).toBe(nameInput.element)
+    expect(wrapper.find('[data-contact-form-trigger]').exists()).toBe(false)
+    expect(wrapper.get('[data-contact-card="form"]').element.tagName).toBe('SECTION')
+    expect(panel.attributes('aria-hidden')).toBeUndefined()
+    expect(panel.get('form').attributes('data-contact-form')).toBeDefined()
 
     await nameInput.setValue('Codex')
-
-    document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }))
-    await nextTick()
-    expect(trigger.attributes('aria-expanded')).toBe('false')
-
-    await trigger.trigger('click')
-    await nextTick()
     expect((nameInput.element as HTMLInputElement).value).toBe('Codex')
-
-    await panel.trigger('keydown', { key: 'Escape' })
-    await nextTick()
-    expect(trigger.attributes('aria-expanded')).toBe('false')
-    expect(document.activeElement).toBe(trigger.element)
 
     wrapper.unmount()
   })
