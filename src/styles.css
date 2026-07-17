@@ -488,6 +488,15 @@ svg {
   background: rgba(34, 211, 238, 0.08);
 }
 
+.contact-form-card__trigger {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 .contact-entry-card--form.is-expanded {
   border-color: rgba(82, 215, 255, 0.3);
   box-shadow:
