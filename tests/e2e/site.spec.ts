@@ -14,6 +14,11 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
   await expect(page.locator('[data-roadmap-stage="later"]')).toHaveCount(9)
   await expect(page.locator('.home-app-entry[aria-disabled="true"]')).toHaveCount(35)
 
+  const scrollbarWidth = await page.locator('html').evaluate((element) => (
+    getComputedStyle(element).getPropertyValue('scrollbar-width')
+  ))
+  expect(scrollbarWidth).toBe('none')
+
   const internalTargets = await page.locator('a[href^="/"]').evaluateAll((anchors) => (
     anchors.map((anchor) => anchor.getAttribute('href'))
   ))
