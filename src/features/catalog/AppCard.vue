@@ -2,7 +2,7 @@
   <article
     class="home-app-card surface-card flex flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)]"
     :class="[
-      app.featured ? 'home-app-card--featured md:col-span-2 xl:col-span-1 sm:p-8' : 'home-app-card--tile',
+      app.featured ? 'home-app-card--featured md:col-span-2 sm:p-8' : 'home-app-card--tile',
       app.boardClass
     ]"
     :aria-disabled="app.availability === 'planned' ? 'true' : undefined"
