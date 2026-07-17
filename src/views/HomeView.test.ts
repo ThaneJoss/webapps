@@ -1,5 +1,5 @@
 import axe from 'axe-core'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import HomeView from './HomeView.vue'
@@ -10,7 +10,14 @@ let container: HTMLElement | null = null
 const mountHomeView = () => {
   container = document.createElement('main')
   document.body.append(container)
-  wrapper = mount(HomeView, { attachTo: container })
+  wrapper = mount(HomeView, {
+    attachTo: container,
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
+  })
   return wrapper
 }
 
@@ -30,9 +37,13 @@ describe('HomeView', () => {
     expect(wrapper.text()).toContain('PDF 工具箱')
     expect(wrapper.text()).toContain('私密日记')
     expect(wrapper.text()).toContain('查看规划')
+    expect(wrapper.text()).toContain('提交建议')
     expect(wrapper.findAll('[data-catalog-availability="planned"]')).toHaveLength(10)
+    expect(wrapper.findAll('[data-roadmap-stage="next"]')).toHaveLength(1)
+    expect(wrapper.findAll('[data-roadmap-stage="later"]')).toHaveLength(9)
     expect(wrapper.findAll('.home-app-entry[aria-disabled="true"]')).toHaveLength(35)
-    expect(wrapper.findAll('a')).toHaveLength(0)
+    expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
+    expect(wrapper.getComponent(RouterLinkStub).props('to')).toBe('/contact')
   })
 
   it('has no detectable structural accessibility violations', async () => {

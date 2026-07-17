@@ -28,7 +28,7 @@
 
             <RouterLink
               to="/contact"
-              class="not-found-secondary-link inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition duration-200 sm:flex-none"
+              class="secondary-action inline-flex flex-1 items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium sm:flex-none"
             >
               <ChatIcon
                 class="h-5 w-5"
