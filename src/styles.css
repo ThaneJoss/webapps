@@ -1313,6 +1313,65 @@ textarea.contact-form-control {
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+.contact-channel:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(82, 215, 255, 0.38);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 20px 38px rgba(10, 22, 40, 0.1),
+    0 0 0 1px rgba(82, 215, 255, 0.06);
+}
+
+.contact-channel:hover::before {
+  opacity: 1;
+}
+
+.contact-channel:hover .contact-channel__icon {
+  color: #0b6657;
+  background: linear-gradient(145deg, #e8fbf6, #dff3ff);
+  transform: translate3d(0, -1px, 0) rotate(-4deg) scale(1.06);
+}
+
+.contact-channel:hover .contact-channel__arrow {
+  color: #0b6657;
+  transform: translate3d(3px, -3px, 0);
+}
+
+.contact-brief:hover {
+  border-color: rgba(82, 215, 255, 0.28);
+  box-shadow:
+    0 28px 60px rgba(10, 22, 40, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.76);
+}
+
+.contact-brief:hover .contact-brief__badge {
+  background: rgba(139, 240, 217, 0.2);
+  transform: translate3d(0, -1px, 0);
+}
+
+.contact-form-control:hover {
+  border-color: rgba(82, 135, 167, 0.34);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.contact-submit:hover {
+  transform: translate3d(0, -2px, 0);
+  border-color: rgba(82, 215, 255, 0.52);
+  box-shadow:
+    0 18px 42px rgba(10, 22, 40, 0.18),
+    0 0 0 1px rgba(82, 215, 255, 0.1),
+    0 0 24px rgba(93, 148, 255, 0.1);
+}
+
+.contact-submit:hover::after {
+  opacity: 0.92;
+  transform: translate3d(220%, 0, 0) rotate(24deg);
+}
+
+.contact-submit:hover > span:last-child {
+  transform: translate3d(3px, -3px, 0);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .home-app-entry--interactive:hover {
     transform: translate3d(0, -1px, 0);
@@ -1325,51 +1384,6 @@ textarea.contact-form-control {
     border-color: rgba(82, 215, 255, 0.26);
     background: rgba(82, 215, 255, 0.08);
     box-shadow: 0 12px 24px rgba(10, 22, 40, 0.08);
-  }
-
-  .contact-channel:hover {
-    transform: translate3d(0, -4px, 0);
-    border-color: rgba(82, 215, 255, 0.38);
-    background: rgba(255, 255, 255, 0.88);
-    box-shadow:
-      0 20px 38px rgba(10, 22, 40, 0.1),
-      0 0 0 1px rgba(82, 215, 255, 0.06);
-  }
-
-  .contact-channel:hover::before {
-    opacity: 1;
-  }
-
-  .contact-channel:hover .contact-channel__icon {
-    color: #0b6657;
-    background: linear-gradient(145deg, #e8fbf6, #dff3ff);
-    transform: translate3d(0, -1px, 0) rotate(-4deg) scale(1.06);
-  }
-
-  .contact-channel:hover .contact-channel__arrow {
-    color: #0b6657;
-    transform: translate3d(3px, -3px, 0);
-  }
-
-  .contact-brief:hover {
-    border-color: rgba(82, 215, 255, 0.28);
-    box-shadow:
-      0 28px 60px rgba(10, 22, 40, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.76);
-  }
-
-  .contact-brief:hover .contact-brief__badge {
-    background: rgba(139, 240, 217, 0.2);
-    transform: translate3d(0, -1px, 0);
-  }
-
-  .contact-form-control:hover {
-    border-color: rgba(82, 135, 167, 0.34);
-    background: rgba(255, 255, 255, 0.96);
-  }
-
-  .contact-submit:hover > span:last-child {
-    transform: translate3d(3px, -3px, 0);
   }
 
   .tech-button:hover {
