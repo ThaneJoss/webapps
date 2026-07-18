@@ -37,10 +37,7 @@ Use TypeScript throughout. Follow the existing style:
 Prefer small, composable components and feature-owned shared types instead of duplicating interfaces.
 
 ## Testing Guidelines
-Do not run tests on this machine. This includes `npm test`, `npm run test:unit`, `npm run test:e2e`, watch mode, direct Vitest/Playwright commands, typechecking, and local production builds.
 
-- Run automated checks only in CI or another environment with sufficient resources.
-- Limit local review to static, read-only inspection; report tests and builds as not run because of this repository rule.
 - Place unit tests near the relevant code and browser tests in `tests/e2e/`; use names like `*.test.ts` and `*.spec.ts`.
 - Every PR must pass dependency freshness, lint, TypeScript 7 native typechecking, unit tests, SSG build assertions, dependency audit, and Playwright/axe checks. Vue SFC templates are not statically typechecked.
 
