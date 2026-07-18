@@ -4,7 +4,7 @@
 
 本指南适用于整个仓库。开始修改前，先阅读相关源码、测试和文档，并保持改动聚焦。
 
-- `package.json` 是运行命令、运行时版本和依赖的事实来源。
+- `package.json` 是 npm 脚本、引擎约束和依赖的事实来源。
 - `src/features/catalog/apps.ts` 是应用目录及可用状态的事实来源。
 - `src/lib/seo.ts` 与 `src/router/` 分别维护页面 metadata 和公开路由。
 - `docs/ARCHITECTURE.md` 与 `docs/DEPLOYMENT.md` 说明架构、构建和部署约束。
@@ -46,13 +46,13 @@
 | `npm run build` | 执行类型检查并生成、加固 SSG 静态站点。 |
 | `npm run build:ssg` | 仅生成并加固 SSG 产物；适用于已单独完成类型检查的流程。 |
 | `npm run verify:dist` | 验证 metadata、路由、链接、CSP 约束和资源预算。 |
-| `npm run test:e2e` | 执行 Playwright 与 axe 浏览器验收。 |
+| `npm run test:e2e` | 在已构建的 `dist/` 上执行 Playwright 与 axe 浏览器验收。 |
 | `npm run preview` | 预览已生成的 `dist/`。 |
 | `npm audit --audit-level=high` | 检查高等级及以上的依赖漏洞。 |
 
 ## 编码与实现规则
 
-- 全面使用 TypeScript，并沿用现有严格类型和 ESM 风格。
+- 新增应用源码使用 TypeScript 并沿用现有严格类型；现有 `.mjs` 构建脚本保持 ESM。
 - TypeScript、JSON、Markdown 和 Vue 模板使用 2 空格缩进。
 - Vue 单文件组件使用 `<script setup lang="ts">`。
 - 组件文件使用 `PascalCase.vue`，工具和库文件使用 `camelCase.ts`。
@@ -80,7 +80,7 @@
 | 仅文档 | `git diff --check`，并核对命令、链接和事实准确性。 |
 | TypeScript / Vue 逻辑 | `npm run lint`、`npm run typecheck`、`npm run test:unit`。 |
 | 路由、metadata 或构建 | `npm run build`、`npm run verify:dist`。 |
-| 可见界面或交互 | 在上述检查基础上执行 `npm run test:e2e`，并检查桌面端与移动端。 |
+| 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `npm run test:e2e`，并检查桌面端与移动端。 |
 | 依赖更新 | `npm run check:dependencies`、相关测试和 `npm audit --audit-level=high`。 |
 
 每个 PR 最终都必须通过 GitHub Actions 质量门禁：依赖新鲜度、lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。
