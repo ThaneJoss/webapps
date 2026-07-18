@@ -29,8 +29,6 @@
 - `npm run test:e2e`：执行桌面/移动端 Playwright 与 axe 检查
 - `npm run preview`：预览 `dist/`
 
-本机禁止运行测试、类型检查和生产构建。上述质量命令由 GitHub Actions 执行；本机只做静态审查和依赖锁文件维护。
-
 ## 页面与构建
 
 - `/`：静态预渲染的规划目录
