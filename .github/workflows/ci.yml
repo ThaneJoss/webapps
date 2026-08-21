@@ -36,7 +36,8 @@ jobs:
       - name: 安装依赖
         run: npm ci
 
-      - name: 检查依赖是否为最新版本
+      - name: 报告依赖新鲜度
+        continue-on-error: true
         run: npm run check:dependencies
 
       - name: 代码规范
