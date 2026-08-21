@@ -8,10 +8,10 @@
         <div class="home-hero-content max-w-4xl">
           <p class="home-hero-enter home-hero-enter--label panel-label text-steel">网站介绍</p>
           <h1 class="home-hero-enter home-hero-enter--title mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
-            规划中的<span class="hero-native-emphasis">原生</span>网页 APP
+            我的<span class="hero-native-emphasis">网页</span> APP
           </h1>
           <p class="home-hero-enter home-hero-enter--copy mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
-            这里展示准备建设的浏览器工具。当前没有工具开放使用，交付前不会提供无效入口。
+            这里汇集已经上线的用户应用、开发工作台与运维工具。无需安装，选择一个入口即可打开。
           </p>
 
           <div class="home-hero-enter home-hero-enter--actions mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -20,7 +20,7 @@
               class="tech-button inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium"
               @click="scrollToApps"
             >
-              查看规划
+              浏览应用
             </button>
 
             <RouterLink
@@ -31,16 +31,16 @@
             </RouterLink>
           </div>
 
-          <dl class="home-hero-enter home-hero-enter--summary home-roadmap-summary mt-8 grid gap-3 sm:grid-cols-3">
-            <div class="home-roadmap-summary__item">
-              <dt>规划条目</dt>
+          <dl class="home-hero-enter home-hero-enter--summary home-catalog-summary mt-8 grid gap-3 sm:grid-cols-3">
+            <div class="home-catalog-summary__item">
+              <dt>应用入口</dt>
               <dd>{{ catalogApps.length }}</dd>
             </div>
-            <div class="home-roadmap-summary__item">
-              <dt>下一项</dt>
-              <dd>{{ priorityAppTitle }}</dd>
+            <div class="home-catalog-summary__item">
+              <dt>主推应用</dt>
+              <dd>{{ featuredAppTitle }}</dd>
             </div>
-            <div class="home-roadmap-summary__item">
+            <div class="home-catalog-summary__item">
               <dt>已开放</dt>
               <dd>{{ availableAppCount }}</dd>
             </div>
@@ -58,36 +58,36 @@
   >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
-        <p class="panel-label text-steel">APP 规划区</p>
+        <p class="panel-label text-steel">APP 展示区</p>
         <h2
           id="catalog-title"
           class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-[2.7rem]"
         >
-          规划中的网页 APP
+          已上线的网页 APP
         </h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
-          所有条目目前都处于规划阶段，因此只展示范围，不提供点击入口。完成真实功能与验收后才会开放。
+          以下卡片都连接真实运行的网站，点击访问即可在新标签页打开对应应用。
         </p>
       </div>
 
       <div
-        class="home-roadmap-group home-roadmap-group--priority mt-8"
-        aria-labelledby="priority-roadmap-label"
+        class="home-catalog-group home-catalog-group--featured mt-8"
+        aria-labelledby="featured-catalog-label"
         role="group"
       >
-        <div class="home-roadmap-group__heading">
+        <div class="home-catalog-group__heading">
           <p
-            id="priority-roadmap-label"
+            id="featured-catalog-label"
             class="text-sm font-semibold text-ink"
           >
-            优先开发
+            重点应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">先完成一个真实可用的工具，再开放对应入口。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">从文件中转站开始，快速进入最常用的网页服务。</p>
         </div>
 
-        <div class="home-app-board home-app-board--priority mt-4 grid gap-5">
+        <div class="home-app-board home-app-board--featured mt-4 grid gap-5">
           <AppCard
-            v-for="(app, index) in priorityApps"
+            v-for="(app, index) in featuredApps"
             :key="app.id"
             :app="app"
             class="catalog-reveal"
@@ -98,23 +98,23 @@
       </div>
 
       <div
-        class="home-roadmap-group mt-10"
-        aria-labelledby="later-roadmap-label"
+        class="home-catalog-group mt-10"
+        aria-labelledby="standard-catalog-label"
         role="group"
       >
-        <div class="home-roadmap-group__heading">
+        <div class="home-catalog-group__heading">
           <p
-            id="later-roadmap-label"
+            id="standard-catalog-label"
             class="text-sm font-semibold text-ink"
           >
-            后续规划
+            更多应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">这些方向会在优先项交付后依次评估。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">继续访问 AI、开发、远程连接与运维工作台。</p>
         </div>
 
-        <div class="home-app-board home-app-board--later mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div class="home-app-board home-app-board--standard mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           <AppCard
-            v-for="(app, index) in laterApps"
+            v-for="(app, index) in standardApps"
             :key="app.id"
             :app="app"
             class="catalog-reveal"
@@ -135,10 +135,10 @@ import AppCard from '../features/catalog/AppCard.vue'
 import { catalogApps } from '../features/catalog/apps'
 import { prefersReducedMotion } from '../lib/motion'
 
-const priorityApps = catalogApps.filter((app) => app.roadmapStage === 'next')
-const laterApps = catalogApps.filter((app) => app.roadmapStage === 'later')
+const featuredApps = catalogApps.filter((app) => app.displayTier === 'featured')
+const standardApps = catalogApps.filter((app) => app.displayTier === 'standard')
 const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
-const priorityAppTitle = priorityApps[0]?.title ?? '待确定'
+const featuredAppTitle = featuredApps[0]?.title ?? '待确定'
 const catalogSection = ref<HTMLElement | null>(null)
 
 let revealObserver: IntersectionObserver | null = null

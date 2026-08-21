@@ -2,7 +2,7 @@
 
 ## 定位
 
-项目当前是静态的网页 APP 规划目录，不包含任何具体 APP 功能。产品真实性优先于入口数量：未实现的项目必须保持 `planned`，不能提供路由或链接。
+项目是静态的网页 APP 导航目录，首页连接已经实际运行的独立子站。产品真实性优先于入口数量：未实现的项目必须保持 `planned`，不能提供路由或链接。
 
 ## 目录边界
 
@@ -21,11 +21,11 @@ scripts/
 tests/e2e/               桌面和移动端浏览器验收
 ```
 
-`src/features/catalog/apps.ts` 是应用目录的单一事实来源。状态模型为：
+`src/features/catalog/apps.ts` 是应用目录的单一事实来源。状态与目标模型为：
 
-- `planned`：`route` 必须是 `null`，只渲染不可点击文本；
-- `beta` / `live`：`route` 必须是绝对站内路径，才允许渲染 `RouterLink`；
-- `catalogIntegrity.test.ts` 会验证所有交互路径都已注册到真实路由。
+- `planned`：`destination` 必须是 `null`，只渲染不可点击内容；
+- `beta` / `live`：可以指向已注册的绝对站内路径，或使用 HTTPS 打开真实外部子站；
+- `catalogIntegrity.test.ts` 会验证外部地址唯一且符合预期，并确保所有站内目标均已注册到真实路由。
 
 ## 渲染模型
 
