@@ -1,18 +1,43 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('home is statically rendered and has no phantom app links', async ({ page, request }) => {
+test('home is statically rendered and links the nine real sub-sites', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="home"')
 
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
-  await expect(page).toHaveTitle('规划中的原生网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="planned"]')).toHaveCount(10)
-  await expect(page.locator('[data-roadmap-stage="next"]')).toHaveCount(1)
-  await expect(page.locator('[data-roadmap-stage="later"]')).toHaveCount(9)
-  await expect(page.locator('.home-app-entry[aria-disabled="true"]')).toHaveCount(35)
+  await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(9)
+  await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(8)
+  await expect(page.locator('.home-app-entry')).toHaveCount(27)
+  await expect(page.getByText('Home Assistant')).toHaveCount(0)
+
+  const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
+    anchors.map((anchor) => ({
+      href: anchor.getAttribute('href'),
+      rel: anchor.getAttribute('rel'),
+      target: anchor.getAttribute('target')
+    }))
+  ))
+  expect(externalTargets).toHaveLength(9)
+  expect(new Set(externalTargets.map(({ href }) => href))).toEqual(new Set([
+    'https://file.thanejoss.com',
+    'https://chat.thanejoss.com',
+    'https://cloudflare.thanejoss.com',
+    'https://t3.thanejoss.com',
+    'https://codex.thanejoss.com',
+    'https://uptime.thanejoss.com',
+    'https://portainer.thanejoss.com',
+    'https://ssh.thanejoss.com',
+    'https://vnc.thanejoss.com'
+  ]))
+  expect(externalTargets.every(({ rel, target }) => (
+    rel === 'noopener noreferrer' && target === '_blank'
+  ))).toBe(true)
 
   const scrollbarWidth = await page.locator('html').evaluate((element) => (
     getComputedStyle(element).getPropertyValue('scrollbar-width')
@@ -26,6 +51,11 @@ test('home is statically rendered and has no phantom app links', async ({ page, 
 
   const accessibility = await new AxeBuilder({ page }).analyze()
   expect(accessibility.violations).toEqual([])
+
+  await testInfo.attach('homepage-full-page', {
+    body: await page.screenshot({ fullPage: true }),
+    contentType: 'image/png'
+  })
 
   await page.getByRole('link', { name: '联系', exact: true }).click()
   await expect(page.locator('#main-content')).toBeFocused()

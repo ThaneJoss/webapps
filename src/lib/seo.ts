@@ -15,8 +15,8 @@ export const siteOrigin = 'https://thanejoss.com'
 const pageMetadata = {
   home: {
     key: 'home',
-    title: `规划中的原生网页 APP | ${siteName}`,
-    description: '查看 Thane Joss 正在规划的浏览器工具。所有尚未交付的 APP 都会明确标记为规划中，不提供无效入口。',
+    title: `已上线的网页 APP | ${siteName}`,
+    description: '访问 Thane Joss 已上线的文件传输、AI、开发与运维网页应用。每张卡片都连接真实运行的网站。',
     path: '/',
     canonical: `${siteOrigin}/`,
     robots: 'index, follow'
@@ -32,7 +32,7 @@ const pageMetadata = {
   notFound: {
     key: 'notFound',
     title: `页面未找到 | ${siteName}`,
-    description: '你访问的页面不存在，可以返回首页查看规划，或前往联系页面。',
+    description: '你访问的页面不存在，可以返回首页选择现有应用，或前往联系页面。',
     path: '/404',
     canonical: null,
     robots: 'noindex, nofollow'

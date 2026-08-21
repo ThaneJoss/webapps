@@ -3,20 +3,39 @@ import { describe, expect, it } from 'vitest'
 import { routes } from '../../router'
 import { catalogApps, interactiveCatalogRoutes } from './apps'
 
-describe('catalog integrity', () => {
-  it('does not expose planned apps or entries as routes', () => {
-    const entries = catalogApps.flatMap((app) => app.quickEntries)
+const expectedExternalUrls = [
+  'https://file.thanejoss.com',
+  'https://chat.thanejoss.com',
+  'https://cloudflare.thanejoss.com',
+  'https://t3.thanejoss.com',
+  'https://codex.thanejoss.com',
+  'https://uptime.thanejoss.com',
+  'https://portainer.thanejoss.com',
+  'https://ssh.thanejoss.com',
+  'https://vnc.thanejoss.com'
+] as const
 
-    expect(catalogApps).toHaveLength(10)
-    expect(entries).toHaveLength(35)
-    expect(catalogApps.filter((app) => app.roadmapStage === 'next')).toHaveLength(1)
-    expect(catalogApps.filter((app) => app.roadmapStage === 'later')).toHaveLength(9)
-    expect(catalogApps.every((app) => app.availability === 'planned' && app.route === null)).toBe(true)
-    expect(entries.every((entry) => entry.availability === 'planned' && entry.route === null)).toBe(true)
+describe('catalog integrity', () => {
+  it('publishes the nine real sub-sites as unique HTTPS destinations', () => {
+    const destinations = catalogApps.flatMap((app) => (
+      app.availability === 'planned' ? [] : [app.destination]
+    ))
+    const externalUrls = destinations.flatMap((destination) => (
+      destination.kind === 'external' ? [destination.href] : []
+    ))
+
+    expect(catalogApps).toHaveLength(9)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(27)
+    expect(catalogApps.filter((app) => app.displayTier === 'featured')).toHaveLength(1)
+    expect(catalogApps.filter((app) => app.displayTier === 'standard')).toHaveLength(8)
+    expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
+    expect(externalUrls).toEqual(expectedExternalUrls)
+    expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)
+    expect(externalUrls).not.toContain('https://ha.thanejoss.com')
     expect(interactiveCatalogRoutes).toEqual([])
   })
 
-  it('requires every future interactive catalog route to exist in the router', () => {
+  it('requires every future internal catalog destination to exist in the router', () => {
     const applicationRoutes = new Set(
       routes
         .map((route) => route.path)

@@ -11,7 +11,7 @@
             页面<span class="hero-native-emphasis">不存在</span>
           </h1>
           <p class="mt-5 max-w-2xl text-base leading-8 text-steel sm:text-lg">
-            你访问的入口不存在。规划中的工具不会提前创建空页面，请从首页查看当前规划。
+            你访问的入口不存在，请返回首页选择当前已经上线的网页应用。
           </p>
 
           <div class="mt-7 flex w-full max-w-md flex-col gap-3 sm:flex-row">
