@@ -40,7 +40,7 @@
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时执行依赖新鲜度检查、TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。任何过期的 npm 依赖都会使该提交检查失败；Dependabot 继续按计划自动创建升级 PR。
+PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级继续由 Dependabot PR 承接。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 

@@ -81,9 +81,9 @@
 | TypeScript / Vue 逻辑 | `npm run lint`、`npm run typecheck`、`npm run test:unit`。 |
 | 路由、metadata 或构建 | `npm run build`、`npm run verify:dist`。 |
 | 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `npm run test:e2e`，并检查桌面端与移动端。 |
-| 依赖更新 | `npm run check:dependencies`、相关测试和 `npm audit --audit-level=high`。 |
+| 依赖更新 | 记录 `npm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `npm audit --audit-level=high`。 |
 
-每个 PR 最终都必须通过 GitHub Actions 质量门禁：依赖新鲜度、lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。
+每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
 
 ## 提交与 PR
 
