@@ -13,7 +13,7 @@
 
 ## 项目定位与目录边界
 
-本项目是使用 Vite、Vue 和 Vite SSG 构建的静态网页 APP 规划目录。未完成的功能只能展示规划信息，不能暴露虚假入口、空页面或未注册路由。
+本项目是使用 Vite、Vue 和 Vite SSG 构建的静态网页 APP 导航与展示站。未完成的功能只能展示规划信息，不能暴露虚假入口、空页面或未注册路由。
 
 - `src/components/`：页面间复用的 UI 组件。
 - `src/sections/`：页面组合区块。
@@ -61,8 +61,8 @@
 
 ## 产品、路由与构建约束
 
-- `planned` 目录项的 `route` 必须为 `null`，并渲染为不可点击内容。
-- 只有已实现并通过验收的 `beta` 或 `live` 项目才能配置绝对站内路径，且路径必须注册到真实路由。
+- `planned` 目录项的 `destination` 必须为 `null`，并渲染为不可点击内容。
+- 已实现并通过验收的 `beta` 或 `live` 项目可以配置绝对站内路径或 HTTPS 外部子站；站内路径必须注册到真实路由。
 - 新增或调整公开页面时，同步更新路由、SSG 入口、SEO metadata、sitemap/404 断言及相关测试。
 - 未知路径必须保持真实 404；不要添加全局 SPA wildcard rewrite。
 - 页面不得引入内联脚本；构建结果必须继续满足 CSP 与 `data-cfasync="false"` 加固要求。
@@ -81,9 +81,9 @@
 | TypeScript / Vue 逻辑 | `npm run lint`、`npm run typecheck`、`npm run test:unit`。 |
 | 路由、metadata 或构建 | `npm run build`、`npm run verify:dist`。 |
 | 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `npm run test:e2e`，并检查桌面端与移动端。 |
-| 依赖更新 | `npm run check:dependencies`、相关测试和 `npm audit --audit-level=high`。 |
+| 依赖更新 | 记录 `npm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `npm audit --audit-level=high`。 |
 
-每个 PR 最终都必须通过 GitHub Actions 质量门禁：依赖新鲜度、lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。
+每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
 
 ## 提交与 PR
 

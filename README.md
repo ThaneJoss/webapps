@@ -1,8 +1,8 @@
 # Web Apps as a Service
 
-一个使用 Vue 构建的静态网页 APP 规划与展示站。
+一个使用 Vue 构建的静态网页 APP 导航与展示站。
 
-当前没有任何具体工具对外开放。首页的 10 个 APP、35 个子条目全部由 typed catalog 标记为 `planned`，只展示规划范围，不生成无效链接或空功能页。真实功能完成并通过验收后，才能改为 `beta` 或 `live`。
+首页通过 typed catalog 展示 9 个真实运行的子站，覆盖文件传输、AI、开发、远程连接和运维场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
 ## 技术栈
 
@@ -31,7 +31,7 @@
 
 ## 页面与构建
 
-- `/`：静态预渲染的规划目录
+- `/`：静态预渲染的应用目录
 - `/contact`：静态预渲染的联系页
 - `404.html`：由 catch-all 路由静态预渲染，Vercel 对未知路径返回真实 404
 - `sitemap.xml`：只包含 `/` 与 `/contact`
@@ -40,7 +40,7 @@
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时执行依赖新鲜度检查、TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。任何过期的 npm 依赖都会使该提交检查失败；Dependabot 继续按计划自动创建升级 PR。
+PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级继续由 Dependabot PR 承接。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
