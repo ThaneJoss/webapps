@@ -2,165 +2,135 @@ import type { CatalogApp } from './types'
 
 export const catalogApps: readonly CatalogApp[] = [
   {
-    id: 'app-01',
+    id: 'file-transfer',
     label: 'App 01',
-    title: 'PDF 工具箱',
+    title: '文件中转站',
     badge: '01',
-    availability: 'planned',
-    route: null,
-    description: '规划集中处理拆分、合并、压缩和页面整理等高频 PDF 操作。',
-    quickEntries: [
-      { id: 'pdf-merge', label: '合并 PDF', availability: 'planned', route: null },
-      { id: 'pdf-split', label: '拆分页面', availability: 'planned', route: null },
-      { id: 'pdf-compress', label: '压缩体积', availability: 'planned', route: null },
-      { id: 'pdf-image', label: '图片转 PDF', availability: 'planned', route: null },
-      { id: 'pdf-extract', label: '提取页面', availability: 'planned', route: null },
-      { id: 'pdf-watermark', label: '添加水印', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'next'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://file.thanejoss.com'
+    },
+    description: '通过 8 位取件码发送与接收文件，并在多条线路之间自动选择更合适的传输路径。',
+    features: ['取件码', '多线路传输', '完整性校验'],
+    displayTier: 'featured'
   },
   {
-    id: 'app-02',
+    id: 'ai-api-gateway',
     label: 'App 02',
-    title: '图片工具箱',
+    title: 'AI API 网关',
     badge: '02',
-    availability: 'planned',
-    route: null,
-    description: '规划集中处理裁剪、压缩、尺寸调整和格式导出等高频图片操作。',
-    quickEntries: [
-      { id: 'image-crop', label: '裁剪尺寸', availability: 'planned', route: null },
-      { id: 'image-compress', label: '批量压缩', availability: 'planned', route: null },
-      { id: 'image-convert', label: '格式导出', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://chat.thanejoss.com'
+    },
+    description: '提供 OpenAI 兼容模型接口与统一管理入口，集中处理模型访问和 API 调用。',
+    features: ['OpenAI 兼容', '模型网关', 'API 管理'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-03',
+    id: 'cloudflare-usage-guard',
     label: 'App 03',
-    title: '音视频工具箱',
+    title: 'Cloudflare 用量卫士',
     badge: '03',
-    availability: 'planned',
-    route: null,
-    description: '规划提供音频和视频的截取、提取与轻量转码入口。',
-    quickEntries: [
-      { id: 'media-audio', label: '提取音频', availability: 'planned', route: null },
-      { id: 'media-trim', label: '剪辑片段', availability: 'planned', route: null },
-      { id: 'media-gif', label: '视频转 GIF', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://cloudflare.thanejoss.com'
+    },
+    description: '汇总 Cloudflare 资源用量、额度和风险信号，帮助及时发现停服或计费压力。',
+    features: ['资源用量', '额度监控', '风险信号'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-04',
+    id: 't3-code',
     label: 'App 04',
-    title: '在线格式转换',
+    title: 'T3 Code',
     badge: '04',
-    availability: 'planned',
-    route: null,
-    description: '规划统一常见文件、表格和数据格式之间的转换入口。',
-    quickEntries: [
-      { id: 'convert-document', label: '文档互转', availability: 'planned', route: null },
-      { id: 'convert-table', label: '表格互转', availability: 'planned', route: null },
-      { id: 'convert-data', label: '数据格式', availability: 'planned', route: null },
-      { id: 'convert-batch', label: '批量转换', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://t3.thanejoss.com'
+    },
+    description: '在浏览器里打开项目工作区，连接 Codex 会话并处理远程开发任务。',
+    features: ['Codex', '项目工作区', '远程开发'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-05',
+    id: 'codex-workbench',
     label: 'App 05',
-    title: '口袋电子书',
+    title: 'Codex 工作台',
     badge: '05',
-    availability: 'planned',
-    route: null,
-    description: '规划在浏览器里整理、阅读和转换常见电子书内容。',
-    quickEntries: [
-      { id: 'ebook-read', label: 'EPUB 阅读', availability: 'planned', route: null },
-      { id: 'ebook-import', label: 'TXT 导入', availability: 'planned', route: null },
-      { id: 'ebook-chapters', label: '目录整理', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://codex.thanejoss.com'
+    },
+    description: '通过网页进入 Codex 工作环境，集中处理代码、任务与远程会话。',
+    features: ['代码任务', '工作会话', '远程访问'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-06',
+    id: 'service-status',
     label: 'App 06',
-    title: '口袋写作',
+    title: '服务状态',
     badge: '06',
-    availability: 'planned',
-    route: null,
-    description: '规划提供 Markdown 草稿、文章整理和快速导出能力。',
-    quickEntries: [
-      { id: 'markdown-preview', label: '即时预览', availability: 'planned', route: null },
-      { id: 'markdown-focus', label: '专注模式', availability: 'planned', route: null },
-      { id: 'markdown-export', label: '导出 HTML', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://uptime.thanejoss.com'
+    },
+    description: '集中查看各项服务的在线状态、可用性与近期运行情况。',
+    features: ['状态监控', '可用性', '运行记录'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-07',
+    id: 'portainer',
     label: 'App 07',
-    title: '桌面白板',
+    title: 'Portainer',
     badge: '07',
-    availability: 'planned',
-    route: null,
-    description: '规划提供随手绘制、便签和结构梳理能力。',
-    quickEntries: [
-      { id: 'whiteboard-draw', label: '自由绘图', availability: 'planned', route: null },
-      { id: 'whiteboard-sticky', label: '便签贴纸', availability: 'planned', route: null },
-      { id: 'whiteboard-map', label: '脑图草稿', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://portainer.thanejoss.com'
+    },
+    description: '通过网页管理 Docker 容器、镜像、网络与服务部署。',
+    features: ['Docker', '容器管理', '服务部署'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-08',
+    id: 'webssh',
     label: 'App 08',
-    title: 'API 工作台',
+    title: 'WebSSH',
     badge: '08',
-    availability: 'planned',
-    route: null,
-    description: '规划在网页里组织请求、查看响应和管理调试历史。',
-    quickEntries: [
-      { id: 'api-request', label: '快速请求', availability: 'planned', route: null },
-      { id: 'api-format', label: '响应格式化', availability: 'planned', route: null },
-      { id: 'api-history', label: '请求历史', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://ssh.thanejoss.com'
+    },
+    description: '在浏览器里连接远程终端，并通过持久化 tmux 保留后台工作。',
+    features: ['浏览器终端', 'SSH', 'tmux'],
+    displayTier: 'standard'
   },
   {
-    id: 'app-09',
+    id: 'remote-desktop',
     label: 'App 09',
-    title: '任务列表',
+    title: '远程桌面',
     badge: '09',
-    availability: 'planned',
-    route: null,
-    description: '规划个人待办、项目分组和短周期专注安排。',
-    quickEntries: [
-      { id: 'tasks-today', label: '今日清单', availability: 'planned', route: null },
-      { id: 'tasks-projects', label: '项目分组', availability: 'planned', route: null },
-      { id: 'tasks-focus', label: '专注计时', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
-  },
-  {
-    id: 'app-10',
-    label: 'App 10',
-    title: '私密日记',
-    badge: '10',
-    availability: 'planned',
-    route: null,
-    description: '规划面向个人记录的私密写作和回顾空间。',
-    quickEntries: [
-      { id: 'diary-today', label: '今天一页', availability: 'planned', route: null },
-      { id: 'diary-mood', label: '情绪标签', availability: 'planned', route: null },
-      { id: 'diary-lock', label: '本地锁定', availability: 'planned', route: null },
-      { id: 'diary-calendar', label: '回顾日历', availability: 'planned', route: null }
-    ],
-    roadmapStage: 'later'
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://vnc.thanejoss.com'
+    },
+    description: '从浏览器访问远程桌面，处理需要图形界面的主机任务。',
+    features: ['浏览器桌面', 'VNC', '图形界面'],
+    displayTier: 'standard'
   }
 ]
 
-export const interactiveCatalogRoutes = catalogApps.flatMap((app) => [
-  ...(app.availability === 'planned' ? [] : [app.route]),
-  ...app.quickEntries.flatMap((entry) => (
-    entry.availability === 'planned' ? [] : [entry.route]
-  ))
-])
+export const interactiveCatalogRoutes = catalogApps.flatMap((app) => (
+  app.availability !== 'planned' && app.destination.kind === 'internal'
+    ? [app.destination.href]
+    : []
+))

@@ -1,48 +1,39 @@
 export type CatalogAvailability = 'live' | 'beta' | 'planned'
-export type CatalogRoadmapStage = 'next' | 'later'
+export type CatalogDisplayTier = 'featured' | 'standard'
 
-interface CatalogItemBase {
+export type CatalogDestination =
+  | {
+      kind: 'internal'
+      href: `/${string}`
+    }
+  | {
+      kind: 'external'
+      href: `https://${string}`
+    }
+
+interface CatalogAppBase {
   id: string
   label: string
-}
-
-export type CatalogEntry = CatalogItemBase & (
-  | {
-      availability: 'live' | 'beta'
-      route: `/${string}`
-    }
-  | {
-      availability: 'planned'
-      route: null
-    }
-)
-
-interface CatalogAppBase extends CatalogItemBase {
   title: string
   badge: string
   description: string
-  quickEntries: readonly CatalogEntry[]
-  roadmapStage: CatalogRoadmapStage
+  features: readonly string[]
+  displayTier: CatalogDisplayTier
 }
 
 export type CatalogApp = CatalogAppBase & (
   | {
       availability: 'live' | 'beta'
-      route: `/${string}`
+      destination: CatalogDestination
     }
   | {
       availability: 'planned'
-      route: null
+      destination: null
     }
 )
 
 export const availabilityLabels: Record<CatalogAvailability, string> = {
-  live: '可用',
+  live: '已上线',
   beta: '测试中',
   planned: '规划中'
-}
-
-export const roadmapStageLabels: Record<CatalogRoadmapStage, string> = {
-  next: '优先开发',
-  later: '后续规划'
 }
