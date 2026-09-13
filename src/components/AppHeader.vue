@@ -1,15 +1,16 @@
 <template>
   <header
-    class="sticky top-0 z-40 px-3 pt-3 sm:px-6 lg:px-8"
+    class="site-header sticky top-0 z-40"
   >
     <div class="section-wrap">
-      <div class="surface-card grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-5 sm:py-4">
+      <div class="site-header__inner mx-auto max-w-6xl">
         <RouterLink
           to="/"
-          class="shrink-0"
+          class="site-brand shrink-0"
           aria-label="返回首页"
         >
           <AppMark />
+          <span>Web Apps</span>
         </RouterLink>
 
         <nav
@@ -28,10 +29,6 @@
           </RouterLink>
         </nav>
 
-        <div
-          class="h-10 w-10 shrink-0 sm:h-11 sm:w-11"
-          aria-hidden="true"
-        ></div>
       </div>
     </div>
   </header>

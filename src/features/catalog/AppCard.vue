@@ -1,6 +1,6 @@
 <template>
   <article
-    class="home-app-card surface-card flex flex-col items-start justify-between rounded-[2rem] border border-[#122540]/18 bg-white/88 p-6 text-left shadow-[0_20px_40px_rgba(10,22,40,0.08)]"
+    class="home-app-card surface-card flex flex-col items-start justify-between p-6 text-left"
     :class="[
       app.displayTier === 'featured' ? 'home-app-card--featured sm:p-8' : 'home-app-card--tile'
     ]"
@@ -14,15 +14,14 @@
           <p class="panel-label text-steel">{{ app.label }}</p>
           <h3
             class="mt-3 font-semibold text-ink"
-            :class="app.displayTier === 'featured' ? 'text-3xl tracking-[-0.05em] sm:text-[2.8rem]' : 'text-2xl'"
+            :class="app.displayTier === 'featured' ? 'text-2xl tracking-tight sm:text-3xl' : 'text-xl'"
           >
             {{ app.title }}
           </h3>
         </div>
 
         <div
-          class="flex items-center justify-center rounded-2xl border border-[#17304b]/14 bg-[#eff7ff] text-[#123a63] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]"
-          :class="app.displayTier === 'featured' ? 'h-14 w-14 text-sm font-semibold' : 'h-11 w-11 text-xs font-semibold'"
+          class="home-app-card__badge"
           aria-hidden="true"
         >
           {{ app.badge }}
