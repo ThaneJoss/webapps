@@ -4,13 +4,13 @@
     data-page-ready="home"
   >
     <div class="home-hero-shell mx-auto max-w-6xl">
-      <div class="home-hero-card surface-card overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+      <div class="home-hero-card surface-card overflow-hidden py-6 sm:py-8">
         <div class="home-hero-content max-w-4xl">
           <p class="home-hero-enter home-hero-enter--label panel-label text-steel">网站介绍</p>
-          <h1 class="home-hero-enter home-hero-enter--title mt-4 text-[2.9rem] font-semibold leading-[0.92] tracking-[-0.05em] text-ink sm:text-6xl">
+          <h1 class="home-hero-enter home-hero-enter--title home-hero-title mt-4 font-semibold text-ink">
             我的<span class="hero-native-emphasis">网页</span> APP
           </h1>
-          <p class="home-hero-enter home-hero-enter--copy mt-6 max-w-2xl text-base leading-8 text-steel sm:text-xl">
+          <p class="home-hero-enter home-hero-enter--copy mt-6 max-w-2xl text-base leading-8 text-steel sm:text-lg">
             这里汇集已经上线的用户应用、开发工作台与运维工具。无需安装，选择一个入口即可打开。
           </p>
 
@@ -61,7 +61,7 @@
         <p class="panel-label text-steel">APP 展示区</p>
         <h2
           id="catalog-title"
-          class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-[2.7rem]"
+          class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-3xl"
         >
           已上线的网页 APP
         </h2>

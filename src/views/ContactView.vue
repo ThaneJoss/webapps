@@ -8,7 +8,7 @@
         <div class="contact-hero__layout">
           <div class="contact-hero__content">
             <p class="contact-hero__eyebrow panel-label">
-              Contact / Start here
+              联系与反馈
             </p>
             <h1>
               把你的想法，
@@ -26,33 +26,6 @@
               <li>问题反馈</li>
               <li>项目想法</li>
             </ul>
-          </div>
-
-          <div
-            class="contact-signal"
-            aria-hidden="true"
-          >
-            <div class="contact-signal__ring"></div>
-            <div class="contact-signal__card">
-              <div class="contact-signal__header">
-                <span>NEW BRIEF</span>
-                <span class="contact-signal__status"></span>
-              </div>
-              <p>idea / context / next step</p>
-              <div class="contact-signal__steps">
-                <span class="is-active">想法</span>
-                <span>背景</span>
-                <span>下一步</span>
-              </div>
-              <div class="contact-signal__lines">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-
-            <span class="contact-signal__chip contact-signal__chip--top">需求</span>
-            <span class="contact-signal__chip contact-signal__chip--bottom">反馈</span>
           </div>
         </div>
       </div>

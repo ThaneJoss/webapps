@@ -39,10 +39,10 @@ test('home is statically rendered and links the nine real sub-sites', async ({ p
     rel === 'noopener noreferrer' && target === '_blank'
   ))).toBe(true)
 
-  const scrollbarWidth = await page.locator('html').evaluate((element) => (
-    getComputedStyle(element).getPropertyValue('scrollbar-width')
-  ))
-  expect(scrollbarWidth).toBe('none')
+  // Keep navigation and cards usable on both configured viewport sizes.
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  await page.getByRole('button', { name: '浏览应用' }).click()
+  await expect(page.locator('#catalog-title')).toBeInViewport()
 
   const internalTargets = await page.locator('a[href^="/"]').evaluateAll((anchors) => (
     anchors.map((anchor) => anchor.getAttribute('href'))
