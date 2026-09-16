@@ -8,6 +8,7 @@ let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  '卡间拾光',
   '文件中转站',
   'AI API 网关',
   'Cloudflare 用量卫士',
@@ -16,8 +17,7 @@ const expectedAppTitles = [
   '服务状态',
   'Portainer',
   'WebSSH',
-  '远程桌面',
-  '卡间拾光'
+  '远程桌面'
 ] as const
 
 const mountHomeView = () => {
@@ -59,6 +59,10 @@ describe('HomeView', () => {
     expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(10)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
     expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(9)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('卡间拾光')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('文件中转站')
+    expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('卡间拾光')
     expect(wrapper.findAll('.home-app-entry')).toHaveLength(30)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 

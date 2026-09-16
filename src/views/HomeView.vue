@@ -82,7 +82,7 @@
           >
             重点应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">从文件中转站开始，快速进入最常用的网页服务。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">从卡间拾光开始，浏览收藏的银行卡设计。</p>
         </div>
 
         <div class="home-app-board home-app-board--featured mt-4 grid gap-5">
@@ -109,7 +109,7 @@
           >
             更多应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">浏览卡面收藏，或访问 AI、开发、远程连接与运维工作台。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">继续访问文件传输、AI、开发、远程连接与运维工作台。</p>
         </div>
 
         <div class="home-app-board home-app-board--standard mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

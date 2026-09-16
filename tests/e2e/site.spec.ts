@@ -13,6 +13,9 @@ test('home is statically rendered and links the ten real websites', async ({ pag
   await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(10)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
   await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(9)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('卡间拾光')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('文件中转站')
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('卡间拾光')
   await expect(page.locator('.home-app-entry')).toHaveCount(30)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
@@ -24,7 +27,8 @@ test('home is statically rendered and links the ten real websites', async ({ pag
     }))
   ))
   expect(externalTargets).toHaveLength(10)
-  expect(new Set(externalTargets.map(({ href }) => href))).toEqual(new Set([
+  expect(externalTargets.map(({ href }) => href)).toEqual([
+    'https://card-gallery-joss-projects-83f40f4e.vercel.app',
     'https://file.thanejoss.com',
     'https://chat.thanejoss.com',
     'https://cloudflare.thanejoss.com',
@@ -33,9 +37,8 @@ test('home is statically rendered and links the ten real websites', async ({ pag
     'https://uptime.thanejoss.com',
     'https://portainer.thanejoss.com',
     'https://ssh.thanejoss.com',
-    'https://vnc.thanejoss.com',
-    'https://card-gallery-joss-projects-83f40f4e.vercel.app'
-  ]))
+    'https://vnc.thanejoss.com'
+  ])
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'
   ))).toBe(true)

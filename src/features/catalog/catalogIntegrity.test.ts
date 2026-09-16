@@ -4,6 +4,7 @@ import { routes } from '../../router'
 import { catalogApps, interactiveCatalogRoutes } from './apps'
 
 const expectedExternalUrls = [
+  'https://card-gallery-joss-projects-83f40f4e.vercel.app',
   'https://file.thanejoss.com',
   'https://chat.thanejoss.com',
   'https://cloudflare.thanejoss.com',
@@ -12,8 +13,7 @@ const expectedExternalUrls = [
   'https://uptime.thanejoss.com',
   'https://portainer.thanejoss.com',
   'https://ssh.thanejoss.com',
-  'https://vnc.thanejoss.com',
-  'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+  'https://vnc.thanejoss.com'
 ] as const
 
 describe('catalog integrity', () => {
