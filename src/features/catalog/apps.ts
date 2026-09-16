@@ -2,10 +2,24 @@ import type { CatalogApp } from './types'
 
 export const catalogApps: readonly CatalogApp[] = [
   {
-    id: 'file-transfer',
+    id: 'card-gallery',
     label: 'App 01',
-    title: '文件中转站',
+    title: '卡间拾光',
     badge: '01',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+    },
+    description: '浏览银行卡收藏，按银行、卡片类型与卡组织筛选，并查看完整卡面大图。',
+    features: ['卡面收藏', '银行筛选', '大图查看'],
+    displayTier: 'featured'
+  },
+  {
+    id: 'file-transfer',
+    label: 'App 02',
+    title: '文件中转站',
+    badge: '02',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -13,13 +27,13 @@ export const catalogApps: readonly CatalogApp[] = [
     },
     description: '通过 8 位取件码发送与接收文件，并在多条线路之间自动选择更合适的传输路径。',
     features: ['取件码', '多线路传输', '完整性校验'],
-    displayTier: 'featured'
+    displayTier: 'standard'
   },
   {
     id: 'ai-api-gateway',
-    label: 'App 02',
+    label: 'App 03',
     title: 'AI API 网关',
-    badge: '02',
+    badge: '03',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -31,9 +45,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'cloudflare-usage-guard',
-    label: 'App 03',
+    label: 'App 04',
     title: 'Cloudflare 用量卫士',
-    badge: '03',
+    badge: '04',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -45,9 +59,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 't3-code',
-    label: 'App 04',
+    label: 'App 05',
     title: 'T3 Code',
-    badge: '04',
+    badge: '05',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -59,9 +73,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'codex-workbench',
-    label: 'App 05',
+    label: 'App 06',
     title: 'Codex 工作台',
-    badge: '05',
+    badge: '06',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -73,9 +87,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'service-status',
-    label: 'App 06',
+    label: 'App 07',
     title: '服务状态',
-    badge: '06',
+    badge: '07',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -87,9 +101,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'portainer',
-    label: 'App 07',
+    label: 'App 08',
     title: 'Portainer',
-    badge: '07',
+    badge: '08',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -101,9 +115,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'webssh',
-    label: 'App 08',
+    label: 'App 09',
     title: 'WebSSH',
-    badge: '08',
+    badge: '09',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -115,9 +129,9 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'remote-desktop',
-    label: 'App 09',
+    label: 'App 10',
     title: '远程桌面',
-    badge: '09',
+    badge: '10',
     availability: 'live',
     destination: {
       kind: 'external',
