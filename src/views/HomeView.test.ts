@@ -16,7 +16,8 @@ const expectedAppTitles = [
   '服务状态',
   'Portainer',
   'WebSSH',
-  '远程桌面'
+  '远程桌面',
+  '卡间拾光'
 ] as const
 
 const mountHomeView = () => {
@@ -41,7 +42,7 @@ afterEach(() => {
 })
 
 describe('HomeView', () => {
-  it('presents the nine live sub-sites as external application links', () => {
+  it('presents the ten live websites as external application links', () => {
     wrapper = mountHomeView()
 
     expect(wrapper.text()).toContain('我的网页 APP')
@@ -55,20 +56,24 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(9)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(10)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(8)
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(27)
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(9)
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(30)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(9)
+    expect(externalLinks).toHaveLength(10)
 
     for (const link of externalLinks) {
-      expect(link.attributes('href')).toMatch(/^https:\/\/[a-z0-9.-]+\.thanejoss\.com$/)
+      expect(link.attributes('href')).toMatch(/^https:\/\//)
       expect(link.attributes('target')).toBe('_blank')
       expect(link.attributes('rel')).toBe('noopener noreferrer')
     }
+
+    expect(wrapper.get('[aria-label="访问卡间拾光"]').attributes('href')).toBe(
+      'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+    )
 
     expect(wrapper.getComponent(RouterLinkStub).props('to')).toBe('/contact')
   })

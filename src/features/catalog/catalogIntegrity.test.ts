@@ -12,11 +12,12 @@ const expectedExternalUrls = [
   'https://uptime.thanejoss.com',
   'https://portainer.thanejoss.com',
   'https://ssh.thanejoss.com',
-  'https://vnc.thanejoss.com'
+  'https://vnc.thanejoss.com',
+  'https://card-gallery-joss-projects-83f40f4e.vercel.app'
 ] as const
 
 describe('catalog integrity', () => {
-  it('publishes the nine real sub-sites as unique HTTPS destinations', () => {
+  it('publishes the ten real websites as unique HTTPS destinations', () => {
     const destinations = catalogApps.flatMap((app) => (
       app.availability === 'planned' ? [] : [app.destination]
     ))
@@ -24,10 +25,10 @@ describe('catalog integrity', () => {
       destination.kind === 'external' ? [destination.href] : []
     ))
 
-    expect(catalogApps).toHaveLength(9)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(27)
+    expect(catalogApps).toHaveLength(10)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(30)
     expect(catalogApps.filter((app) => app.displayTier === 'featured')).toHaveLength(1)
-    expect(catalogApps.filter((app) => app.displayTier === 'standard')).toHaveLength(8)
+    expect(catalogApps.filter((app) => app.displayTier === 'standard')).toHaveLength(9)
     expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
     expect(externalUrls).toEqual(expectedExternalUrls)
     expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)

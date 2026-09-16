@@ -109,7 +109,7 @@
           >
             更多应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">继续访问 AI、开发、远程连接与运维工作台。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">浏览卡面收藏，或访问 AI、开发、远程连接与运维工作台。</p>
         </div>
 
         <div class="home-app-board home-app-board--standard mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

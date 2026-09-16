@@ -126,6 +126,20 @@ export const catalogApps: readonly CatalogApp[] = [
     description: '从浏览器访问远程桌面，处理需要图形界面的主机任务。',
     features: ['浏览器桌面', 'VNC', '图形界面'],
     displayTier: 'standard'
+  },
+  {
+    id: 'card-gallery',
+    label: 'App 10',
+    title: '卡间拾光',
+    badge: '10',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+    },
+    description: '浏览银行卡收藏，按银行、卡片类型与卡组织筛选，并查看完整卡面大图。',
+    features: ['卡面收藏', '银行筛选', '大图查看'],
+    displayTier: 'standard'
   }
 ]
 
