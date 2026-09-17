@@ -76,7 +76,7 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.get('[aria-label="访问卡间拾光"]').attributes('href')).toBe(
-      'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+      'https://card.thanejoss.com'
     )
 
     expect(wrapper.getComponent(RouterLinkStub).props('to')).toBe('/contact')
