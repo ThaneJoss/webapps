@@ -28,7 +28,7 @@ test('home is statically rendered and links the ten real websites', async ({ pag
   ))
   expect(externalTargets).toHaveLength(10)
   expect(externalTargets.map(({ href }) => href)).toEqual([
-    'https://card-gallery-joss-projects-83f40f4e.vercel.app',
+    'https://card.thanejoss.com',
     'https://file.thanejoss.com',
     'https://chat.thanejoss.com',
     'https://cloudflare.thanejoss.com',

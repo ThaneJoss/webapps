@@ -4,7 +4,7 @@ import { routes } from '../../router'
 import { catalogApps, interactiveCatalogRoutes } from './apps'
 
 const expectedExternalUrls = [
-  'https://card-gallery-joss-projects-83f40f4e.vercel.app',
+  'https://card.thanejoss.com',
   'https://file.thanejoss.com',
   'https://chat.thanejoss.com',
   'https://cloudflare.thanejoss.com',

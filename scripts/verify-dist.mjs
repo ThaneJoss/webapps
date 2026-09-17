@@ -57,7 +57,7 @@ const expectedExternalAppUrls = [
   'https://portainer.thanejoss.com',
   'https://ssh.thanejoss.com',
   'https://vnc.thanejoss.com',
-  'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+  'https://card.thanejoss.com'
 ]
 
 for (const url of expectedExternalAppUrls) {

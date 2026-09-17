@@ -9,7 +9,7 @@ export const catalogApps: readonly CatalogApp[] = [
     availability: 'live',
     destination: {
       kind: 'external',
-      href: 'https://card-gallery-joss-projects-83f40f4e.vercel.app'
+      href: 'https://card.thanejoss.com'
     },
     description: '浏览银行卡收藏，按银行、卡片类型与卡组织筛选，并查看完整卡面大图。',
     features: ['卡面收藏', '银行筛选', '大图查看'],
