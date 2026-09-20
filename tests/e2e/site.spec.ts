@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('home is statically rendered and links the ten real websites', async ({ page, request }, testInfo) => {
+test('home is statically rendered and links the live websites', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="home"')
@@ -10,13 +10,13 @@ test('home is statically rendered and links the ten real websites', async ({ pag
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(10)
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(11)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(9)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('卡间拾光')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('文件中转站')
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('卡间拾光')
-  await expect(page.locator('.home-app-entry')).toHaveCount(30)
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(10)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('Fast 反向代理')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('卡间拾光')
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('Fast 反向代理')
+  await expect(page.locator('.home-app-entry')).toHaveCount(33)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -26,8 +26,9 @@ test('home is statically rendered and links the ten real websites', async ({ pag
       target: anchor.getAttribute('target')
     }))
   ))
-  expect(externalTargets).toHaveLength(10)
+  expect(externalTargets).toHaveLength(11)
   expect(externalTargets.map(({ href }) => href)).toEqual([
+    'https://fast.thanejoss.com',
     'https://card.thanejoss.com',
     'https://file.thanejoss.com',
     'https://chat.thanejoss.com',

@@ -2,11 +2,11 @@
   <article
     class="home-app-card surface-card flex flex-col items-start justify-between p-6 text-left"
     :class="[
-      app.displayTier === 'featured' ? 'home-app-card--featured sm:p-8' : 'home-app-card--tile'
+      featured ? 'home-app-card--featured sm:p-8' : 'home-app-card--tile'
     ]"
     :aria-disabled="app.availability === 'planned' ? 'true' : undefined"
     :data-catalog-availability="app.availability"
-    :data-display-tier="app.displayTier"
+    :data-display-tier="featured ? 'featured' : 'standard'"
   >
     <div class="w-full">
       <div class="flex items-start justify-between gap-4">
@@ -14,7 +14,7 @@
           <p class="panel-label text-steel">{{ app.label }}</p>
           <h3
             class="mt-3 font-semibold text-ink"
-            :class="app.displayTier === 'featured' ? 'text-2xl tracking-tight sm:text-3xl' : 'text-xl'"
+            :class="featured ? 'text-2xl tracking-tight sm:text-3xl' : 'text-xl'"
           >
             {{ app.title }}
           </h3>
@@ -30,7 +30,7 @@
 
       <p
         class="mt-4 text-steel"
-        :class="app.displayTier === 'featured' ? 'max-w-[38ch] text-base leading-8 sm:text-lg' : 'max-w-[30ch] text-base leading-7'"
+        :class="featured ? 'max-w-[38ch] text-base leading-8 sm:text-lg' : 'max-w-[30ch] text-base leading-7'"
       >
         {{ app.description }}
       </p>
@@ -97,5 +97,6 @@ import { availabilityLabels } from './types'
 
 defineProps<{
   app: CatalogApp
+  featured?: boolean
 }>()
 </script>

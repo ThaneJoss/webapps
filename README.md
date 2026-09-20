@@ -2,9 +2,11 @@
 
 一个使用 Vue 构建的静态网页 APP 导航与展示站。
 
-首页通过 typed catalog 展示 10 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
+首页通过 typed catalog 展示 11 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页主推「卡间拾光」，「文件中转站」排在第二位，作为「更多应用」的第一个入口。
+首页「最新应用」自动读取 `src/features/catalog/apps.ts` 列表的最后一项，标题、介绍和重点卡片共用同一条数据；其余应用保持列表顺序。新增项目只需追加目录项，无需修改首页或主推标记。
+
+Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。当前白名单包括 `archive.ubuntu.com` 和 `security.ubuntu.com`，支持流式下载和断点续传。源码：https://github.com/ThaneJoss/fast。
 
 ## 技术栈
 
