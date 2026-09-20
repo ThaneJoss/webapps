@@ -1,13 +1,15 @@
 import axe from 'axe-core'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import HomeView from './HomeView.vue'
+import * as catalog from '../features/catalog/apps'
 
 let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  'Fast 反向代理',
   '卡间拾光',
   '文件中转站',
   'AI API 网关',
@@ -35,6 +37,7 @@ const mountHomeView = () => {
 }
 
 afterEach(() => {
+  vi.restoreAllMocks()
   wrapper?.unmount()
   container?.remove()
   wrapper = null
@@ -42,7 +45,7 @@ afterEach(() => {
 })
 
 describe('HomeView', () => {
-  it('presents the ten live websites as external application links', () => {
+  it('presents the live websites as external application links', () => {
     wrapper = mountHomeView()
 
     expect(wrapper.text()).toContain('我的网页 APP')
@@ -56,18 +59,18 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(10)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(11)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(9)
-    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('卡间拾光')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('文件中转站')
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(10)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('Fast 反向代理')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('卡间拾光')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
-    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('卡间拾光')
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(30)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('Fast 反向代理')
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(33)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(10)
+    expect(externalLinks).toHaveLength(11)
 
     for (const link of externalLinks) {
       expect(link.attributes('href')).toMatch(/^https:\/\//)
@@ -80,6 +83,25 @@ describe('HomeView', () => {
     )
 
     expect(wrapper.getComponent(RouterLinkStub).props('to')).toBe('/contact')
+  })
+
+  it('derives the summary, heading description and card from the selected latest entry', () => {
+    const next = { ...catalog.catalogApps[0]!, id: 'next-app', title: '下一个应用', description: '新的应用说明' }
+    vi.spyOn(catalog, 'getLatestCatalogApp').mockReturnValue(next)
+    wrapper = mountHomeView()
+
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe(next.title)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe(next.title)
+    expect(wrapper.get('.home-catalog-group--featured .home-catalog-group__heading').text()).toContain(next.description)
+    expect(wrapper.get('[data-display-tier="featured"]').text()).toContain(next.description)
+  })
+
+  it('omits the latest card when the catalog has no latest entry', () => {
+    vi.spyOn(catalog, 'getLatestCatalogApp').mockReturnValue(undefined)
+    wrapper = mountHomeView()
+
+    expect(wrapper.find('[data-display-tier="featured"]').exists()).toBe(false)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('暂无应用')
   })
 
   it('has no detectable structural accessibility violations', async () => {

@@ -1,5 +1,4 @@
 export type CatalogAvailability = 'live' | 'beta' | 'planned'
-export type CatalogDisplayTier = 'featured' | 'standard'
 
 export type CatalogDestination =
   | {
@@ -18,7 +17,6 @@ interface CatalogAppBase {
   badge: string
   description: string
   features: readonly string[]
-  displayTier: CatalogDisplayTier
 }
 
 export type CatalogApp = CatalogAppBase & (

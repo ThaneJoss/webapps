@@ -21,7 +21,9 @@ scripts/
 tests/e2e/               桌面和移动端浏览器验收
 ```
 
-`src/features/catalog/apps.ts` 是应用目录的单一事实来源。状态与目标模型为：
+`src/features/catalog/apps.ts` 是应用目录的单一事实来源。列表按添加顺序维护，最后一项由 `getLatestCatalogApp` 选为首页最新应用；标题、介绍和重点卡片均从该条目派生，其他应用维持原顺序。空目录不展示最新卡片，摘要显示「暂无应用」。
+
+状态与目标模型为：
 
 - `planned`：`destination` 必须是 `null`，只渲染不可点击内容；
 - `beta` / `live`：可以指向已注册的绝对站内路径，或使用 HTTPS 打开真实外部子站；

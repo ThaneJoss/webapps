@@ -37,8 +37,8 @@
               <dd>{{ catalogApps.length }}</dd>
             </div>
             <div class="home-catalog-summary__item">
-              <dt>主推应用</dt>
-              <dd>{{ featuredAppTitle }}</dd>
+              <dt>最新应用</dt>
+              <dd>{{ latestApp?.title ?? '暂无应用' }}</dd>
             </div>
             <div class="home-catalog-summary__item">
               <dt>已开放</dt>
@@ -71,6 +71,7 @@
       </div>
 
       <div
+        v-if="latestApp"
         class="home-catalog-group home-catalog-group--featured mt-8"
         aria-labelledby="featured-catalog-label"
         role="group"
@@ -80,19 +81,18 @@
             id="featured-catalog-label"
             class="text-sm font-semibold text-ink"
           >
-            重点应用
+            最新应用
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">从卡间拾光开始，浏览收藏的银行卡设计。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">{{ latestApp.description }}</p>
         </div>
 
         <div class="home-app-board home-app-board--featured mt-4 grid gap-5">
           <AppCard
-            v-for="(app, index) in featuredApps"
-            :key="app.id"
-            :app="app"
+            :app="latestApp"
+            featured
             class="catalog-reveal"
             data-catalog-reveal
-            :data-reveal-order="index"
+            data-reveal-order="0"
           />
         </div>
       </div>
@@ -132,13 +132,12 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import AppCard from '../features/catalog/AppCard.vue'
-import { catalogApps } from '../features/catalog/apps'
+import { catalogApps, getLatestCatalogApp } from '../features/catalog/apps'
 import { prefersReducedMotion } from '../lib/motion'
 
-const featuredApps = catalogApps.filter((app) => app.displayTier === 'featured')
-const standardApps = catalogApps.filter((app) => app.displayTier === 'standard')
+const latestApp = getLatestCatalogApp(catalogApps)
+const standardApps = catalogApps.filter((app) => app !== latestApp)
 const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
-const featuredAppTitle = featuredApps[0]?.title ?? '待确定'
 const catalogSection = ref<HTMLElement | null>(null)
 
 let revealObserver: IntersectionObserver | null = null
