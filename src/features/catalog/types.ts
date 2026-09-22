@@ -12,6 +12,8 @@ export type CatalogDestination =
 
 interface CatalogAppBase {
   id: string
+  /** 首次加入目录的时间，使用带时区的 ISO 8601 格式。 */
+  addedAt: string
   label: string
   title: string
   badge: string

@@ -21,13 +21,26 @@ scripts/
 tests/e2e/               桌面和移动端浏览器验收
 ```
 
-`src/features/catalog/apps.ts` 是应用目录的单一事实来源。列表按添加顺序维护，首页以追加顺序表示新增时间并按倒序（newest first）展示：最后一项由 `getLatestCatalogApp` 选为最新应用，标题、介绍和重点卡片均从该条目派生；其他应用在过滤最新项后倒序展示，不改变源目录的顺序。空目录不展示最新卡片，摘要显示「暂无应用」。
+`src/features/catalog/apps.ts` 是应用目录的单一事实来源。每项通过 `addedAt` 记录首次加入目录的时间，`getCatalogAppsNewestFirst` 按解析后的时间戳倒序（newest first）返回副本，同时间保留源目录顺序。`getLatestCatalogApp` 使用相同规则选择最新项，标题、介绍和重点卡片均从该条目派生；其他应用按同一时间顺序展示。源数组的物理位置不表示时间，排序也不修改源数组。空目录不展示最新卡片，摘要显示「暂无应用」。
 
 状态与目标模型为：
 
 - `planned`：`destination` 必须是 `null`，只渲染不可点击内容；
 - `beta` / `live`：可以指向已注册的绝对站内路径，或使用 HTTPS 打开真实外部子站；
 - `catalogIntegrity.test.ts` 会验证外部地址唯一且符合预期，并确保所有站内目标均已注册到真实路由。
+
+### 目录新增时间依据
+
+现有 `addedAt` 来自各应用首次进入目录的 Git 提交者时间（`git show -s --format=%cI <commit>`），不是独立应用仓库的创建时间或最近一次描述修改时间。
+
+| 应用 | 首次加入目录时间（UTC+08:00） | Git 提交 |
+| --- | --- | --- |
+| BGP 路径观测 | 2026-09-22 22:18:40 | [`e4d9d45`](https://github.com/ThaneJoss/webapps/commit/e4d9d4597666525e30db87599c026f88261e663a) |
+| Fast 反向代理 | 2026-09-21 01:24:56 | [`2d3e01a`](https://github.com/ThaneJoss/webapps/commit/2d3e01a1e6d753ed62c97371cf27570ba5e51ea6) |
+| 卡间拾光 | 2026-09-16 18:13:14 | [`5c6197a`](https://github.com/ThaneJoss/webapps/commit/5c6197ab05d337b4b0bf1c3a25e3e592f7268ee9) |
+| 文件中转站、AI API 网关、Cloudflare 用量卫士、T3 Code、Codex 工作台、服务状态、Portainer、WebSSH、远程桌面 | 2026-08-22 03:13:13 | [`b19ae19`](https://github.com/ThaneJoss/webapps/commit/b19ae1947e09ead19e46480c081315542c7345df) |
+
+卡间拾光在后续提交 `5b97223` 被移到目录第一项，因此不能通过反转数组还原时间顺序。同一提交加入的九个应用没有更细的目录时间记录，保留该批次原有顺序。新增应用时填写真实的带时区 ISO 8601 `addedAt`；描述、域名和卡片位置调整不修改它。构建直接使用已记录的时间，无需运行时访问 Git 或 GitHub。
 
 ## 渲染模型
 

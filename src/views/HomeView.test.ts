@@ -11,16 +11,16 @@ let container: HTMLElement | null = null
 const expectedAppTitles = [
   'BGP 路径观测',
   'Fast 反向代理',
-  '远程桌面',
-  'WebSSH',
-  'Portainer',
-  '服务状态',
-  'Codex 工作台',
-  'T3 Code',
-  'Cloudflare 用量卫士',
-  'AI API 网关',
+  '卡间拾光',
   '文件中转站',
-  '卡间拾光'
+  'AI API 网关',
+  'Cloudflare 用量卫士',
+  'T3 Code',
+  'Codex 工作台',
+  '服务状态',
+  'Portainer',
+  'WebSSH',
+  '远程桌面'
 ] as const
 
 const mountHomeView = () => {

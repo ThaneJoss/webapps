@@ -30,16 +30,16 @@ test('home is statically rendered and links the live websites newest first', asy
   expect(externalTargets.map(({ href }) => href)).toEqual([
     'https://bgp.thanejoss.com',
     'https://fast.thanejoss.com',
-    'https://vnc.thanejoss.com',
-    'https://ssh.thanejoss.com',
-    'https://portainer.thanejoss.com',
-    'https://uptime.thanejoss.com',
-    'https://codex.thanejoss.com',
-    'https://t3.thanejoss.com',
-    'https://cloudflare.thanejoss.com',
-    'https://chat.thanejoss.com',
+    'https://card.thanejoss.com',
     'https://file.thanejoss.com',
-    'https://card.thanejoss.com'
+    'https://chat.thanejoss.com',
+    'https://cloudflare.thanejoss.com',
+    'https://t3.thanejoss.com',
+    'https://codex.thanejoss.com',
+    'https://uptime.thanejoss.com',
+    'https://portainer.thanejoss.com',
+    'https://ssh.thanejoss.com',
+    'https://vnc.thanejoss.com'
   ])
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'

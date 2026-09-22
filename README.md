@@ -4,7 +4,7 @@
 
 首页通过 typed catalog 展示 12 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页按新增时间倒序（newest first）展示应用：以 `src/features/catalog/apps.ts` 的追加顺序为准，最后一项展示为「最新应用」，标题、介绍和重点卡片共用同一条数据；其余应用按追加顺序倒序展示。新增项目只需追加目录项，无需修改首页或主推标记。
+首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 根据 Git 历史里首次加入目录的提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
 
 Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 等白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制。源码：https://github.com/ThaneJoss/fast。
 
