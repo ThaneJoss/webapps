@@ -14,7 +14,8 @@ const expectedExternalUrls = [
   'https://portainer.thanejoss.com',
   'https://ssh.thanejoss.com',
   'https://vnc.thanejoss.com',
-  'https://fast.thanejoss.com'
+  'https://fast.thanejoss.com',
+  'https://bgp.thanejoss.com'
 ] as const
 
 describe('catalog integrity', () => {
@@ -26,8 +27,8 @@ describe('catalog integrity', () => {
       destination.kind === 'external' ? [destination.href] : []
     ))
 
-    expect(catalogApps).toHaveLength(11)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(33)
+    expect(catalogApps).toHaveLength(12)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(36)
     expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
     expect(externalUrls).toEqual(expectedExternalUrls)
     expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)
