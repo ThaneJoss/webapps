@@ -10,13 +10,13 @@ test('home is statically rendered and links the live websites', async ({ page, r
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(11)
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(12)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(10)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('Fast 反向代理')
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(11)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('BGP 路径观测')
   await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('卡间拾光')
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('Fast 反向代理')
-  await expect(page.locator('.home-app-entry')).toHaveCount(33)
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('BGP 路径观测')
+  await expect(page.locator('.home-app-entry')).toHaveCount(36)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -26,9 +26,9 @@ test('home is statically rendered and links the live websites', async ({ page, r
       target: anchor.getAttribute('target')
     }))
   ))
-  expect(externalTargets).toHaveLength(11)
+  expect(externalTargets).toHaveLength(12)
   expect(externalTargets.map(({ href }) => href)).toEqual([
-    'https://fast.thanejoss.com',
+    'https://bgp.thanejoss.com',
     'https://card.thanejoss.com',
     'https://file.thanejoss.com',
     'https://chat.thanejoss.com',
@@ -38,7 +38,8 @@ test('home is statically rendered and links the live websites', async ({ page, r
     'https://uptime.thanejoss.com',
     'https://portainer.thanejoss.com',
     'https://ssh.thanejoss.com',
-    'https://vnc.thanejoss.com'
+    'https://vnc.thanejoss.com',
+    'https://fast.thanejoss.com'
   ])
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'

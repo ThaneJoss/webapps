@@ -142,8 +142,21 @@ export const catalogApps: readonly CatalogApp[] = [
       kind: 'external',
       href: 'https://fast.thanejoss.com'
     },
-    description: '通过 fast.thanejoss.com/host/res 代理访问 HTTPS 资源，当前支持 archive.ubuntu.com 和 security.ubuntu.com 两个 Ubuntu 软件源。',
-    features: ['白名单代理', 'Ubuntu 软件源', '断点续传']
+    description: '代理访问 Ubuntu、npm 等白名单 HTTPS 资源，提供软件源一键配置、IP 白名单、分组管理与访问日志。',
+    features: ['Ubuntu / npm 源', '一键配置', 'IP 白名单']
+  },
+  {
+    id: 'bgp',
+    label: 'App 12',
+    title: 'BGP 路径观测',
+    badge: '12',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://bgp.thanejoss.com'
+    },
+    description: '探索全球 AS 拓扑，并基于 RouteViews 香港观测数据查询、对比两个 IP 的 BGP AS 路径。',
+    features: ['AS 拓扑', 'BGP 路径', '双 IP 对比']
   }
 ]
 

@@ -2,11 +2,13 @@
 
 一个使用 Vue 构建的静态网页 APP 导航与展示站。
 
-首页通过 typed catalog 展示 11 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
+首页通过 typed catalog 展示 12 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
 首页「最新应用」自动读取 `src/features/catalog/apps.ts` 列表的最后一项，标题、介绍和重点卡片共用同一条数据；其余应用保持列表顺序。新增项目只需追加目录项，无需修改首页或主推标记。
 
-Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。当前白名单包括 `archive.ubuntu.com` 和 `security.ubuntu.com`，支持流式下载和断点续传。源码：https://github.com/ThaneJoss/fast。
+Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 等白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制。源码：https://github.com/ThaneJoss/fast。
+
+BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球 AS 拓扑可视化，并基于每日更新的 RouteViews 香港 HKIX / AS3491 观测数据查询、对比两个 IP 的 BGP AS 路径。路径来自观测 session 中的 AS_PATH，不代表两个 IP 之间的实时 traceroute；全球拓扑使用 CAIDA 静态快照。源码：https://github.com/ThaneJoss/bgp。
 
 ## 技术栈
 

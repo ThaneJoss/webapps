@@ -58,7 +58,8 @@ const expectedExternalAppUrls = [
   'https://ssh.thanejoss.com',
   'https://vnc.thanejoss.com',
   'https://card.thanejoss.com',
-  'https://fast.thanejoss.com'
+  'https://fast.thanejoss.com',
+  'https://bgp.thanejoss.com'
 ]
 
 for (const url of expectedExternalAppUrls) {
