@@ -4,7 +4,7 @@
 
 首页通过 typed catalog 展示 12 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页「最新应用」自动读取 `src/features/catalog/apps.ts` 列表的最后一项，标题、介绍和重点卡片共用同一条数据；其余应用保持列表顺序。新增项目只需追加目录项，无需修改首页或主推标记。
+首页按新增时间倒序（newest first）展示应用：以 `src/features/catalog/apps.ts` 的追加顺序为准，最后一项展示为「最新应用」，标题、介绍和重点卡片共用同一条数据；其余应用按追加顺序倒序展示。新增项目只需追加目录项，无需修改首页或主推标记。
 
 Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 等白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制。源码：https://github.com/ThaneJoss/fast。
 

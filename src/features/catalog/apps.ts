@@ -1,6 +1,6 @@
 import type { CatalogApp } from './types'
 
-// 按添加顺序维护；最后一项自动展示为首页最新应用。
+// 按添加顺序维护；首页按新增时间倒序展示，最后一项为最新应用。
 export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'card-gallery',

@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('home is statically rendered and links the live websites', async ({ page, request }, testInfo) => {
+test('home is statically rendered and links the live websites newest first', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="home"')
@@ -14,7 +14,7 @@ test('home is statically rendered and links the live websites', async ({ page, r
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
   await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(11)
   await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('BGP 路径观测')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('卡间拾光')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('Fast 反向代理')
   await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('BGP 路径观测')
   await expect(page.locator('.home-app-entry')).toHaveCount(36)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
@@ -29,17 +29,17 @@ test('home is statically rendered and links the live websites', async ({ page, r
   expect(externalTargets).toHaveLength(12)
   expect(externalTargets.map(({ href }) => href)).toEqual([
     'https://bgp.thanejoss.com',
-    'https://card.thanejoss.com',
-    'https://file.thanejoss.com',
-    'https://chat.thanejoss.com',
-    'https://cloudflare.thanejoss.com',
-    'https://t3.thanejoss.com',
-    'https://codex.thanejoss.com',
-    'https://uptime.thanejoss.com',
-    'https://portainer.thanejoss.com',
-    'https://ssh.thanejoss.com',
+    'https://fast.thanejoss.com',
     'https://vnc.thanejoss.com',
-    'https://fast.thanejoss.com'
+    'https://ssh.thanejoss.com',
+    'https://portainer.thanejoss.com',
+    'https://uptime.thanejoss.com',
+    'https://codex.thanejoss.com',
+    'https://t3.thanejoss.com',
+    'https://cloudflare.thanejoss.com',
+    'https://chat.thanejoss.com',
+    'https://file.thanejoss.com',
+    'https://card.thanejoss.com'
   ])
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'

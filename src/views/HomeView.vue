@@ -136,7 +136,7 @@ import { catalogApps, getLatestCatalogApp } from '../features/catalog/apps'
 import { prefersReducedMotion } from '../lib/motion'
 
 const latestApp = getLatestCatalogApp(catalogApps)
-const standardApps = catalogApps.filter((app) => app !== latestApp)
+const standardApps = catalogApps.filter((app) => app !== latestApp).reverse()
 const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
 const catalogSection = ref<HTMLElement | null>(null)
 
