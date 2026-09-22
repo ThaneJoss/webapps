@@ -132,11 +132,11 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import AppCard from '../features/catalog/AppCard.vue'
-import { catalogApps, getLatestCatalogApp } from '../features/catalog/apps'
+import { catalogApps, getCatalogAppsNewestFirst, getLatestCatalogApp } from '../features/catalog/apps'
 import { prefersReducedMotion } from '../lib/motion'
 
 const latestApp = getLatestCatalogApp(catalogApps)
-const standardApps = catalogApps.filter((app) => app !== latestApp)
+const standardApps = getCatalogAppsNewestFirst(catalogApps).filter((app) => app !== latestApp)
 const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
 const catalogSection = ref<HTMLElement | null>(null)
 

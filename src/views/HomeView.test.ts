@@ -10,6 +10,7 @@ let container: HTMLElement | null = null
 
 const expectedAppTitles = [
   'BGP 路径观测',
+  'Fast 反向代理',
   '卡间拾光',
   '文件中转站',
   'AI API 网关',
@@ -19,8 +20,7 @@ const expectedAppTitles = [
   '服务状态',
   'Portainer',
   'WebSSH',
-  '远程桌面',
-  'Fast 反向代理'
+  '远程桌面'
 ] as const
 
 const mountHomeView = () => {
@@ -46,7 +46,7 @@ afterEach(() => {
 })
 
 describe('HomeView', () => {
-  it('presents the live websites as external application links', () => {
+  it('presents the live websites as external application links, newest first', () => {
     wrapper = mountHomeView()
 
     expect(wrapper.text()).toContain('我的网页 APP')
@@ -64,7 +64,7 @@ describe('HomeView', () => {
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
     expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(11)
     expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('BGP 路径观测')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('卡间拾光')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('Fast 反向代理')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
     expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('BGP 路径观测')
     expect(wrapper.findAll('.home-app-entry')).toHaveLength(36)
@@ -84,6 +84,21 @@ describe('HomeView', () => {
     )
 
     expect(wrapper.getComponent(RouterLinkStub).props('to')).toBe('/contact')
+  })
+
+  it('keeps the source catalog order and newest-first display stable across mounts', () => {
+    const originalCatalogOrder = [...catalog.catalogApps]
+    wrapper = mountHomeView()
+
+    expect(catalog.catalogApps).toEqual(originalCatalogOrder)
+    expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
+
+    wrapper.unmount()
+    container?.remove()
+    wrapper = mountHomeView()
+
+    expect(catalog.catalogApps).toEqual(originalCatalogOrder)
+    expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
   })
 
   it('derives the summary, heading description and card from the selected latest entry', () => {

@@ -1,9 +1,11 @@
 import type { CatalogApp } from './types'
 
-// 按添加顺序维护；最后一项自动展示为首页最新应用。
+// addedAt 按 Git 首次引入目录的提交时间回填，依据见 docs/ARCHITECTURE.md。
+// 首页按 addedAt 倒序展示；同批加入的应用保留源目录顺序。
 export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'card-gallery',
+    addedAt: '2026-09-16T18:13:14+08:00',
     label: 'App 01',
     title: '卡间拾光',
     badge: '01',
@@ -17,6 +19,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'file-transfer',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 02',
     title: '文件中转站',
     badge: '02',
@@ -30,6 +33,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'ai-api-gateway',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 03',
     title: 'AI API 网关',
     badge: '03',
@@ -43,6 +47,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'cloudflare-usage-guard',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 04',
     title: 'Cloudflare 用量卫士',
     badge: '04',
@@ -56,6 +61,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 't3-code',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 05',
     title: 'T3 Code',
     badge: '05',
@@ -69,6 +75,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'codex-workbench',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 06',
     title: 'Codex 工作台',
     badge: '06',
@@ -82,6 +89,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'service-status',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 07',
     title: '服务状态',
     badge: '07',
@@ -95,6 +103,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'portainer',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 08',
     title: 'Portainer',
     badge: '08',
@@ -108,6 +117,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'webssh',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 09',
     title: 'WebSSH',
     badge: '09',
@@ -121,6 +131,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'remote-desktop',
+    addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 10',
     title: '远程桌面',
     badge: '10',
@@ -134,6 +145,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'fast',
+    addedAt: '2026-09-21T01:24:56+08:00',
     label: 'App 11',
     title: 'Fast 反向代理',
     badge: '11',
@@ -147,6 +159,7 @@ export const catalogApps: readonly CatalogApp[] = [
   },
   {
     id: 'bgp',
+    addedAt: '2026-09-22T22:18:40+08:00',
     label: 'App 12',
     title: 'BGP 路径观测',
     badge: '12',
@@ -160,7 +173,11 @@ export const catalogApps: readonly CatalogApp[] = [
   }
 ]
 
-export const getLatestCatalogApp = (apps: readonly CatalogApp[]) => apps.at(-1)
+export const getCatalogAppsNewestFirst = (apps: readonly CatalogApp[]) => (
+  [...apps].sort((a, b) => Date.parse(b.addedAt) - Date.parse(a.addedAt))
+)
+
+export const getLatestCatalogApp = (apps: readonly CatalogApp[]) => getCatalogAppsNewestFirst(apps).at(0)
 
 export const interactiveCatalogRoutes = catalogApps.flatMap((app) => (
   app.availability !== 'planned' && app.destination.kind === 'internal'
