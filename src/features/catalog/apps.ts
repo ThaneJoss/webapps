@@ -1,6 +1,6 @@
 import type { CatalogApp } from './types'
 
-// addedAt 按 Git 首次引入目录的提交时间回填，依据见 docs/ARCHITECTURE.md。
+// addedAt 记录首次加入目录的时间；历史项目按 Git 提交时间回填，依据见 docs/ARCHITECTURE.md。
 // 首页按 addedAt 倒序展示；同批加入的应用保留源目录顺序。
 export const catalogApps: readonly CatalogApp[] = [
   {
@@ -170,6 +170,20 @@ export const catalogApps: readonly CatalogApp[] = [
     },
     description: '探索全球 AS 拓扑，并基于 RouteViews 香港观测数据查询、对比两个 IP 的 BGP AS 路径。',
     features: ['AS 拓扑', 'BGP 路径', '双 IP 对比']
+  },
+  {
+    id: 'leafread',
+    addedAt: '2026-09-23T08:15:09Z',
+    label: 'App 13',
+    title: '叶读 · LeafRead',
+    badge: '13',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://epub.thanejoss.com'
+    },
+    description: '粘贴 EPUB 在线直链或打开本地电子书，在浏览器中阅读，支持目录跳转、字号调整与阅读位置记忆。',
+    features: ['在线 / 本地 EPUB', '目录与字号', '阅读进度']
   }
 ]
 
