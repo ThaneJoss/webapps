@@ -2,13 +2,14 @@ import type { CatalogApp } from './types'
 
 // addedAt 记录首次加入目录的时间；历史项目按 Git 提交时间回填，依据见 docs/ARCHITECTURE.md。
 // 首页按 addedAt 倒序展示；同批加入的应用保留源目录顺序。
+// label 与 badge 使用同一序号，按首页顺序从应用总数递减到 01。
 export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'card-gallery',
     addedAt: '2026-09-16T18:13:14+08:00',
-    label: 'App 01',
+    label: 'App 10',
     title: '卡间拾光',
-    badge: '01',
+    badge: '10',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -20,9 +21,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'file-transfer',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 02',
+    label: 'App 09',
     title: '文件中转站',
-    badge: '02',
+    badge: '09',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -34,9 +35,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'ai-api-gateway',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 03',
+    label: 'App 08',
     title: 'AI API 网关',
-    badge: '03',
+    badge: '08',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -48,9 +49,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'cloudflare-usage-guard',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 04',
+    label: 'App 07',
     title: 'Cloudflare 用量卫士',
-    badge: '04',
+    badge: '07',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -62,9 +63,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 't3-code',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 05',
+    label: 'App 06',
     title: 'T3 Code',
-    badge: '05',
+    badge: '06',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -76,9 +77,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'codex-workbench',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 06',
+    label: 'App 05',
     title: 'Codex 工作台',
-    badge: '06',
+    badge: '05',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -90,9 +91,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'service-status',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 07',
+    label: 'App 04',
     title: '服务状态',
-    badge: '07',
+    badge: '04',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -104,9 +105,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'portainer',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 08',
+    label: 'App 03',
     title: 'Portainer',
-    badge: '08',
+    badge: '03',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -118,9 +119,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'webssh',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 09',
+    label: 'App 02',
     title: 'WebSSH',
-    badge: '09',
+    badge: '02',
     availability: 'live',
     destination: {
       kind: 'external',
@@ -132,9 +133,9 @@ export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'remote-desktop',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 10',
+    label: 'App 01',
     title: '远程桌面',
-    badge: '10',
+    badge: '01',
     availability: 'live',
     destination: {
       kind: 'external',
