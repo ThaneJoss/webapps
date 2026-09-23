@@ -9,6 +9,7 @@ let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  '叶读 · LeafRead',
   'BGP 路径观测',
   'Fast 反向代理',
   '卡间拾光',
@@ -60,18 +61,18 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(12)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(13)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(11)
-    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('BGP 路径观测')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('Fast 反向代理')
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(12)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('叶读 · LeafRead')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('BGP 路径观测')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
-    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('BGP 路径观测')
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(36)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('叶读 · LeafRead')
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(39)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(12)
+    expect(externalLinks).toHaveLength(13)
 
     for (const link of externalLinks) {
       expect(link.attributes('href')).toMatch(/^https:\/\//)

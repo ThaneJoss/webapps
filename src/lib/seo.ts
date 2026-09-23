@@ -16,7 +16,7 @@ const pageMetadata = {
   home: {
     key: 'home',
     title: `已上线的网页 APP | ${siteName}`,
-    description: '访问 Thane Joss 已上线的文件传输、AI、开发与运维网页应用。每张卡片都连接真实运行的网站。',
+    description: '访问 Thane Joss 已上线的电子书阅读、文件传输、AI、开发与运维网页应用。每张卡片都连接真实运行的网站。',
     path: '/',
     canonical: `${siteOrigin}/`,
     robots: 'index, follow'

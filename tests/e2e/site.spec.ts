@@ -10,13 +10,13 @@ test('home is statically rendered and links the live websites newest first', asy
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(12)
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(13)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(11)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('BGP 路径观测')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('Fast 反向代理')
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('BGP 路径观测')
-  await expect(page.locator('.home-app-entry')).toHaveCount(36)
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(12)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('叶读 · LeafRead')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('BGP 路径观测')
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('叶读 · LeafRead')
+  await expect(page.locator('.home-app-entry')).toHaveCount(39)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -26,8 +26,9 @@ test('home is statically rendered and links the live websites newest first', asy
       target: anchor.getAttribute('target')
     }))
   ))
-  expect(externalTargets).toHaveLength(12)
+  expect(externalTargets).toHaveLength(13)
   expect(externalTargets.map(({ href }) => href)).toEqual([
+    'https://epub.thanejoss.com',
     'https://bgp.thanejoss.com',
     'https://fast.thanejoss.com',
     'https://card.thanejoss.com',

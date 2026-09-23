@@ -2,9 +2,11 @@
 
 一个使用 Vue 构建的静态网页 APP 导航与展示站。
 
-首页通过 typed catalog 展示 12 个真实运行的网站，覆盖文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
+首页通过 typed catalog 展示 13 个真实运行的网站，覆盖电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 根据 Git 历史里首次加入目录的提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+
+叶读（LeafRead）入口为 https://epub.thanejoss.com，是基于开源 Bibi 的免登录 EPUB 阅读器。支持粘贴 HTTPS 文件直链或打开本地 EPUB，提供目录跳转、翻页与滚动、字号调整和同一浏览器内的阅读位置记忆；本地文件仅在浏览器中读取。源码：https://github.com/ThaneJoss/epub。
 
 Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 等白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制。源码：https://github.com/ThaneJoss/fast。
 
