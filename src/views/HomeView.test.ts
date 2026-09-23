@@ -67,6 +67,11 @@ describe('HomeView', () => {
     expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('叶读 · LeafRead')
     expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('BGP 路径观测')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
+    const expectedBadges = ['13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+    expect(wrapper.findAll('.home-app-card__badge').map((badge) => badge.text())).toEqual(expectedBadges)
+    expect(wrapper.findAll('.home-app-card .panel-label').map((label) => label.text())).toEqual(
+      expectedBadges.map((badge) => `App ${badge}`)
+    )
     expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('叶读 · LeafRead')
     expect(wrapper.findAll('.home-app-entry')).toHaveLength(39)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)

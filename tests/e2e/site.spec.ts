@@ -15,6 +15,11 @@ test('home is statically rendered and links the live websites newest first', asy
   await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(12)
   await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('叶读 · LeafRead')
   await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('BGP 路径观测')
+  const expectedBadges = ['13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+  await expect(page.locator('.home-app-card__badge')).toHaveText(expectedBadges)
+  await expect(page.locator('.home-app-card .panel-label')).toHaveText(
+    expectedBadges.map((badge) => `App ${badge}`)
+  )
   await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('叶读 · LeafRead')
   await expect(page.locator('.home-app-entry')).toHaveCount(39)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
