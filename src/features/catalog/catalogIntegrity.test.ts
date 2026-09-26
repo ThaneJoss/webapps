@@ -16,7 +16,8 @@ const expectedExternalUrls = [
   'https://vnc.thanejoss.com',
   'https://fast.thanejoss.com',
   'https://bgp.thanejoss.com',
-  'https://epub.thanejoss.com'
+  'https://epub.thanejoss.com',
+  'https://dify.thanejoss.com'
 ] as const
 
 describe('catalog integrity', () => {
@@ -37,8 +38,8 @@ describe('catalog integrity', () => {
       destination.kind === 'external' ? [destination.href] : []
     ))
 
-    expect(catalogApps).toHaveLength(13)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(39)
+    expect(catalogApps).toHaveLength(14)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(42)
     expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
     expect(externalUrls).toEqual(expectedExternalUrls)
     expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)
@@ -87,7 +88,7 @@ describe('catalog addition time ordering', () => {
   })
 
   it('keeps applications added in the same commit in their existing order', () => {
-    const originalApps = catalogApps.filter((app) => !['card-gallery', 'fast', 'bgp', 'leafread'].includes(app.id))
+    const originalApps = catalogApps.filter((app) => !['card-gallery', 'fast', 'bgp', 'leafread', 'dify'].includes(app.id))
 
     expect(new Set(originalApps.map((app) => Date.parse(app.addedAt))).size).toBe(1)
     expect(getCatalogAppsNewestFirst(originalApps)).toEqual(originalApps)

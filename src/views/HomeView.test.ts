@@ -9,6 +9,7 @@ let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  'Dify AI 工作台',
   '叶读 · LeafRead',
   'BGP 路径观测',
   'Fast 反向代理',
@@ -61,23 +62,23 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(13)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(14)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(12)
-    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('叶读 · LeafRead')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('BGP 路径观测')
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(13)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('Dify AI 工作台')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('叶读 · LeafRead')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
-    const expectedBadges = ['13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+    const expectedBadges = ['14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
     expect(wrapper.findAll('.home-app-card__badge').map((badge) => badge.text())).toEqual(expectedBadges)
     expect(wrapper.findAll('.home-app-card .panel-label').map((label) => label.text())).toEqual(
       expectedBadges.map((badge) => `App ${badge}`)
     )
-    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('叶读 · LeafRead')
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(39)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('Dify AI 工作台')
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(42)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(13)
+    expect(externalLinks).toHaveLength(14)
 
     for (const link of externalLinks) {
       expect(link.attributes('href')).toMatch(/^https:\/\//)
