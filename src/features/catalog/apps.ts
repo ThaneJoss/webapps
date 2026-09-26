@@ -185,6 +185,20 @@ export const catalogApps: readonly CatalogApp[] = [
     },
     description: '粘贴 EPUB 在线直链或打开本地电子书，在浏览器中阅读，支持目录跳转、字号调整与阅读位置记忆。',
     features: ['在线 / 本地 EPUB', '目录与字号', '阅读进度']
+  },
+  {
+    id: 'dify',
+    addedAt: '2026-09-26T17:24:43Z',
+    label: 'App 14',
+    title: 'Dify AI 工作台',
+    badge: '14',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://dify.thanejoss.com'
+    },
+    description: '通过可视化工作流编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。',
+    features: ['AI 工作流', '知识库', '应用编排']
   }
 ]
 
