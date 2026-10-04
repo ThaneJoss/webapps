@@ -4,7 +4,7 @@
 
 本指南适用于整个仓库。开始修改前，先阅读相关源码、测试和文档，并保持改动聚焦。
 
-- `package.json` 是 npm 脚本、引擎约束和依赖的事实来源。
+- `package.json` 是 pnpm 脚本、引擎约束和依赖的事实来源。
 - `src/features/catalog/apps.ts` 是应用目录及可用状态的事实来源。
 - `src/lib/seo.ts` 与 `src/router/` 分别维护页面 metadata 和公开路由。
 - `docs/ARCHITECTURE.md` 与 `docs/DEPLOYMENT.md` 说明架构、构建和部署约束。
@@ -28,27 +28,27 @@
 
 ## 环境与依赖
 
-- Node.js 版本以 `.node-version` 为准，npm 版本以 `package.json#packageManager` 为准。
-- 在干净环境中使用 `npm ci` 按锁文件安装依赖。
-- 更新依赖时使用 npm 命令，并同时提交 `package.json` 与 `package-lock.json` 的对应变化。
+- 开发与 CI 的 Node.js 版本以 `.node-version` 为准，pnpm 版本以 `package.json#packageManager` 为准；Vercel 使用平台支持的最新 Node.js 24 LTS，并满足 `package.json#engines`。
+- 在干净环境中使用 `pnpm install --frozen-lockfile` 按锁文件安装依赖。
+- 更新依赖时使用 pnpm 命令，并同时提交 `package.json` 与 `pnpm-lock.yaml` 的对应变化。
 - 不要手工改写 `node_modules/`、`dist/` 或锁文件中的派生内容。
 
 ## 常用命令
 
 | 命令 | 用途 |
 | --- | --- |
-| `npm run dev` | 启动 Vite 开发服务器。 |
-| `npm run check:dependencies` | 检查直接依赖是否为最新版本。 |
-| `npm run lint` | 检查 Vue、TypeScript 和构建脚本。 |
-| `npm run typecheck` | 使用 TypeScript 7 原生编译器检查 TypeScript 源码。 |
-| `npm test` / `npm run test:unit` | 执行 Vitest 单元与组件测试。 |
-| `npm run test:unit:watch` | 以监听模式运行 Vitest。 |
-| `npm run build` | 执行类型检查并生成、加固 SSG 静态站点。 |
-| `npm run build:ssg` | 仅生成并加固 SSG 产物；适用于已单独完成类型检查的流程。 |
-| `npm run verify:dist` | 验证 metadata、路由、链接、CSP 约束和资源预算。 |
-| `npm run test:e2e` | 在已构建的 `dist/` 上执行 Playwright 与 axe 浏览器验收。 |
-| `npm run preview` | 预览已生成的 `dist/`。 |
-| `npm audit --audit-level=high` | 检查高等级及以上的依赖漏洞。 |
+| `pnpm run dev` | 启动 Vite 开发服务器。 |
+| `pnpm run check:dependencies` | 检查直接依赖是否为最新版本。 |
+| `pnpm run lint` | 检查 Vue、TypeScript 和构建脚本。 |
+| `pnpm run typecheck` | 使用 TypeScript 7 原生编译器检查 TypeScript 源码。 |
+| `pnpm test` / `pnpm run test:unit` | 执行 Vitest 单元与组件测试。 |
+| `pnpm run test:unit:watch` | 以监听模式运行 Vitest。 |
+| `pnpm run build` | 执行类型检查并生成、加固 SSG 静态站点。 |
+| `pnpm run build:ssg` | 仅生成并加固 SSG 产物；适用于已单独完成类型检查的流程。 |
+| `pnpm run verify:dist` | 验证 metadata、路由、链接、CSP 约束和资源预算。 |
+| `pnpm run test:e2e` | 在已构建的 `dist/` 上执行 Playwright 与 axe 浏览器验收。 |
+| `pnpm run preview` | 预览已生成的 `dist/`。 |
+| `pnpm audit --audit-level=high` | 检查高等级及以上的依赖漏洞。 |
 
 ## 编码与实现规则
 
@@ -78,10 +78,10 @@
 | 改动类型 | 最低验证范围 |
 | --- | --- |
 | 仅文档 | `git diff --check`，并核对命令、链接和事实准确性。 |
-| TypeScript / Vue 逻辑 | `npm run lint`、`npm run typecheck`、`npm run test:unit`。 |
-| 路由、metadata 或构建 | `npm run build`、`npm run verify:dist`。 |
-| 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `npm run test:e2e`，并检查桌面端与移动端。 |
-| 依赖更新 | 记录 `npm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `npm audit --audit-level=high`。 |
+| TypeScript / Vue 逻辑 | `pnpm run lint`、`pnpm run typecheck`、`pnpm run test:unit`。 |
+| 路由、metadata 或构建 | `pnpm run build`、`pnpm run verify:dist`。 |
+| 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `pnpm run test:e2e`，并检查桌面端与移动端。 |
+| 依赖更新 | 记录 `pnpm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `pnpm audit --audit-level=high`。 |
 
 每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
 
@@ -98,4 +98,5 @@
 
 - 不要提交密钥、令牌、个人信息或生产凭据；敏感值使用环境变量。
 - 修改依赖、构建、响应头、Vercel 或 Cloudflare 配置前，先阅读 `docs/DEPLOYMENT.md`。
-- 部署相关变化必须保留 CSP、安全响应头、真实 404 和生产 HTTP 语义检查。
+- 部署相关变化必须保留 CSP、安全响应头和真实 404。
+- 部署验收不作为 agent 的默认必做步骤，按用户明确要求执行；现有 GitHub Actions 检查仍按工作流配置运行。

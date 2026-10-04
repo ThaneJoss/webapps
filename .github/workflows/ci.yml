@@ -24,45 +24,46 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v7
 
+      - name: 配置 pnpm
+        uses: pnpm/action-setup@v4
+
       - name: 配置 Node.js
         uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
-          cache: npm
-
-      - name: 升级 npm
-        run: npm install --global npm@12.0.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: 安装依赖
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: 报告依赖新鲜度
         continue-on-error: true
-        run: npm run check:dependencies
+        run: pnpm run check:dependencies
 
       - name: 代码规范
-        run: npm run lint
+        run: pnpm run lint
 
       - name: 类型检查
-        run: npm run typecheck
+        run: pnpm run typecheck
 
       - name: 单元与组件测试
-        run: npm run test:unit
+        run: pnpm run test:unit
 
       - name: 构建静态站点
-        run: npm run build:ssg
+        run: pnpm run build:ssg
 
       - name: 验证构建产物
-        run: npm run verify:dist
+        run: pnpm run verify:dist
 
       - name: 依赖安全审计
-        run: npm audit --audit-level=high
+        run: pnpm audit --audit-level=high
 
       - name: 安装 Chromium
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: 浏览器验收
-        run: npm run test:e2e
+        run: pnpm run test:e2e
 
       - name: 上传构建与浏览器证据
         if: always()

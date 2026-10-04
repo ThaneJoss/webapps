@@ -58,9 +58,15 @@ Vite SSG 在构建时生成：
 
 ## TypeScript 7 检查边界
 
-`@typescript/native` 指向 `typescript@7.0.2`，并由 `npm run typecheck` 检查 TypeScript 源码、配置和测试。Vue SFC 模板中的表达式、组件属性和事件类型不在这项静态检查的覆盖范围内。
+`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`，并由 `pnpm run typecheck` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 TypeScript 源码、配置和测试。显式入口确保使用 TypeScript 7 原生编译器。Vue SFC 模板中的表达式、组件属性和事件类型不在这项静态检查的覆盖范围内。
 
 `typescript` 指向 `@typescript/typescript6@6.0.2`，向 `typescript-eslint` 提供解析器 API；它不参与类型检查。
+
+## 工具链与依赖
+
+开发与 CI 使用 `.node-version` 固定的 Node.js 26.10.0 Current，以及 `package.json#packageManager` 固定的 pnpm 12.9.1。Vercel 构建使用平台支持的最新 Node.js 24 LTS；`package.json#engines` 允许 `^24.21.0 || ^26.10.0`。
+
+依赖由 `pnpm-lock.yaml` 锁定，干净环境使用 `pnpm install --frozen-lockfile` 安装。更新依赖时使用 pnpm，并同步提交依赖声明与锁文件的对应变化。
 
 ## 构建约束
 

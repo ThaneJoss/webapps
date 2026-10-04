@@ -2,10 +2,15 @@
 
 ## 运行线
 
-- Node.js 24.18.0 LTS（Vercel 当前支持的最新构建大版本）
-- npm 12.0.1
+- 开发与 CI：Node.js 26.10.0 Current，以 `.node-version` 为准
+- Vercel 构建：平台支持的最新 Node.js 24 LTS（当前支持的最新构建大版本）
+- pnpm 12.9.1，以 `package.json#packageManager` 为准
 - Vercel 静态部署
 - Cloudflare 代理生产域名 `thanejoss.com`
+
+Node.js 引擎范围为 `^24.21.0 || ^26.10.0`。安装使用 `pnpm install --frozen-lockfile`，构建使用 `pnpm run build`，静态输出目录为 `dist/`。
+
+`vercel.json` 显式配置安装命令 `npx --yes pnpm@12.9.1 install --frozen-lockfile` 和构建命令 `npx --yes pnpm@12.9.1 run build`。这里的 `npx` 仅用于引导精确版本的 pnpm，依赖安装与构建仍由 pnpm 执行，无需在 Vercel 控制台添加包管理器相关环境变量。
 
 Vercel 使用 `cleanUrls` 把 `contact.html` 暴露为 `/contact`，并把生成的 `404.html` 作为未知路径的真实 404 页面。不要增加全局 SPA wildcard rewrite，否则会制造 soft 404。
 
@@ -44,7 +49,7 @@ max-age=31536000; includeSubDomains; preload
 
 ## 远端验证
 
-`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时输出依赖新鲜度报告，并完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`npm outdated` 的非零退出会标记报告步骤，但不会单独阻断其他 PR；高危依赖审计仍是硬性检查，实际版本升级按需人工集中处理。
+`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时输出依赖新鲜度报告，并完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`pnpm outdated` 的非零退出会标记报告步骤，但不会单独阻断其他 PR；高危依赖审计仍是硬性检查，实际版本升级按需人工集中处理。
 
 `.github/workflows/deployment-smoke.yml` 在生产部署成功后检查：
 
