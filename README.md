@@ -23,7 +23,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 - TypeScript 7.0.2 原生编译器
 - typescript-eslint 8.64.0（解析器依赖 TypeScript 6.0.2 API）
 - Vite SSG 28.3.0
-- Vitest 4.1.10、Playwright 1.62.0、axe-core 4.12.1
+- Vitest 4.1.11、Playwright 1.62.0、axe-core 4.12.1
 - Node.js 26.10.0 Current（开发与 CI）、pnpm 12.9.1
 
 Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，本地与 CI 的精确版本由 `.node-version` 固定。
