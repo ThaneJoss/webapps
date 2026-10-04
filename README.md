@@ -2,9 +2,11 @@
 
 一个使用 Vue 构建的静态网页 APP 导航与展示站。
 
-首页通过 typed catalog 展示 14 个网站入口，覆盖电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
+首页通过 typed catalog 展示 15 个网站入口，覆盖研究流程、电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 Dify、叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 FlowMaster、Dify、叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+
+FlowMaster 研究工作区入口为 https://flow.thanejoss.com，用可视化节点组织研究流程，保存实验结果与证据，并通过 MCP 接入外部工具。工作区需要访问 Token 登录。源码：https://github.com/ThaneJoss/flowmaster。
 
 Dify AI 工作台入口为 https://dify.thanejoss.com，用于可视化编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。Dify 项目文档：https://docs.dify.ai。
 

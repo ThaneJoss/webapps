@@ -199,6 +199,20 @@ export const catalogApps: readonly CatalogApp[] = [
     },
     description: '通过可视化工作流编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。',
     features: ['AI 工作流', '知识库', '应用编排']
+  },
+  {
+    id: 'flowmaster',
+    addedAt: '2026-10-04T18:23:15Z',
+    label: 'App 15',
+    title: 'FlowMaster 研究工作区',
+    badge: '15',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://flow.thanejoss.com'
+    },
+    description: '用可视化节点组织研究流程，保存实验结果与证据，并通过 MCP 接入外部工具。',
+    features: ['可视化流程', '实验记录', 'MCP 接入']
   }
 ]
 

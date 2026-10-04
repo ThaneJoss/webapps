@@ -61,7 +61,8 @@ const expectedExternalAppUrls = [
   'https://fast.thanejoss.com',
   'https://bgp.thanejoss.com',
   'https://epub.thanejoss.com',
-  'https://dify.thanejoss.com'
+  'https://dify.thanejoss.com',
+  'https://flow.thanejoss.com'
 ]
 
 for (const url of expectedExternalAppUrls) {
