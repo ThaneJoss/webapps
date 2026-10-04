@@ -9,6 +9,7 @@ let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  'FlowMaster 研究工作区',
   'Dify AI 工作台',
   '叶读 · LeafRead',
   'BGP 路径观测',
@@ -62,29 +63,33 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(14)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(15)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(13)
-    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('Dify AI 工作台')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('叶读 · LeafRead')
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(14)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('FlowMaster 研究工作区')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('Dify AI 工作台')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
-    const expectedBadges = ['14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+    const expectedBadges = ['15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
     expect(wrapper.findAll('.home-app-card__badge').map((badge) => badge.text())).toEqual(expectedBadges)
     expect(wrapper.findAll('.home-app-card .panel-label').map((label) => label.text())).toEqual(
       expectedBadges.map((badge) => `App ${badge}`)
     )
-    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('Dify AI 工作台')
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(42)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('FlowMaster 研究工作区')
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(45)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(14)
+    expect(externalLinks).toHaveLength(15)
 
     for (const link of externalLinks) {
       expect(link.attributes('href')).toMatch(/^https:\/\//)
       expect(link.attributes('target')).toBe('_blank')
       expect(link.attributes('rel')).toBe('noopener noreferrer')
     }
+
+    expect(wrapper.get('[aria-label="访问FlowMaster 研究工作区"]').attributes('href')).toBe(
+      'https://flow.thanejoss.com'
+    )
 
     expect(wrapper.get('[aria-label="访问卡间拾光"]').attributes('href')).toBe(
       'https://card.thanejoss.com'
