@@ -23,21 +23,25 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 - TypeScript 7.0.2 原生编译器
 - typescript-eslint 8.64.0（解析器依赖 TypeScript 6.0.2 API）
 - Vite SSG 28.3.0
-- Vitest 4.1.10、Playwright 1.61.1、axe-core 4.12.1
-- Node.js 24.18.0 LTS、npm 12.0.1
+- Vitest 4.1.10、Playwright 1.62.0、axe-core 4.12.1
+- Node.js 26.10.0 Current（开发与 CI）、pnpm 12.9.1
+
+Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，本地与 CI 的精确版本由 `.node-version` 固定。
 
 项目使用 TypeScript 7 原生编译器检查 TypeScript 源码。TypeScript 6 包只向 `typescript-eslint` 提供解析器 API，不参与类型检查。
 
 ## 命令
 
-- `npm run dev`：启动 Vite 开发服务器
-- `npm run lint`：检查 Vue、TypeScript 与构建脚本
-- `npm run typecheck`：使用 TypeScript 7 检查 TypeScript 源码
-- `npm run test:unit`：执行单元和组件测试
-- `npm run build`：类型检查并生成 SSG 静态站点
-- `npm run verify:dist`：验证静态 metadata、sitemap、链接、脚本属性和体积预算
-- `npm run test:e2e`：执行桌面/移动端 Playwright 与 axe 检查
-- `npm run preview`：预览 `dist/`
+准备上述 Node.js 和 pnpm 后，使用 `pnpm install --frozen-lockfile` 按 `pnpm-lock.yaml` 安装依赖。
+
+- `pnpm run dev`：启动 Vite 开发服务器
+- `pnpm run lint`：检查 Vue、TypeScript 与构建脚本
+- `pnpm run typecheck`：使用 TypeScript 7 检查 TypeScript 源码
+- `pnpm run test:unit`：执行单元和组件测试
+- `pnpm run build`：类型检查并生成 SSG 静态站点
+- `pnpm run verify:dist`：验证静态 metadata、sitemap、链接、脚本属性和体积预算
+- `pnpm run test:e2e`：执行桌面/移动端 Playwright 与 axe 检查
+- `pnpm run preview`：预览 `dist/`
 
 ## 页面与构建
 
@@ -50,7 +54,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`npm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
+PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`pnpm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
