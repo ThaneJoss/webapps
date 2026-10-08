@@ -18,7 +18,8 @@ const expectedExternalUrls = [
   'https://bgp.thanejoss.com',
   'https://epub.thanejoss.com',
   'https://dify.thanejoss.com',
-  'https://flow.thanejoss.com'
+  'https://flow.thanejoss.com',
+  'https://manifold.thanejoss.com'
 ] as const
 
 describe('catalog integrity', () => {
@@ -39,8 +40,8 @@ describe('catalog integrity', () => {
       destination.kind === 'external' ? [destination.href] : []
     ))
 
-    expect(catalogApps).toHaveLength(15)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(45)
+    expect(catalogApps).toHaveLength(16)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(48)
     expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
     expect(externalUrls).toEqual(expectedExternalUrls)
     expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)
@@ -89,7 +90,7 @@ describe('catalog addition time ordering', () => {
   })
 
   it('keeps applications added in the same commit in their existing order', () => {
-    const originalApps = catalogApps.filter((app) => !['card-gallery', 'fast', 'bgp', 'leafread', 'dify', 'flowmaster'].includes(app.id))
+    const originalApps = catalogApps.filter((app) => !['card-gallery', 'fast', 'bgp', 'leafread', 'dify', 'flowmaster', 'manifold'].includes(app.id))
 
     expect(new Set(originalApps.map((app) => Date.parse(app.addedAt))).size).toBe(1)
     expect(getCatalogAppsNewestFirst(originalApps)).toEqual(originalApps)

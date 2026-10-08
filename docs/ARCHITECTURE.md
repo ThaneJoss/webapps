@@ -46,7 +46,9 @@ tests/e2e/               桌面和移动端浏览器验收
 
 Dify AI 工作台加入目录时记录的时间为 `2026-09-26T17:24:43Z`（UTC+08:00 为 2026-09-27 01:24:43），因此展示在叶读之前，编号为 App 14。
 
-FlowMaster 研究工作区加入目录时记录的时间为 `2026-10-04T18:23:15Z`（UTC+08:00 为 2026-10-05 02:23:15），因此展示在 Dify 之前，成为最新应用，编号为 App 15。入口为 `https://flow.thanejoss.com`，访问工作区需要 FlowMaster Token。
+FlowMaster 研究工作区加入目录时记录的时间为 `2026-10-04T18:23:15Z`（UTC+08:00 为 2026-10-05 02:23:15），因此展示在 Dify 之前，编号为 App 15。入口为 `https://flow.thanejoss.com`，访问工作区需要 FlowMaster Token。
+
+形 · 流 / Manifold 加入目录时记录的时间为 `2026-10-08T14:51:34Z`，因此展示在 FlowMaster 之前，成为最新应用，编号为 App 16。入口为 `https://manifold.thanejoss.com`，提供手绘轮廓、局部速度场与二维边界演化实验。
 
 ## 渲染模型
 
