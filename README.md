@@ -20,7 +20,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 ## 技术栈
 
-- Vue 3.5.40
+- Vue 3.5.43
 - Vue Router 5.2.0
 - Vite 8.1.5（Rolldown/Oxc）
 - UnoCSS 66.7.5 / Wind3 preset
