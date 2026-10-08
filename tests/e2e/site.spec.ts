@@ -10,18 +10,18 @@ test('home is statically rendered and links the live websites newest first', asy
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(15)
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(16)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(14)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('FlowMaster 研究工作区')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('Dify AI 工作台')
-  const expectedBadges = ['15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(15)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('形 · 流 / Manifold')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('FlowMaster 研究工作区')
+  const expectedBadges = ['16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
   await expect(page.locator('.home-app-card__badge')).toHaveText(expectedBadges)
   await expect(page.locator('.home-app-card .panel-label')).toHaveText(
     expectedBadges.map((badge) => `App ${badge}`)
   )
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('FlowMaster 研究工作区')
-  await expect(page.locator('.home-app-entry')).toHaveCount(45)
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('形 · 流 / Manifold')
+  await expect(page.locator('.home-app-entry')).toHaveCount(48)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -31,8 +31,9 @@ test('home is statically rendered and links the live websites newest first', asy
       target: anchor.getAttribute('target')
     }))
   ))
-  expect(externalTargets).toHaveLength(15)
+  expect(externalTargets).toHaveLength(16)
   expect(externalTargets.map(({ href }) => href)).toEqual([
+    'https://manifold.thanejoss.com',
     'https://flow.thanejoss.com',
     'https://dify.thanejoss.com',
     'https://epub.thanejoss.com',

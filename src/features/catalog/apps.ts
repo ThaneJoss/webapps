@@ -213,6 +213,20 @@ export const catalogApps: readonly CatalogApp[] = [
     },
     description: '用可视化节点组织研究流程，保存实验结果与证据，并通过 MCP 接入外部工具。',
     features: ['可视化流程', '实验记录', 'MCP 接入']
+  },
+  {
+    id: 'manifold',
+    addedAt: '2026-10-08T14:51:34Z',
+    label: 'App 16',
+    title: '形 · 流 / Manifold',
+    badge: '16',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://manifold.thanejoss.com'
+    },
+    description: '绘制闭合形状，叠加局部速度场，观察表面张力与 KL 形状先验如何影响二维边界。',
+    features: ['手绘轮廓', '局部速度场', '边界演化']
   }
 ]
 
