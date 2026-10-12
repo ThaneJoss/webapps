@@ -34,7 +34,7 @@ assert(indexHtml.includes('data-page-ready="home"'), '首页缺少静态渲染�
 assert(contactHtml.includes('data-page-ready="contact"'), '联系页缺少静态渲染的语义内容。')
 assert(notFoundHtml.includes('data-page-ready="not-found"'), '404 页面缺少静态渲染的语义内容。')
 
-assert(indexHtml.includes('<title>已上线的网页 APP | Thane Joss</title>'), '首页 title 不正确。')
+assert(indexHtml.includes('<title>应用与开源项目 | Thane Joss</title>'), '首页 title 不正确。')
 assert(contactHtml.includes('<title>联系 | Thane Joss</title>'), '联系页 title 不正确。')
 assert(notFoundHtml.includes('<title>页面未找到 | Thane Joss</title>'), '404 title 不正确。')
 assert(indexHtml.includes('href="https://thanejoss.com/"'), '首页 canonical 缺失。')
@@ -48,6 +48,9 @@ assert(!sitemap.toLowerCase().includes('404'), 'sitemap 不得包含 404。')
 assert(robots.includes('Sitemap: https://thanejoss.com/sitemap.xml'), 'robots.txt 缺少 sitemap 地址。')
 
 const expectedExternalAppUrls = [
+  'https://github.com/ThaneJoss/ccfa',
+  'https://title2doi.thanejoss.com',
+  'https://cf-speed-test.thanejoss.com',
   'https://file.thanejoss.com',
   'https://chat.thanejoss.com',
   'https://cloudflare.thanejoss.com',
@@ -67,7 +70,7 @@ const expectedExternalAppUrls = [
 ]
 
 for (const url of expectedExternalAppUrls) {
-  assert(indexHtml.includes(`href="${url}"`), `首页缺少真实应用链接：${url}`)
+  assert(indexHtml.includes(`href="${url}"`), `首页缺少已核实应用或项目链接：${url}`)
 }
 
 assert(!indexHtml.includes('https://ha.thanejoss.com'), '首页不应展示 Home Assistant。')

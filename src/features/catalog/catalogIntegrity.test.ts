@@ -4,6 +4,8 @@ import { routes } from '../../router'
 import { catalogApps, getCatalogAppsNewestFirst, getLatestCatalogApp, interactiveCatalogRoutes } from './apps'
 
 const expectedExternalUrls = [
+  'https://title2doi.thanejoss.com',
+  'https://cf-speed-test.thanejoss.com',
   'https://card.thanejoss.com',
   'https://file.thanejoss.com',
   'https://chat.thanejoss.com',
@@ -32,7 +34,7 @@ describe('catalog integrity', () => {
     }
   })
 
-  it('publishes the live websites as unique HTTPS destinations', () => {
+  it('publishes verified website and released project destinations with accurate states', () => {
     const destinations = catalogApps.flatMap((app) => (
       app.availability === 'planned' ? [] : [app.destination]
     ))
@@ -40,13 +42,39 @@ describe('catalog integrity', () => {
       destination.kind === 'external' ? [destination.href] : []
     ))
 
-    expect(catalogApps).toHaveLength(16)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(48)
-    expect(catalogApps.every((app) => app.availability === 'live')).toBe(true)
+    expect(catalogApps).toHaveLength(19)
+    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(57)
+    expect(catalogApps.filter((app) => app.availability === 'live')).toHaveLength(17)
+    expect(catalogApps.find((app) => app.id === 'cloudflare-speed-test')?.availability).toBe('beta')
+    const ccfa = catalogApps.find((app) => app.id === 'ccfa')!
+    expect(ccfa.availability).toBe('released')
+    expect(ccfa.destination).toEqual({ kind: 'repository', href: 'https://github.com/ThaneJoss/ccfa' })
     expect(externalUrls).toEqual(expectedExternalUrls)
     expect(new Set(externalUrls).size).toBe(expectedExternalUrls.length)
     expect(externalUrls).not.toContain('https://ha.thanejoss.com')
     expect(interactiveCatalogRoutes).toEqual([])
+  })
+
+  it('links only verified public source repositories and classifies every entry', () => {
+    const repositoryUrls = catalogApps.flatMap((app) => (
+      app.availability === 'released' ? [app.destination.href] : app.repositoryUrl ? [app.repositoryUrl] : []
+    ))
+
+    expect(new Set(repositoryUrls)).toEqual(new Set([
+      'https://github.com/ThaneJoss/ccfa',
+      'https://github.com/ThaneJoss/title2doi',
+      'https://github.com/ThaneJoss/cloudflare-speed-test',
+      'https://github.com/ThaneJoss/card-gallery',
+      'https://github.com/ThaneJoss/file-transfer',
+      'https://github.com/ThaneJoss/cloudflare-usage-guard',
+      'https://github.com/ThaneJoss/fast',
+      'https://github.com/ThaneJoss/bgp',
+      'https://github.com/ThaneJoss/epub',
+      'https://github.com/ThaneJoss/flowmaster',
+      'https://github.com/ThaneJoss/manifold'
+    ]))
+    expect(repositoryUrls).toHaveLength(11)
+    expect(catalogApps.every((app) => app.category.trim().length > 0)).toBe(true)
   })
 
   it('requires every future internal catalog destination to exist in the router', () => {
@@ -90,7 +118,7 @@ describe('catalog addition time ordering', () => {
   })
 
   it('keeps applications added in the same commit in their existing order', () => {
-    const originalApps = catalogApps.filter((app) => !['card-gallery', 'fast', 'bgp', 'leafread', 'dify', 'flowmaster', 'manifold'].includes(app.id))
+    const originalApps = catalogApps.filter((app) => !['ccfa', 'title2doi', 'cloudflare-speed-test', 'card-gallery', 'fast', 'bgp', 'leafread', 'dify', 'flowmaster', 'manifold'].includes(app.id))
 
     expect(new Set(originalApps.map((app) => Date.parse(app.addedAt))).size).toBe(1)
     expect(getCatalogAppsNewestFirst(originalApps)).toEqual(originalApps)
