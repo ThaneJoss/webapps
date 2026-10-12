@@ -2,7 +2,7 @@
 
 ## 定位
 
-项目是静态的网页 APP 导航目录，首页连接已经实际运行的独立子站。产品真实性优先于入口数量：未实现的项目必须保持 `planned`，不能提供路由或链接。
+项目是静态的网页 APP 与开源项目导航目录，首页连接已经实际运行的独立子站及已发布的公开项目。产品真实性优先于入口数量：未实现的项目必须保持 `planned`，不能提供路由或链接。
 
 ## 目录边界
 
@@ -21,12 +21,14 @@ scripts/
 tests/e2e/               桌面和移动端浏览器验收
 ```
 
-`src/features/catalog/apps.ts` 是应用目录的单一事实来源。每项通过 `addedAt` 记录首次加入目录的时间，`getCatalogAppsNewestFirst` 按解析后的时间戳倒序（newest first）返回副本，同时间保留源目录顺序。`getLatestCatalogApp` 使用相同规则选择最新项，标题、介绍和重点卡片均从该条目派生；其他应用按同一时间顺序展示。源数组的物理位置不表示时间，排序也不修改源数组。空目录不展示最新卡片，摘要显示「暂无应用」。
+`src/features/catalog/apps.ts` 是应用目录的单一事实来源。每项通过 `addedAt` 记录首次加入目录的时间，`getCatalogAppsNewestFirst` 按解析后的时间戳倒序（newest first）返回副本，同时间保留源目录顺序。`getLatestCatalogApp` 使用相同规则选择最新项，标题、介绍和重点卡片均从该条目派生；其他应用按同一时间顺序展示。源数组的物理位置不表示时间，排序也不修改源数组。空目录不展示最新项目卡片，摘要显示「暂无应用」。
 
 状态与目标模型为：
 
 - `planned`：`destination` 必须是 `null`，只渲染不可点击内容；
 - `beta` / `live`：可以指向已注册的绝对站内路径，或使用 HTTPS 打开真实外部子站；
+- `released`：指向已发布项目的公开 GitHub 仓库，显示「已发布」与「查看项目」，不作为网站入口；
+- 每项包含 `category`，已核实的自有公开仓库可配置 `repositoryUrl` 并显示独立的「查看源码」按钮；
 - `catalogIntegrity.test.ts` 会验证外部地址唯一且符合预期，并确保所有站内目标均已注册到真实路由。
 
 ### 目录新增时间依据
@@ -48,7 +50,23 @@ Dify AI 工作台加入目录时记录的时间为 `2026-09-26T17:24:43Z`（UTC+
 
 FlowMaster 研究工作区加入目录时记录的时间为 `2026-10-04T18:23:15Z`（UTC+08:00 为 2026-10-05 02:23:15），因此展示在 Dify 之前，编号为 App 15。入口为 `https://flow.thanejoss.com`，访问工作区需要 FlowMaster Token。
 
-形 · 流 / Manifold 加入目录时记录的时间为 `2026-10-08T14:51:34Z`，因此展示在 FlowMaster 之前，成为最新应用，编号为 App 16。入口为 `https://manifold.thanejoss.com`，提供手绘轮廓、局部速度场与二维边界演化实验。
+形 · 流 / Manifold 加入目录时记录的时间为 `2026-10-08T14:51:34Z`，因此展示在 FlowMaster 之前，当时成为最新应用，编号为 App 16。入口为 `https://manifold.thanejoss.com`，提供手绘轮廓、局部速度场与二维边界演化实验。
+
+CCFA、title2doi 与 Cloudflare IP 候选 · Speed Test 同批加入目录，`addedAt` 为 `2026-10-12T14:56:53Z`，使用首次加入本站的时间，不使用独立仓库创建时间。该批依次编号 App 19、18、17；时间相同时保留源目录顺序，CCFA 成为最新项目。
+
+### 公开项目核对（2026-10-12）
+
+匿名 GitHub 用户仓库 API 返回 14 个公开仓库；相对既有展示目录，补入 CCFA、title2doi 与 Cloudflare Speed Test。`file-transfer-api` 的公开 README 已标记弃用，其后端迁入已有文件中转站；`agentic-inbox` 是无已证实独立入口的上游 fork；本站仓库自身不作为应用重复收录。没有读取或展示私有仓库信息。
+
+| 项目 | 功能与入口证据 | 本次只读检查 |
+| --- | --- | --- |
+| title2doi | [README 与部署域名](https://github.com/ThaneJoss/title2doi/blob/3a1b921dc689c2c64eb09e6ba04e314f5efebfdf/README.md) | `https://title2doi.thanejoss.com` GET 200，页面及模块资源可访问；未在真实 Zotero 中执行回填 |
+| CCFA | [项目说明](https://github.com/ThaneJoss/ccfa/blob/388c7b51aa7c5bf4b0642d8e6624a209e06ea849/README.md)、[v1.0.1 Release](https://github.com/ThaneJoss/ccfa/releases/tag/v1.0.1) | 公开仓库与发布页可访问，正式发布且含 XPI 安装包；没有独立网站证据 |
+| Cloudflare Speed Test | [项目说明](https://github.com/ThaneJoss/cloudflare-speed-test/blob/f2edda800d336c94fd34ecc07d72d3f7ba0e9245/README.md)、[部署域名](https://github.com/ThaneJoss/cloudflare-speed-test/blob/f2edda800d336c94fd34ecc07d72d3f7ba0e9245/wrangler.jsonc) | `https://cf-speed-test.thanejoss.com` 跳转 Access 登录；`probes.json` 为空，真实测速与 DNS 写入未就绪 |
+| FlowMaster | [当前功能说明](https://github.com/ThaneJoss/flowmaster/blob/985aa3c0901a202f5e18ab7d9cb5f72b719a5c2f/README.md) | 网站 GET 200，匿名 MCP 返回 401，读写需要 Token；未访问工作区数据 |
+| Fast | [代理与管理页说明](https://github.com/ThaneJoss/fast/blob/4dd01b58b5f01325f5ee4789eb4bd45a475230ed/README.md) | 匿名入口返回 403，符合 IP 白名单要求；未更改放行规则或访问管理数据 |
+
+公开 HTTP 检查用于核对入口与访问限制，不替代各项目的完整功能验收。核对这些项目时仅执行只读检查，未修改各项目的部署、DNS 或权限。
 
 ## 渲染模型
 

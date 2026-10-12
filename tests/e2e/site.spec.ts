@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('home is statically rendered and links the live websites newest first', async ({ page, request }, testInfo) => {
+test('home is statically rendered and links websites and published projects newest first', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
   expect(await sourceResponse.text()).toContain('data-page-ready="home"')
@@ -9,19 +9,19 @@ test('home is statically rendered and links the live websites newest first', asy
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
-  await expect(page).toHaveTitle('已上线的网页 APP | Thane Joss')
-  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(16)
+  await expect(page).toHaveTitle('应用与开源项目 | Thane Joss')
+  await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(17)
   await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(15)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('形 · 流 / Manifold')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('FlowMaster 研究工作区')
-  const expectedBadges = ['16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(18)
+  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('CCFA · Zotero 出版物简称')
+  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('title2doi · DOI 补全工作台')
+  const expectedBadges = ['19', '18', '17', '16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
   await expect(page.locator('.home-app-card__badge')).toHaveText(expectedBadges)
   await expect(page.locator('.home-app-card .panel-label')).toHaveText(
     expectedBadges.map((badge) => `App ${badge}`)
   )
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('形 · 流 / Manifold')
-  await expect(page.locator('.home-app-entry')).toHaveCount(48)
+  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('CCFA · Zotero 出版物简称')
+  await expect(page.locator('.home-app-entry')).toHaveCount(57)
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -31,8 +31,11 @@ test('home is statically rendered and links the live websites newest first', asy
       target: anchor.getAttribute('target')
     }))
   ))
-  expect(externalTargets).toHaveLength(16)
+  expect(externalTargets).toHaveLength(19)
   expect(externalTargets.map(({ href }) => href)).toEqual([
+    'https://github.com/ThaneJoss/ccfa',
+    'https://title2doi.thanejoss.com',
+    'https://cf-speed-test.thanejoss.com',
     'https://manifold.thanejoss.com',
     'https://flow.thanejoss.com',
     'https://dify.thanejoss.com',
@@ -53,6 +56,21 @@ test('home is statically rendered and links the live websites newest first', asy
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'
   ))).toBe(true)
+
+  const releasedCard = page.locator('[data-catalog-availability="released"]')
+  await expect(releasedCard).toHaveCount(1)
+  await expect(releasedCard.getByRole('link', { name: '查看CCFA · Zotero 出版物简称项目' })).toHaveAttribute(
+    'href', 'https://github.com/ThaneJoss/ccfa'
+  )
+  await expect(releasedCard.getByText('已发布', { exact: true })).toBeVisible()
+  await expect(releasedCard.getByText('访问网站', { exact: true })).toHaveCount(0)
+  await expect(page.locator('[data-catalog-availability="beta"]')).toContainText('测速与 DNS 写入暂不可用')
+  const sourceLinks = page.locator('[data-catalog-source]')
+  await expect(sourceLinks).toHaveCount(10)
+  expect(await sourceLinks.evaluateAll((anchors) => anchors.every((anchor) => (
+    anchor.getAttribute('href')?.startsWith('https://github.com/ThaneJoss/') &&
+    anchor.getAttribute('rel') === 'noopener noreferrer' && anchor.getAttribute('target') === '_blank'
+  )))).toBe(true)
 
   // Keep navigation and cards usable on both configured viewport sizes.
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)

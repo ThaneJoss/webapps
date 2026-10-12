@@ -1,20 +1,28 @@
 # Web Apps as a Service
 
-一个使用 Vue 构建的静态网页 APP 导航与展示站。
+一个使用 Vue 构建的静态网页 APP 与开源项目导航展示站。
 
-首页通过 typed catalog 展示 16 个网站入口，覆盖二维形状实验、研究流程、电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
+首页通过 typed catalog 展示 19 个应用与项目：17 个已上线网站、1 个测试中网站和 1 个已发布 Zotero 插件，覆盖文献工具、二维形状实验、研究流程、电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新应用」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 Manifold、FlowMaster、Dify、叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新项目」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 CCFA、title2doi、Cloudflare IP 候选 · Speed Test、Manifold、FlowMaster、Dify、叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+
+CCFA 是 Zotero 桌面插件，按 CCF 2026 年第七版目录在文献列表显示 A 类期刊与会议简称，离线识别且不修改条目。已发布 [v1.0.1](https://github.com/ThaneJoss/ccfa/releases/tag/v1.0.1)，主按钮为「查看项目」，从项目说明获取安装包；没有独立网站入口。源码：https://github.com/ThaneJoss/ccfa。
+
+title2doi · DOI 补全工作台入口为 https://title2doi.thanejoss.com。批量导入 Zotero CSL JSON 文献，通过 Crossref 查询缺失 DOI，人工核对后生成预览与回填脚本，更新原条目。源码：https://github.com/ThaneJoss/title2doi。
+
+Cloudflare IP 候选 · Speed Test 入口为 https://cf-speed-test.thanejoss.com，需 Cloudflare Access 登录。当前可从内置 Cloudflare 网段生成 10 个 IPv4 与 10 个 IPv6 静态候选；候选可达性未知，真实 HTTPS 探针尚未配置，测速和 DNS 写入暂不可用，目录标为「测试中」。源码：https://github.com/ThaneJoss/cloudflare-speed-test。
+
+每项卡片显示场景分类；已核实的自有公开仓库提供「查看源码」。`released` 项使用 GitHub 项目主入口与「已发布」状态，`beta` 项说明当前限制，避免将插件或未就绪功能当作已上线网站。
 
 形 · 流 / Manifold 入口为 https://manifold.thanejoss.com，是基于 React + Vite 的二维边界演化实验。绘制闭合形状，叠加局部速度场，观察表面张力与 KL 形状先验如何影响边界，并对比初始轮廓与形变结果。源码：https://github.com/ThaneJoss/manifold。
 
-FlowMaster 研究工作区入口为 https://flow.thanejoss.com，用可视化节点组织研究流程，保存实验结果与证据，并通过 MCP 接入外部工具。工作区需要访问 Token 登录。源码：https://github.com/ThaneJoss/flowmaster。
+FlowMaster 研究工作区入口为 https://flow.thanejoss.com，用可视化节点组织研究流程，保存实验结果与证据，并向外部 MCP 客户端提供共享工作区读写能力。工作区需要访问 Token 登录，不执行实验或调用模型。源码：https://github.com/ThaneJoss/flowmaster。
 
 Dify AI 工作台入口为 https://dify.thanejoss.com，用于可视化编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。Dify 项目文档：https://docs.dify.ai。
 
 叶读（LeafRead）入口为 https://epub.thanejoss.com，是基于开源 Bibi 的免登录 EPUB 阅读器。支持粘贴 HTTPS 文件直链或打开本地 EPUB，提供目录跳转、翻页与滚动、字号调整和同一浏览器内的阅读位置记忆；本地文件仅在浏览器中读取。源码：https://github.com/ThaneJoss/epub。
 
-Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 等白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制。源码：https://github.com/ThaneJoss/fast。
+Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与按 IP 汇总的访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制；管理页 `/admin` 免于 IP 校验，需由 Cloudflare Access 独立保护。源码：https://github.com/ThaneJoss/fast。
 
 BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球 AS 拓扑可视化，并基于每日更新的 RouteViews 香港 HKIX / AS3491 观测数据查询、对比两个 IP 的 BGP AS 路径。路径来自观测 session 中的 AS_PATH，不代表两个 IP 之间的实时 traceroute；全球拓扑使用 CAIDA 静态快照。源码：https://github.com/ThaneJoss/bgp。
 

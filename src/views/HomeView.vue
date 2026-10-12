@@ -11,7 +11,7 @@
             我的<span class="hero-native-emphasis">网页</span> APP
           </h1>
           <p class="home-hero-enter home-hero-enter--copy mt-6 max-w-2xl text-base leading-8 text-steel sm:text-lg">
-            这里汇集已经上线的用户应用、开发工作台与运维工具。无需安装，选择一个入口即可打开。
+            这里汇集已经上线的用户应用、开发工作台、运维工具与开源项目。选择入口访问网站，或查看项目与安装说明。
           </p>
 
           <div class="home-hero-enter home-hero-enter--actions mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -33,11 +33,11 @@
 
           <dl class="home-hero-enter home-hero-enter--summary home-catalog-summary mt-8 grid gap-3 sm:grid-cols-3">
             <div class="home-catalog-summary__item">
-              <dt>应用入口</dt>
+              <dt>应用与项目</dt>
               <dd>{{ catalogApps.length }}</dd>
             </div>
             <div class="home-catalog-summary__item">
-              <dt>最新应用</dt>
+              <dt>最新项目</dt>
               <dd>{{ latestApp?.title ?? '暂无应用' }}</dd>
             </div>
             <div class="home-catalog-summary__item">
@@ -58,15 +58,15 @@
   >
     <div class="mx-auto max-w-6xl">
       <div class="max-w-3xl">
-        <p class="panel-label text-steel">APP 展示区</p>
+        <p class="panel-label text-steel">应用与项目展示区</p>
         <h2
           id="catalog-title"
           class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-3xl"
         >
-          已上线的网页 APP
+          应用与开源项目
         </h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
-          以下卡片都连接真实运行的网站，点击访问即可在新标签页打开对应应用。
+          卡片按首次加入目录的时间展示，分别标明上线、测试或发布状态；网站与公开项目都在新标签页打开。
         </p>
       </div>
 
@@ -81,7 +81,7 @@
             id="featured-catalog-label"
             class="text-sm font-semibold text-ink"
           >
-            最新应用
+            最新项目
           </p>
           <p class="mt-1 text-sm leading-6 text-steel">{{ latestApp.description }}</p>
         </div>
@@ -107,9 +107,9 @@
             id="standard-catalog-label"
             class="text-sm font-semibold text-ink"
           >
-            更多应用
+            更多应用与项目
           </p>
-          <p class="mt-1 text-sm leading-6 text-steel">继续访问文件传输、AI、开发、远程连接与运维工作台。</p>
+          <p class="mt-1 text-sm leading-6 text-steel">继续浏览学术研究、网络、阅读、文件传输、AI、开发与运维工具。</p>
         </div>
 
         <div class="home-app-board home-app-board--standard mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

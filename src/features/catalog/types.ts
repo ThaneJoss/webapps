@@ -1,4 +1,4 @@
-export type CatalogAvailability = 'live' | 'beta' | 'planned'
+export type CatalogAvailability = 'live' | 'beta' | 'released' | 'planned'
 
 export type CatalogDestination =
   | {
@@ -9,6 +9,10 @@ export type CatalogDestination =
       kind: 'external'
       href: `https://${string}`
     }
+  | {
+      kind: 'repository'
+      href: `https://github.com/ThaneJoss/${string}`
+    }
 
 interface CatalogAppBase {
   id: string
@@ -16,15 +20,21 @@ interface CatalogAppBase {
   addedAt: string
   label: string
   title: string
+  category: string
   badge: string
   description: string
   features: readonly string[]
+  repositoryUrl?: `https://github.com/ThaneJoss/${string}`
 }
 
 export type CatalogApp = CatalogAppBase & (
   | {
       availability: 'live' | 'beta'
-      destination: CatalogDestination
+      destination: Exclude<CatalogDestination, { kind: 'repository' }>
+    }
+  | {
+      availability: 'released'
+      destination: Extract<CatalogDestination, { kind: 'repository' }>
     }
   | {
       availability: 'planned'
@@ -35,5 +45,6 @@ export type CatalogApp = CatalogAppBase & (
 export const availabilityLabels: Record<CatalogAvailability, string> = {
   live: '已上线',
   beta: '测试中',
+  released: '已发布',
   planned: '规划中'
 }

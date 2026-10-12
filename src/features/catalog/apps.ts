@@ -5,10 +5,59 @@ import type { CatalogApp } from './types'
 // label 与 badge 使用同一序号，按首页顺序从应用总数递减到 01。
 export const catalogApps: readonly CatalogApp[] = [
   {
+    id: 'ccfa',
+    addedAt: '2026-10-12T14:56:53Z',
+    label: 'App 19',
+    title: 'CCFA · Zotero 出版物简称',
+    category: 'Zotero 插件',
+    badge: '19',
+    availability: 'released',
+    destination: {
+      kind: 'repository',
+      href: 'https://github.com/ThaneJoss/ccfa'
+    },
+    description: '在 Zotero 文献列表显示 CCF A 类期刊与会议简称，依据 2026 年目录离线匹配出版物名称，不修改条目。',
+    features: ['CCFA 显示列', '期刊 / 会议简称', '离线识别']
+  },
+  {
+    id: 'title2doi',
+    addedAt: '2026-10-12T14:56:53Z',
+    label: 'App 18',
+    title: 'title2doi · DOI 补全工作台',
+    category: '学术研究',
+    repositoryUrl: 'https://github.com/ThaneJoss/title2doi',
+    badge: '18',
+    availability: 'live',
+    destination: {
+      kind: 'external',
+      href: 'https://title2doi.thanejoss.com'
+    },
+    description: '批量导入 Zotero 文献，通过 Crossref 查找缺失 DOI，核对匹配后生成脚本回填原条目。',
+    features: ['CSL JSON 导入', 'DOI 查询核对', 'Zotero 回填脚本']
+  },
+  {
+    id: 'cloudflare-speed-test',
+    addedAt: '2026-10-12T14:56:53Z',
+    label: 'App 17',
+    title: 'Cloudflare IP 候选 · Speed Test',
+    category: '网络工具',
+    repositoryUrl: 'https://github.com/ThaneJoss/cloudflare-speed-test',
+    badge: '17',
+    availability: 'beta',
+    destination: {
+      kind: 'external',
+      href: 'https://cf-speed-test.thanejoss.com'
+    },
+    description: '生成 Cloudflare IPv4 / IPv6 静态候选；需 Access 登录，HTTPS 探针待配置，测速与 DNS 写入暂不可用。',
+    features: ['IPv4 / IPv6 候选', 'Access 登录', '探针待配置']
+  },
+  {
     id: 'card-gallery',
     addedAt: '2026-09-16T18:13:14+08:00',
     label: 'App 10',
     title: '卡间拾光',
+    category: '卡面收藏',
+    repositoryUrl: 'https://github.com/ThaneJoss/card-gallery',
     badge: '10',
     availability: 'live',
     destination: {
@@ -23,6 +72,8 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 09',
     title: '文件中转站',
+    category: '文件传输',
+    repositoryUrl: 'https://github.com/ThaneJoss/file-transfer',
     badge: '09',
     availability: 'live',
     destination: {
@@ -37,6 +88,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 08',
     title: 'AI API 网关',
+    category: 'AI 服务',
     badge: '08',
     availability: 'live',
     destination: {
@@ -51,6 +103,8 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 07',
     title: 'Cloudflare 用量卫士',
+    category: '运维监控',
+    repositoryUrl: 'https://github.com/ThaneJoss/cloudflare-usage-guard',
     badge: '07',
     availability: 'live',
     destination: {
@@ -65,6 +119,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 06',
     title: 'T3 Code',
+    category: '开发工具',
     badge: '06',
     availability: 'live',
     destination: {
@@ -79,6 +134,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 05',
     title: 'Codex 工作台',
+    category: '开发工具',
     badge: '05',
     availability: 'live',
     destination: {
@@ -93,6 +149,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 04',
     title: '服务状态',
+    category: '运维监控',
     badge: '04',
     availability: 'live',
     destination: {
@@ -107,6 +164,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 03',
     title: 'Portainer',
+    category: '容器管理',
     badge: '03',
     availability: 'live',
     destination: {
@@ -121,6 +179,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 02',
     title: 'WebSSH',
+    category: '远程连接',
     badge: '02',
     availability: 'live',
     destination: {
@@ -135,6 +194,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-08-22T03:13:13+08:00',
     label: 'App 01',
     title: '远程桌面',
+    category: '远程连接',
     badge: '01',
     availability: 'live',
     destination: {
@@ -149,13 +209,15 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-09-21T01:24:56+08:00',
     label: 'App 11',
     title: 'Fast 反向代理',
+    category: '网络工具',
+    repositoryUrl: 'https://github.com/ThaneJoss/fast',
     badge: '11',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://fast.thanejoss.com'
     },
-    description: '代理访问 Ubuntu、npm 等白名单 HTTPS 资源，提供软件源一键配置、IP 白名单、分组管理与访问日志。',
+    description: '流式代理 Ubuntu、npm 白名单 HTTPS 资源，支持一键配置、断点续传及按 IP 汇总的访问日志与分组管理。',
     features: ['Ubuntu / npm 源', '一键配置', 'IP 白名单']
   },
   {
@@ -163,6 +225,8 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-09-22T22:18:40+08:00',
     label: 'App 12',
     title: 'BGP 路径观测',
+    category: '网络观测',
+    repositoryUrl: 'https://github.com/ThaneJoss/bgp',
     badge: '12',
     availability: 'live',
     destination: {
@@ -177,6 +241,8 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-09-23T08:15:09Z',
     label: 'App 13',
     title: '叶读 · LeafRead',
+    category: '电子书阅读',
+    repositoryUrl: 'https://github.com/ThaneJoss/epub',
     badge: '13',
     availability: 'live',
     destination: {
@@ -191,6 +257,7 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-09-26T17:24:43Z',
     label: 'App 14',
     title: 'Dify AI 工作台',
+    category: 'AI 工作流',
     badge: '14',
     availability: 'live',
     destination: {
@@ -205,20 +272,24 @@ export const catalogApps: readonly CatalogApp[] = [
     addedAt: '2026-10-04T18:23:15Z',
     label: 'App 15',
     title: 'FlowMaster 研究工作区',
+    category: '学术研究',
+    repositoryUrl: 'https://github.com/ThaneJoss/flowmaster',
     badge: '15',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://flow.thanejoss.com'
     },
-    description: '用可视化节点组织研究流程，保存实验结果与证据，并通过 MCP 接入外部工具。',
-    features: ['可视化流程', '实验记录', 'MCP 接入']
+    description: '用可视化节点组织研究流程，记录执行结果与关联资料，并向 MCP 客户端提供共享工作区读写；访问需要 Token。',
+    features: ['可视化流程', '执行记录', 'MCP 读写']
   },
   {
     id: 'manifold',
     addedAt: '2026-10-08T14:51:34Z',
     label: 'App 16',
     title: '形 · 流 / Manifold',
+    category: '形状实验',
+    repositoryUrl: 'https://github.com/ThaneJoss/manifold',
     badge: '16',
     availability: 'live',
     destination: {

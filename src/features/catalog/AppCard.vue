@@ -18,6 +18,7 @@
           >
             {{ app.title }}
           </h3>
+          <p class="mt-2 text-sm text-steel">{{ app.category }}</p>
         </div>
 
         <div
@@ -79,10 +80,23 @@
         class="home-app-visit inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium"
         target="_blank"
         rel="noopener noreferrer"
-        :aria-label="`访问${app.title}`"
+        :aria-label="app.destination.kind === 'repository' ? `查看${app.title}项目` : `访问${app.title}`"
         data-catalog-link
       >
-        访问网站
+        {{ app.destination.kind === 'repository' ? '查看项目' : '访问网站' }}
+        <span aria-hidden="true">↗</span>
+      </a>
+
+      <a
+        v-if="app.availability !== 'planned' && app.repositoryUrl && app.destination.kind !== 'repository'"
+        :href="app.repositoryUrl"
+        class="home-app-visit inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium"
+        target="_blank"
+        rel="noopener noreferrer"
+        :aria-label="`查看${app.title}源码`"
+        data-catalog-source
+      >
+        查看源码
         <span aria-hidden="true">↗</span>
       </a>
     </div>

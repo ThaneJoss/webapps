@@ -15,8 +15,8 @@ export const siteOrigin = 'https://thanejoss.com'
 const pageMetadata = {
   home: {
     key: 'home',
-    title: `已上线的网页 APP | ${siteName}`,
-    description: '访问 Thane Joss 已上线的电子书阅读、文件传输、AI、开发与运维网页应用。每张卡片都连接真实运行的网站。',
+    title: `应用与开源项目 | ${siteName}`,
+    description: '浏览 Thane Joss 的学术研究、网络、阅读、AI、开发与运维工具，访问已上线应用、查看测试状态或获取公开项目源码。',
     path: '/',
     canonical: `${siteOrigin}/`,
     robots: 'index, follow'

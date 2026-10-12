@@ -9,6 +9,9 @@ let wrapper: ReturnType<typeof mount> | null = null
 let container: HTMLElement | null = null
 
 const expectedAppTitles = [
+  'CCFA · Zotero 出版物简称',
+  'title2doi · DOI 补全工作台',
+  'Cloudflare IP 候选 · Speed Test',
   '形 · 流 / Manifold',
   'FlowMaster 研究工作区',
   'Dify AI 工作台',
@@ -55,7 +58,7 @@ describe('HomeView', () => {
 
     expect(wrapper.text()).toContain('我的网页 APP')
     expect(wrapper.text()).toContain('已经上线的用户应用')
-    expect(wrapper.text()).toContain('已上线的网页 APP')
+    expect(wrapper.text()).toContain('应用与开源项目')
     expect(wrapper.text()).toContain('浏览应用')
     expect(wrapper.text()).toContain('提交建议')
 
@@ -64,26 +67,40 @@ describe('HomeView', () => {
     }
 
     expect(wrapper.text()).not.toContain('Home Assistant')
-    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(16)
+    expect(wrapper.findAll('[data-catalog-availability="live"]')).toHaveLength(17)
     expect(wrapper.findAll('[data-display-tier="featured"]')).toHaveLength(1)
-    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(15)
-    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('形 · 流 / Manifold')
-    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('FlowMaster 研究工作区')
+    expect(wrapper.findAll('[data-display-tier="standard"]')).toHaveLength(18)
+    expect(wrapper.get('[data-display-tier="featured"] h3').text()).toBe('CCFA · Zotero 出版物简称')
+    expect(wrapper.get('[data-display-tier="standard"] h3').text()).toBe('title2doi · DOI 补全工作台')
     expect(wrapper.findAll('.home-app-card h3').map((heading) => heading.text())).toEqual(expectedAppTitles)
-    const expectedBadges = ['16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
+    const expectedBadges = ['19', '18', '17', '16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
     expect(wrapper.findAll('.home-app-card__badge').map((badge) => badge.text())).toEqual(expectedBadges)
     expect(wrapper.findAll('.home-app-card .panel-label').map((label) => label.text())).toEqual(
       expectedBadges.map((badge) => `App ${badge}`)
     )
-    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('形 · 流 / Manifold')
-    expect(wrapper.findAll('.home-app-entry')).toHaveLength(48)
+    expect(wrapper.findAll('.home-catalog-summary dd')[1]?.text()).toBe('CCFA · Zotero 出版物简称')
+    expect(wrapper.findAll('.home-app-entry')).toHaveLength(57)
     expect(wrapper.findAll('[data-catalog-route]')).toHaveLength(0)
 
     const externalLinks = wrapper.findAll('[data-catalog-link]')
-    expect(externalLinks).toHaveLength(16)
+    expect(externalLinks).toHaveLength(19)
 
     for (const link of externalLinks) {
       expect(link.attributes('href')).toMatch(/^https:\/\//)
+      expect(link.attributes('target')).toBe('_blank')
+      expect(link.attributes('rel')).toBe('noopener noreferrer')
+    }
+
+    const releasedCard = wrapper.get('[data-catalog-availability="released"]')
+    expect(releasedCard.text()).toContain('Zotero 插件')
+    expect(releasedCard.text()).toContain('已发布')
+    expect(releasedCard.text()).not.toContain('访问网站')
+    expect(releasedCard.get('[data-catalog-link]').attributes('href')).toBe('https://github.com/ThaneJoss/ccfa')
+    expect(wrapper.get('[data-catalog-availability="beta"]').text()).toContain('测速与 DNS 写入暂不可用')
+    const sourceLinks = wrapper.findAll('[data-catalog-source]')
+    expect(sourceLinks).toHaveLength(10)
+    for (const link of sourceLinks) {
+      expect(link.attributes('href')).toMatch(/^https:\/\/github\.com\/ThaneJoss\//)
       expect(link.attributes('target')).toBe('_blank')
       expect(link.attributes('rel')).toBe('noopener noreferrer')
     }
