@@ -6,7 +6,7 @@ import UnoCSS from 'unocss/vite'
 import type { ViteSSGOptions } from 'vite-ssg'
 import { defineConfig } from 'vitest/config'
 
-import { applyPageMetadataToHtml } from './src/lib/seo'
+import { applyPageMetadataToHtml } from './src/lib/seo.ts'
 
 const ssgOptions = {
   beastiesOptions: false,

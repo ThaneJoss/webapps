@@ -44,8 +44,11 @@ jobs:
       - name: 代码规范
         run: pnpm run lint
 
-      - name: 类型检查
-        run: pnpm run typecheck
+      - name: TypeScript 7 类型检查
+        run: pnpm run typecheck:native
+
+      - name: Vue SFC 脚本与模板类型检查
+        run: pnpm run typecheck:vue
 
       - name: 单元与组件测试
         run: pnpm run test:unit

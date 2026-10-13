@@ -889,16 +889,21 @@ textarea.contact-form-control {
   font-weight: 600;
 }
 
+.tech-nav-link:focus-visible {
+  outline-offset: -3px;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .home-app-visit:hover,
   .secondary-action:hover,
+  .tech-button--light:hover,
   .tech-nav-link:hover {
     background: #eff4ff;
     border-color: #b6c9ed;
     color: #1d4ed8;
   }
 
-  .tech-button:hover {
+  .tech-button:not(.tech-button--light):hover {
     background: #1d4ed8;
   }
 

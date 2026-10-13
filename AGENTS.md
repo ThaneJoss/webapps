@@ -40,7 +40,9 @@
 | `pnpm run dev` | 启动 Vite 开发服务器。 |
 | `pnpm run check:dependencies` | 检查直接依赖是否为最新版本。 |
 | `pnpm run lint` | 检查 Vue、TypeScript 和构建脚本。 |
-| `pnpm run typecheck` | 使用 TypeScript 7 原生编译器检查 TypeScript 源码。 |
+| `pnpm run typecheck` | 依次执行 TypeScript 7 与 Vue SFC 类型检查。 |
+| `pnpm run typecheck:native` | 使用 TypeScript 7 原生编译器检查 TypeScript 源码、配置和测试。 |
+| `pnpm run typecheck:vue` | 使用 vue-tsc 检查 Vue SFC 的脚本、模板、组件属性和事件类型。 |
 | `pnpm test` / `pnpm run test:unit` | 执行 Vitest 单元与组件测试。 |
 | `pnpm run test:unit:watch` | 以监听模式运行 Vitest。 |
 | `pnpm run build` | 执行类型检查并生成、加固 SSG 静态站点。 |
@@ -74,7 +76,7 @@
 - 单元和组件测试放在相关代码附近，使用 `*.test.ts`。
 - 浏览器验收放在 `tests/e2e/`，使用 `*.spec.ts`。
 - 功能变化应覆盖正常路径、错误状态和关键回归场景。
-- TypeScript 7 检查不覆盖 Vue SFC 模板表达式、组件属性和事件类型；这些边界应由组件测试或浏览器测试覆盖。
+- 原生 TypeScript 7 与 vue-tsc 类型检查必须同时通过；后者覆盖 Vue SFC 的脚本与模板语义。`tsconfig.app.json` 开启 `strictTemplates`，额外 HTML 属性仅允许标准 `data-*`，不要放宽为任意属性。组件与浏览器测试仅覆盖已编写的行为断言，不能替代静态类型检查。
 
 | 改动类型 | 最低验证范围 |
 | --- | --- |
@@ -84,7 +86,7 @@
 | 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `pnpm run test:e2e`，并检查桌面端与移动端。 |
 | 依赖更新 | 记录 `pnpm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `pnpm audit --audit-level=high`。 |
 
-每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
+每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、Vue SFC 脚本与模板类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。两项类型检查在 CI 中分别执行，任一失败都会阻断门禁。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
 
 ## 提交与 PR
 

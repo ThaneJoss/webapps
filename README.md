@@ -29,18 +29,19 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 ## 技术栈
 
 - Vue 3.5.43
-- Vue Router 5.2.0
-- Vite 8.1.5（Rolldown/Oxc）
-- UnoCSS 66.7.5 / Wind3 preset
+- Vue Router 5.4.0
+- Vite 8.3.4（Rolldown/Oxc）
+- UnoCSS 66.10.5 / Wind3 preset
 - TypeScript 7.0.2 原生编译器
-- typescript-eslint 8.64.0（解析器依赖 TypeScript 6.0.2 API）
+- typescript-eslint 8.71.1、vue-tsc 3.3.13（使用 TypeScript 6.0.2 API）
 - Vite SSG 28.3.0
-- Vitest 4.1.11、Playwright 1.62.0、axe-core 4.12.1
+- Vitest 5.0.3、jsdom 30.1.2、Playwright 1.64.0、axe-core 4.14.0
+- unplugin-icons 24.0.0
 - Node.js 26.10.0 Current（开发与 CI）、pnpm 12.9.1
 
 Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，本地与 CI 的精确版本由 `.node-version` 固定。
 
-项目使用 TypeScript 7 原生编译器检查 TypeScript 源码。TypeScript 6 包只向 `typescript-eslint` 提供解析器 API，不参与类型检查。
+项目使用 TypeScript 7 原生编译器检查 TypeScript 源码，并使用 vue-tsc 对 Vue SFC 的脚本、模板、组件属性和事件做语义类型检查。Vue 模板开启 `strictTemplates`，额外 HTML 属性仅允许标准 `data-*`。TypeScript 6 兼容包同时向 `typescript-eslint` 和 vue-tsc 提供所需 API；vue-tsc 自动识别该别名，无需自建兼容启动器。组件与浏览器测试覆盖已编写的行为断言，与静态类型检查互补。
 
 ## 命令
 
@@ -48,7 +49,9 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 
 - `pnpm run dev`：启动 Vite 开发服务器
 - `pnpm run lint`：检查 Vue、TypeScript 与构建脚本
-- `pnpm run typecheck`：使用 TypeScript 7 检查 TypeScript 源码
+- `pnpm run typecheck`：依次执行原生 TypeScript 7 与 Vue SFC 类型检查
+- `pnpm run typecheck:native`：使用 TypeScript 7 检查 TypeScript 源码、配置和测试
+- `pnpm run typecheck:vue`：使用 vue-tsc 检查 Vue SFC 脚本与模板
 - `pnpm run test:unit`：执行单元和组件测试
 - `pnpm run build`：类型检查并生成 SSG 静态站点
 - `pnpm run verify:dist`：验证静态 metadata、sitemap、链接、脚本属性和体积预算
@@ -66,7 +69,7 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`pnpm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
+PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 lint、TypeScript 7 检查、Vue SFC 类型检查、Vitest、SSG 构建、产物完整性、`pnpm audit`、Playwright 和 axe。两项类型检查为独立的硬性步骤。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
