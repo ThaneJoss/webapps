@@ -78,11 +78,15 @@ Vite SSG 在构建时生成：
 
 页面首个 HTTP 响应已经包含标题、正文和完整 metadata，不依赖 JavaScript 才出现语义内容。客户端继续使用 Vue Router hydration，保留无刷新导航和交互。
 
-## TypeScript 7 检查边界
+## TypeScript 与 Vue SFC 类型检查
 
-`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`，并由 `pnpm run typecheck` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 `tsconfig.native.json` 纳入的 TypeScript 源码、配置和测试。显式入口确保使用 TypeScript 7 原生编译器。`.vue` 文件使用通用组件声明，SFC 的脚本与模板均不接受语义类型检查，包括 `<script setup lang="ts">`、模板表达式、组件属性和事件类型。组件与浏览器测试仅覆盖已编写的行为断言，不能替代完整的 SFC 静态类型检查。
+`pnpm run typecheck` 依次执行 `typecheck:native` 与 `typecheck:vue`。CI 将它们拆成两个硬性步骤，分别验证 TypeScript 源码和 Vue SFC。
 
-`typescript` 指向 `@typescript/typescript6@6.0.2`，向 `typescript-eslint` 提供解析器 API；它不参与类型检查。
+`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`。`typecheck:native` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 `tsconfig.native.json` 纳入的 TypeScript 源码、配置和测试；这项原生检查本身不分析 Vue SFC 的脚本或模板。
+
+`typecheck:vue` 执行 `vue-tsc --noEmit -p tsconfig.app.json`，检查 Vue SFC 的脚本、模板表达式、组件属性和事件类型。`tsconfig.app.json` 开启 `strictTemplates`，额外 HTML 属性仅允许标准 `data-*`，保留对未知属性的检查。
+
+`typescript` 指向 `@typescript/typescript6@6.0.2`，同时向 `typescript-eslint` 与 vue-tsc 提供所需 API。vue-tsc 3.3.13 自动识别该别名并使用兼容编译器，无需自建启动器；Vue 检查仍使用 TypeScript 6 API，并非 TypeScript 7 原生检查。组件与浏览器测试仅覆盖已编写的行为断言，不能替代静态类型检查。
 
 ## 工具链与依赖
 
