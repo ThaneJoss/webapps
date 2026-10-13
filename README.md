@@ -66,7 +66,9 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 TypeScript 7 检查、lint、Vitest、SSG 构建、产物完整性、`pnpm audit`、Playwright 和 axe。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
+质量 CI 使用极简 reusable workflow 调用，固定引用 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`。通用模板按标准元数据自动发现 Node/pnpm、锁文件以及 lint、typecheck、test 和 build 脚本，并执行依赖审计；实际执行结果以该提交的 CI 日志为准。
+
+原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过，外部 Vercel 部署集成保持原配置。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 
