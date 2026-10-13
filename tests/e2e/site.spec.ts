@@ -74,8 +74,13 @@ test('home is statically rendered and links websites and published projects newe
 
   // Keep navigation and cards usable on both configured viewport sizes.
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
-  await page.getByRole('button', { name: '浏览应用' }).click()
+  const browseApps = page.getByRole('button', { name: '浏览应用' })
+  await browseApps.focus()
+  await page.keyboard.press('Enter')
   await expect(page.locator('#catalog-title')).toBeInViewport()
+  await expect(page.locator('#catalog-title')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.locator('[data-catalog-link]').first()).toBeFocused()
 
   const internalTargets = await page.locator('a[href^="/"]').evaluateAll((anchors) => (
     anchors.map((anchor) => anchor.getAttribute('href'))
@@ -145,4 +150,60 @@ test('generated 404 is semantic and excluded from indexing', async ({ page, requ
 
   const accessibility = await new AxeBuilder({ page }).analyze()
   expect(accessibility.violations).toEqual([])
+})
+
+test('the light contact action stays readable when hovered', async ({ page, isMobile }, testInfo) => {
+  test.skip(isMobile, 'Touch devices do not use the desktop hover state')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/contact')
+  const submit = page.getByRole('button', { name: '生成邮件草稿' })
+  await submit.hover()
+  const colors = await submit.evaluate(async (element) => {
+    await Promise.all(element.getAnimations().map((animation) => animation.finished))
+    const { color, backgroundColor } = getComputedStyle(element)
+    return { color, backgroundColor }
+  })
+
+  await testInfo.attach('contact-action-hover', {
+    body: await page.screenshot({ fullPage: true }),
+    contentType: 'image/png'
+  })
+
+  // axe may consider text matching its background hidden and skip contrast checks.
+  expect(colors.color).not.toBe(colors.backgroundColor)
+  const accessibility = await new AxeBuilder({ page }).include('.contact-submit').analyze()
+  expect(accessibility.violations).toEqual([])
+})
+
+test('narrow navigation keeps the keyboard focus outline inside its scroll area', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 320, height: 720 })
+  await page.goto('/')
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('link', { name: '跳到主要内容' })).toBeFocused()
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Tab')
+
+  const homeLink = page.getByRole('navigation').getByRole('link', { name: '首页', exact: true })
+  await expect(homeLink).toBeFocused()
+  const outline = await homeLink.evaluate((element) => {
+    const style = getComputedStyle(element)
+    const link = element.getBoundingClientRect()
+    const container = element.closest('nav')!.getBoundingClientRect()
+    const width = Number.parseFloat(style.outlineWidth)
+    const extent = width + Number.parseFloat(style.outlineOffset)
+    return {
+      width,
+      style: style.outlineStyle,
+      inside: link.top - extent >= container.top && link.bottom + extent <= container.bottom &&
+        link.left - extent >= container.left && link.right + extent <= container.right
+    }
+  })
+  expect(outline.width).toBeGreaterThanOrEqual(2)
+  expect(outline.style).toBe('solid')
+  expect(outline.inside).toBe(true)
+
+  await testInfo.attach('narrow-navigation-focus', {
+    body: await page.screenshot(),
+    contentType: 'image/png'
+  })
 })

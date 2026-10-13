@@ -80,7 +80,7 @@ Vite SSG 在构建时生成：
 
 ## TypeScript 7 检查边界
 
-`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`，并由 `pnpm run typecheck` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 TypeScript 源码、配置和测试。显式入口确保使用 TypeScript 7 原生编译器。Vue SFC 模板中的表达式、组件属性和事件类型不在这项静态检查的覆盖范围内。
+`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`，并由 `pnpm run typecheck` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 `tsconfig.native.json` 纳入的 TypeScript 源码、配置和测试。显式入口确保使用 TypeScript 7 原生编译器。`.vue` 文件使用通用组件声明，SFC 的脚本与模板均不接受语义类型检查，包括 `<script setup lang="ts">`、模板表达式、组件属性和事件类型。组件与浏览器测试仅覆盖已编写的行为断言，不能替代完整的 SFC 静态类型检查。
 
 `typescript` 指向 `@typescript/typescript6@6.0.2`，向 `typescript-eslint` 提供解析器 API；它不参与类型检查。
 

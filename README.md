@@ -40,7 +40,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，本地与 CI 的精确版本由 `.node-version` 固定。
 
-项目使用 TypeScript 7 原生编译器检查 TypeScript 源码。TypeScript 6 包只向 `typescript-eslint` 提供解析器 API，不参与类型检查。
+项目使用 TypeScript 7 原生编译器检查 TypeScript 源码，但不对 Vue SFC 的脚本或模板做语义类型检查。组件与浏览器测试仅覆盖已编写的行为断言，不能替代完整的 SFC 静态类型检查。TypeScript 6 包只向 `typescript-eslint` 提供解析器 API，不参与类型检查。
 
 ## 命令
 
