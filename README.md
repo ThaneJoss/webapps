@@ -69,7 +69,7 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 
 ## 质量与安全
 
-质量 CI 使用极简 reusable workflow 调用，固定引用 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`。通用模板按标准元数据自动发现 Node/pnpm、锁文件以及 lint、typecheck、test 和 build 脚本，并执行依赖审计。`typecheck` 依次执行 TypeScript 7 与 Vue SFC 检查，任一失败都会使脚本失败；实际执行结果以该提交的 CI 日志为准。`pnpm-workspace.yaml` 用 `packages: []` 显式声明仅根项目，保留原有 overrides，兼容模板对 workspace 列表的发现要求。
+质量 CI 使用极简 reusable workflow 调用，引用自动跟随 `main` 的 `ThaneJoss/github-ci/.github/workflows/ci.yml@main`。通用模板按标准元数据自动发现 Node/pnpm、锁文件以及 lint、typecheck、test 和 build 脚本，并执行依赖审计。`typecheck` 依次执行 TypeScript 7 与 Vue SFC 检查，任一失败都会使脚本失败；实际执行结果以该提交的 CI 日志为准。`pnpm-workspace.yaml` 用 `packages: []` 显式声明仅根项目，保留原有 overrides，兼容模板对 workspace 列表的发现要求。
 
 原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过，外部 Vercel 部署集成保持原配置。
 

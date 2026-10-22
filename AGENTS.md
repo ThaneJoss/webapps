@@ -86,7 +86,7 @@
 | 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `pnpm run test:e2e`，并检查桌面端与移动端。 |
 | 依赖更新 | 记录 `pnpm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `pnpm audit --audit-level=high`。 |
 
-质量 CI 只通过 `.github/workflows/ci.yml` 调用 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`，由通用模板从标准元数据自动发现检查。不要恢复项目专属质量 job、增加调用 inputs/env/secrets，或为保留旧覆盖添加专属步骤。项目测试、源码和 package scripts 保留；未被自动发现或实际执行的检查必须如实报告为未运行，不能视为通过。
+质量 CI 只通过 `.github/workflows/ci.yml` 调用 `ThaneJoss/github-ci/.github/workflows/ci.yml@main`，由通用模板从标准元数据自动发现检查。不要恢复项目专属质量 job、增加调用 inputs/env/secrets，或为保留旧覆盖添加专属步骤。项目测试、源码和 package scripts 保留；未被自动发现或实际执行的检查必须如实报告为未运行，不能视为通过。
 
 ## 提交与 PR
 
