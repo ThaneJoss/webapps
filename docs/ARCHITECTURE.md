@@ -68,6 +68,17 @@ CCFA、title2doi 与 Cloudflare IP 候选 · Speed Test 同批加入目录，`ad
 
 公开 HTTP 检查用于核对入口与访问限制，不替代各项目的完整功能验收。核对这些项目时仅执行只读检查，未修改各项目的部署、DNS 或权限。
 
+### 项目介绍复核（2026-10-22）
+
+本次根据两个项目默认分支的 README 与实现，同步目录卡片和本站 README；描述更新不改变 `addedAt`、编号、入口或可用状态。
+
+| 项目 | 固定版本证据 | 当前行为 |
+| --- | --- | --- |
+| BGP 路径观测 | [项目说明](https://github.com/ThaneJoss/bgp/blob/64ad2bd8c3e0768876f8938b55ad95a89587a8d4/README.md)、[获取与导入控件](https://github.com/ThaneJoss/bgp/blob/64ad2bd8c3e0768876f8938b55ad95a89587a8d4/components/bgp-data-controls.tsx) | 用户按需获取 RouteViews HKIX 原始数据或导入本地 MRT 文件，在浏览器中解压、解析和查询。数据保留在当前页面内存，刷新后需重新获取；没有每日自动更新。全球拓扑仍使用 CAIDA 静态快照。 |
+| 叶读 · LeafRead | [项目说明](https://github.com/ThaneJoss/epub/blob/726949e3b09d77d31bd4717477e1320a543b8f4c/README.md)、[阅读预设](https://github.com/ThaneJoss/epub/blob/726949e3b09d77d31bd4717477e1320a543b8f4c/reader/presets/default.js)、[阅读模式兼容层](https://github.com/ThaneJoss/epub/blob/726949e3b09d77d31bd4717477e1320a543b8f4c/reader/integration.js) | 电脑、手机及横屏均固定单页分页；旧滚动设置不会覆盖该模式。目录、字号、书签与同一浏览器内的阅读位置继续保留。 |
+
+以上为仓库说明与代码核对，不替代两个子站的部署或浏览器功能验收。
+
 ## 渲染模型
 
 Vite SSG 在构建时生成：
@@ -78,11 +89,15 @@ Vite SSG 在构建时生成：
 
 页面首个 HTTP 响应已经包含标题、正文和完整 metadata，不依赖 JavaScript 才出现语义内容。客户端继续使用 Vue Router hydration，保留无刷新导航和交互。
 
-## TypeScript 7 检查边界
+## TypeScript 与 Vue SFC 类型检查
 
-`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`，并由 `pnpm run typecheck` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 TypeScript 源码、配置和测试。显式入口确保使用 TypeScript 7 原生编译器。Vue SFC 模板中的表达式、组件属性和事件类型不在这项静态检查的覆盖范围内。
+`pnpm run typecheck` 依次执行 `typecheck:native` 与 `typecheck:vue`，分别验证 TypeScript 源码和 Vue SFC。通用 CI 从 `package.json` 自动发现并执行 `typecheck` 脚本，两项检查任一失败都会使该脚本失败。
 
-`typescript` 指向 `@typescript/typescript6@6.0.2`，向 `typescript-eslint` 提供解析器 API；它不参与类型检查。
+`@typescript/native` 通过 npm alias 指向 `typescript@7.0.2`。`typecheck:native` 显式执行 `node_modules/@typescript/native/bin/tsc`，检查 `tsconfig.native.json` 纳入的 TypeScript 源码、配置和测试；这项原生检查本身不分析 Vue SFC 的脚本或模板。
+
+`typecheck:vue` 执行 `vue-tsc --noEmit -p tsconfig.app.json`，检查 Vue SFC 的脚本、模板表达式、组件属性和事件类型。`tsconfig.app.json` 开启 `strictTemplates`，额外 HTML 属性仅允许标准 `data-*`，保留对未知属性的检查。
+
+`typescript` 指向 `@typescript/typescript6@6.0.2`，同时向 `typescript-eslint` 与 vue-tsc 提供所需 API。vue-tsc 3.3.13 自动识别该别名并使用兼容编译器，无需自建启动器；Vue 检查仍使用 TypeScript 6 API，并非 TypeScript 7 原生检查。组件与浏览器测试仅覆盖已编写的行为断言，不能替代静态类型检查。
 
 ## 工具链与依赖
 

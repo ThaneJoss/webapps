@@ -1,3 +1,5 @@
+packages: []
+
 overrides:
   js-cookie: 3.0.8
   source-map-js: 1.2.2
