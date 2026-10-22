@@ -47,14 +47,10 @@ max-age=31536000; includeSubDomains; preload
 
 每次部署后应核对生产响应头，避免 Cloudflare 覆盖造成配置漂移。
 
-## 远端验证
+## 通用 CI 与部署验收
 
-`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时输出依赖新鲜度报告，并完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`typecheck:native`（TypeScript 7）与 `typecheck:vue`（Vue SFC 脚本及严格模板检查）是两个独立的硬性步骤，任一失败都会阻断门禁。`pnpm outdated` 的非零退出会标记报告步骤，但不会单独阻断其他 PR；高危依赖审计仍是硬性检查，实际版本升级按需人工集中处理。
+`.github/workflows/ci.yml` 在 push、pull_request、merge_group 和 workflow_dispatch 时调用固定 SHA 的通用模板 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`。调用不传 inputs、环境变量或 secrets，自动发现标准元数据和检查脚本，不保留独立项目质量 job。
 
-`.github/workflows/deployment-smoke.yml` 在生产部署成功后检查：
+原独立依赖新鲜度报告、产物验证、Playwright/axe 和证据上传步骤已移除；未被通用模板发现或执行的检查应报告为未运行。
 
-- `/` 与 `/contact` 返回 200；
-- 随机不存在路径返回 404；
-- 三个响应的静态 HTML 包含对应页面语义标记。
-
-自动检查固定访问公开生产域名 `https://thanejoss.com`，不读取或访问 Vercel Preview/部署专属地址。工作流在 job 级判断部署状态与环境：Preview、失败或其他非生产部署会让整个 `smoke` job 显示为 `skipped`，不运行 HTTP 检查，也不表示生产 HTTP 验收通过。生产检查也可从 Actions 页面手动输入公开 URL 触发。
+`.github/workflows/deployment-smoke.yml` 仅执行 HTTP 质量验收，没有实际部署或发布动作，现随独立质量检查移除。`scripts/remote-smoke.mjs` 保留，但不由迁移后的 CI 自动调用；生产验收须另行明确授权。仓库没有其他发布、部署或数据更新 workflow，外部 Vercel 集成、生产配置和安全响应头保持原配置。

@@ -86,7 +86,7 @@
 | 可见界面或交互 | 执行 lint、类型检查、单元测试、构建和 `pnpm run test:e2e`，并检查桌面端与移动端。 |
 | 依赖更新 | 记录 `pnpm run check:dependencies` 输出（其他依赖过期时允许非零退出）、运行相关测试和 `pnpm audit --audit-level=high`。 |
 
-每个 PR 最终都必须通过 GitHub Actions 质量门禁：lint、TypeScript 7 类型检查、Vue SFC 脚本与模板类型检查、单元测试、SSG 构建、产物验证、依赖审计及 Playwright/axe。两项类型检查在 CI 中分别执行，任一失败都会阻断门禁。CI 同时报告依赖新鲜度，但过期版本本身不阻断无关 PR。
+质量 CI 只通过 `.github/workflows/ci.yml` 调用 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`，由通用模板从标准元数据自动发现检查。不要恢复项目专属质量 job、增加调用 inputs/env/secrets，或为保留旧覆盖添加专属步骤。项目测试、源码和 package scripts 保留；未被自动发现或实际执行的检查必须如实报告为未运行，不能视为通过。
 
 ## 提交与 PR
 
@@ -102,4 +102,4 @@
 - 不要提交密钥、令牌、个人信息或生产凭据；敏感值使用环境变量。
 - 修改依赖、构建、响应头、Vercel 或 Cloudflare 配置前，先阅读 `docs/DEPLOYMENT.md`。
 - 部署相关变化必须保留 CSP、安全响应头和真实 404。
-- 部署验收不作为 agent 的默认必做步骤，按用户明确要求执行；现有 GitHub Actions 检查仍按工作流配置运行。
+- 部署验收不作为 agent 的默认必做步骤，按用户明确要求执行；生产 HTTP 自动验收工作流已移除，`scripts/remote-smoke.mjs` 保留供明确授权后使用。

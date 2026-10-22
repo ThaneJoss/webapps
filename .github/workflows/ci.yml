@@ -1,81 +1,14 @@
-name: 质量门禁
+name: CI
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+'on':
+  push: {}
+  pull_request: {}
+  merge_group: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
 
-concurrency:
-  group: quality-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  quality:
-    name: lint、类型、测试与构建
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: 检出代码
-        uses: actions/checkout@v7
-
-      - name: 配置 pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: 配置 Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: .node-version
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: 安装依赖
-        run: pnpm install --frozen-lockfile
-
-      - name: 报告依赖新鲜度
-        continue-on-error: true
-        run: pnpm run check:dependencies
-
-      - name: 代码规范
-        run: pnpm run lint
-
-      - name: TypeScript 7 类型检查
-        run: pnpm run typecheck:native
-
-      - name: Vue SFC 脚本与模板类型检查
-        run: pnpm run typecheck:vue
-
-      - name: 单元与组件测试
-        run: pnpm run test:unit
-
-      - name: 构建静态站点
-        run: pnpm run build:ssg
-
-      - name: 验证构建产物
-        run: pnpm run verify:dist
-
-      - name: 依赖安全审计
-        run: pnpm audit --audit-level=high
-
-      - name: 安装 Chromium
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: 浏览器验收
-        run: pnpm run test:e2e
-
-      - name: 上传构建与浏览器证据
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: webapps-ci-evidence
-          path: |
-            dist
-            playwright-report
-            test-results
-          if-no-files-found: ignore
-          retention-days: 7
+  ci:
+    uses: ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842

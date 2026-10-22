@@ -20,11 +20,11 @@ FlowMaster 研究工作区入口为 https://flow.thanejoss.com，用可视化节
 
 Dify AI 工作台入口为 https://dify.thanejoss.com，用于可视化编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。Dify 项目文档：https://docs.dify.ai。
 
-叶读（LeafRead）入口为 https://epub.thanejoss.com，是基于开源 Bibi 的免登录 EPUB 阅读器。支持粘贴 HTTPS 文件直链或打开本地 EPUB，提供目录跳转、翻页与滚动、字号调整和同一浏览器内的阅读位置记忆；本地文件仅在浏览器中读取。源码：https://github.com/ThaneJoss/epub。
+叶读（LeafRead）入口为 https://epub.thanejoss.com，是基于开源 Bibi 的免登录 EPUB 阅读器。支持粘贴 HTTPS 文件直链或打开本地 EPUB，在电脑、手机和横屏下均固定单页分页，使用箭头、方向键或触摸滑动翻页，保留目录、字号、书签与同一浏览器内的阅读位置记忆；本地文件仅在浏览器中读取。源码：https://github.com/ThaneJoss/epub。
 
 Fast 反向代理入口为 https://fast.thanejoss.com，使用 `https://fast.thanejoss.com/host/res` 访问对应的 `https://host/res`。支持 Ubuntu、npm 白名单 HTTPS 资源代理、软件源一键配置、流式下载和断点续传，并提供基于 D1 的 IP 白名单、分组管理与按 IP 汇总的访问日志；主页、初始化脚本和代理请求均受 IP 白名单限制；管理页 `/admin` 免于 IP 校验，需由 Cloudflare Access 独立保护。源码：https://github.com/ThaneJoss/fast。
 
-BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球 AS 拓扑可视化，并基于每日更新的 RouteViews 香港 HKIX / AS3491 观测数据查询、对比两个 IP 的 BGP AS 路径。路径来自观测 session 中的 AS_PATH，不代表两个 IP 之间的实时 traceroute；全球拓扑使用 CAIDA 静态快照。源码：https://github.com/ThaneJoss/bgp。
+BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球 AS 拓扑可视化。路径对比需选择日期并按需获取 RouteViews 香港 HKIX / AS3491 原始数据，或导入本地 MRT 文件，由浏览器解压、解析和查询。数据仅保存在当前页面内存，刷新或关闭页面后需重新获取。路径来自同一观测 session 的 AS_PATH，不代表两个 IP 之间的实时 traceroute；全球拓扑按需加载仓库中的 CAIDA 静态快照。源码：https://github.com/ThaneJoss/bgp。
 
 ## 技术栈
 
@@ -69,7 +69,9 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 
 ## 质量与安全
 
-PR 质量门禁会在每次 PR 更新及 `main` 推送时输出依赖新鲜度报告，并执行 lint、TypeScript 7 检查、Vue SFC 类型检查、Vitest、SSG 构建、产物完整性、`pnpm audit`、Playwright 和 axe。两项类型检查为独立的硬性步骤。过期依赖会留在检查日志中，但不会单独阻断其他 PR；高危依赖漏洞仍会使门禁失败，版本升级改为按需人工集中处理。
+质量 CI 使用极简 reusable workflow 调用，固定引用 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`。通用模板按标准元数据自动发现 Node/pnpm、锁文件以及 lint、typecheck、test 和 build 脚本，并执行依赖审计。`typecheck` 依次执行 TypeScript 7 与 Vue SFC 检查，任一失败都会使脚本失败；实际执行结果以该提交的 CI 日志为准。`pnpm-workspace.yaml` 用 `packages: []` 显式声明仅根项目，保留原有 overrides，兼容模板对 workspace 列表的发现要求。
+
+原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过，外部 Vercel 部署集成保持原配置。
 
 Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
 

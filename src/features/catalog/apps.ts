@@ -233,8 +233,8 @@ export const catalogApps: readonly CatalogApp[] = [
       kind: 'external',
       href: 'https://bgp.thanejoss.com'
     },
-    description: '探索全球 AS 拓扑，并基于 RouteViews 香港观测数据查询、对比两个 IP 的 BGP AS 路径。',
-    features: ['AS 拓扑', 'BGP 路径', '双 IP 对比']
+    description: '探索全球 AS 拓扑，按需获取或导入 RouteViews 香港数据，在浏览器中解析并对比两个 IP 的 BGP 观测路径。',
+    features: ['AS 拓扑', '按需本地解析', '双 IP 对比']
   },
   {
     id: 'leafread',
@@ -249,8 +249,8 @@ export const catalogApps: readonly CatalogApp[] = [
       kind: 'external',
       href: 'https://epub.thanejoss.com'
     },
-    description: '粘贴 EPUB 在线直链或打开本地电子书，在浏览器中阅读，支持目录跳转、字号调整与阅读位置记忆。',
-    features: ['在线 / 本地 EPUB', '目录与字号', '阅读进度']
+    description: '粘贴 EPUB 在线直链或打开本地电子书，在电脑和手机上单页翻阅，支持目录、字号、书签与阅读位置记忆。',
+    features: ['在线 / 本地 EPUB', '单页翻阅', '书签与进度']
   },
   {
     id: 'dify',
