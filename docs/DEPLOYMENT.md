@@ -49,7 +49,7 @@ max-age=31536000; includeSubDomains; preload
 
 ## 通用 CI 与部署验收
 
-`.github/workflows/ci.yml` 在 push、pull_request、merge_group 和 workflow_dispatch 时调用固定 SHA 的通用模板 `ThaneJoss/github-ci/.github/workflows/ci.yml@89624ba02d911171a634ddeb4848c298f3b1c842`。调用不传 inputs、环境变量或 secrets，自动发现标准元数据和检查脚本，不保留独立项目质量 job。
+`.github/workflows/ci.yml` 在 push、pull_request、merge_group 和 workflow_dispatch 时调用自动跟随 `main` 的通用模板 `ThaneJoss/github-ci/.github/workflows/ci.yml@main`。调用不传 inputs、环境变量或 secrets，自动发现标准元数据和检查脚本，不保留独立项目质量 job。
 
 原独立依赖新鲜度报告、产物验证、Playwright/axe 和证据上传步骤已移除；未被通用模板发现或执行的检查应报告为未运行。
 
