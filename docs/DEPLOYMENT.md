@@ -49,7 +49,7 @@ max-age=31536000; includeSubDomains; preload
 
 ## 远端验证
 
-`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时输出依赖新鲜度报告，并完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`pnpm outdated` 的非零退出会标记报告步骤，但不会单独阻断其他 PR；高危依赖审计仍是硬性检查，实际版本升级按需人工集中处理。
+`.github/workflows/ci.yml` 在每次 PR 提交及 `main` 推送时输出依赖新鲜度报告，并完成 lint、类型、测试、构建、审计和浏览器验收，不依赖本机资源。`typecheck:native`（TypeScript 7）与 `typecheck:vue`（Vue SFC 脚本及严格模板检查）是两个独立的硬性步骤，任一失败都会阻断门禁。`pnpm outdated` 的非零退出会标记报告步骤，但不会单独阻断其他 PR；高危依赖审计仍是硬性检查，实际版本升级按需人工集中处理。
 
 `.github/workflows/deployment-smoke.yml` 在生产部署成功后检查：
 
@@ -57,4 +57,4 @@ max-age=31536000; includeSubDomains; preload
 - 随机不存在路径返回 404；
 - 三个响应的静态 HTML 包含对应页面语义标记。
 
-自动检查固定访问公开生产域名 `https://thanejoss.com`，不读取或访问 Vercel Preview/部署专属地址。Preview 的部署事件记录“非生产部署不执行网络检查”并成功结束。生产检查也可从 Actions 页面手动输入公开 URL 触发。
+自动检查固定访问公开生产域名 `https://thanejoss.com`，不读取或访问 Vercel Preview/部署专属地址。工作流在 job 级判断部署状态与环境：Preview、失败或其他非生产部署会让整个 `smoke` job 显示为 `skipped`，不运行 HTTP 检查，也不表示生产 HTTP 验收通过。生产检查也可从 Actions 页面手动输入公开 URL 触发。

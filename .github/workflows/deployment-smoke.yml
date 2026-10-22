@@ -15,34 +15,22 @@ permissions:
 jobs:
   smoke:
     name: 生产 HTTP 语义检查
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       BASE_URL: ${{ github.event.inputs.base_url || 'https://thanejoss.com' }}
 
     steps:
-      - name: 忽略非生产部署
-        if: >-
-          github.event_name == 'deployment_status' &&
-          (github.event.deployment_status.state != 'success' || github.event.deployment.environment != 'Production')
-        run: echo "非生产部署不执行网络检查。"
-
       - name: 检出代码
-        if: >-
-          github.event_name == 'workflow_dispatch' ||
-          (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
         uses: actions/checkout@v7
 
       - name: 配置 Node.js
-        if: >-
-          github.event_name == 'workflow_dispatch' ||
-          (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
         uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
 
       - name: 检查公开生产域名
-        if: >-
-          github.event_name == 'workflow_dispatch' ||
-          (github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production')
         run: node scripts/remote-smoke.mjs

@@ -61,7 +61,9 @@
         <p class="panel-label text-steel">应用与项目展示区</p>
         <h2
           id="catalog-title"
+          ref="catalogHeading"
           class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-3xl"
+          tabindex="-1"
         >
           应用与开源项目
         </h2>
@@ -139,6 +141,7 @@ const latestApp = getLatestCatalogApp(catalogApps)
 const standardApps = getCatalogAppsNewestFirst(catalogApps).filter((app) => app !== latestApp)
 const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
 const catalogSection = ref<HTMLElement | null>(null)
+const catalogHeading = ref<HTMLElement | null>(null)
 
 let revealObserver: IntersectionObserver | null = null
 
@@ -185,7 +188,8 @@ onBeforeUnmount(() => {
 })
 
 function scrollToApps() {
-  document.getElementById('home-apps')?.scrollIntoView({
+  catalogHeading.value?.focus({ preventScroll: true })
+  catalogSection.value?.scrollIntoView({
     behavior: prefersReducedMotion() ? 'auto' : 'smooth',
     block: 'start'
   })
