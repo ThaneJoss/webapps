@@ -28,7 +28,7 @@
 
 ## 环境与依赖
 
-- 开发与 CI 的 Node.js 版本以 `.node-version` 为准，pnpm 版本以 `package.json#packageManager` 为准；Vercel 使用平台支持的最新 Node.js 24 LTS，并满足 `package.json#engines`。
+- 开发、CI 与 Cloudflare Workers Builds 的 Node.js 版本以 `.node-version` 为准，pnpm 版本以 `package.json#packageManager` 为准，并满足 `package.json#engines`。
 - 在干净环境中使用 `pnpm install --frozen-lockfile` 按锁文件安装依赖。
 - 更新依赖时使用 pnpm 命令，并同时提交 `package.json` 与 `pnpm-lock.yaml` 的对应变化。
 - 不要手工改写 `node_modules/`、`dist/` 或锁文件中的派生内容。
@@ -50,6 +50,9 @@
 | `pnpm run verify:dist` | 验证 metadata、路由、链接、CSP 约束和资源预算。 |
 | `pnpm run test:e2e` | 在已构建的 `dist/` 上执行 Playwright 与 axe 浏览器验收。 |
 | `pnpm run preview` | 预览已生成的 `dist/`。 |
+| `pnpm run preview:worker` | 使用本地 Workers 预览静态路由和响应头。 |
+| `pnpm run deploy:check` | 构建并检查 Wrangler 部署产物，不发布。 |
+| `pnpm run deploy` | 构建并发布到 Cloudflare Workers。 |
 | `pnpm audit --audit-level=high` | 检查高等级及以上的依赖漏洞。 |
 
 ## 编码与实现规则
@@ -102,4 +105,6 @@
 - 不要提交密钥、令牌、个人信息或生产凭据；敏感值使用环境变量。
 - 修改依赖、构建、响应头、Vercel 或 Cloudflare 配置前，先阅读 `docs/DEPLOYMENT.md`。
 - 部署相关变化必须保留 CSP、安全响应头和真实 404。
+- 生产发布使用 Workers Builds 连接 `main`，`wrangler.jsonc` 声明静态资源、路由与自定义域名，`public/_headers` 维护安全响应头；不要恢复重复的 Vercel Git 自动部署。
+- HSTS 遵循 Cloudflare SSL/TLS 全局设置；不要在仓库响应头或主机专用边缘规则中覆盖。
 - 部署验收不作为 agent 的默认必做步骤，按用户明确要求执行；生产 HTTP 自动验收工作流已移除，`scripts/remote-smoke.mjs` 保留供明确授权后使用。

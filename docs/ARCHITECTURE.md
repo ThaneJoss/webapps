@@ -101,7 +101,7 @@ Vite SSG 在构建时生成：
 
 ## 工具链与依赖
 
-开发与 CI 使用 `.node-version` 固定的 Node.js 26.10.0 Current，以及 `package.json#packageManager` 固定的 pnpm 12.9.1。Vercel 构建使用平台支持的最新 Node.js 24 LTS；`package.json#engines` 允许 `^24.21.0 || ^26.10.0`。
+开发、CI 与 Cloudflare Workers Builds 使用 `.node-version` 固定的 Node.js 26.10.0 Current，以及 `package.json#packageManager` 固定的 pnpm 12.9.1；`package.json#engines` 允许 `^24.21.0 || ^26.10.0`。
 
 依赖由 `pnpm-lock.yaml` 锁定，干净环境使用 `pnpm install --frozen-lockfile` 安装。更新依赖时使用 pnpm，并同步提交依赖声明与锁文件的对应变化。
 

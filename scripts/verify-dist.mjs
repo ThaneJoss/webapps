@@ -23,6 +23,13 @@ const [indexHtml, contactHtml, notFoundHtml, sitemap, robots] = await Promise.al
 const vercelConfig = JSON.parse(
   await readFile(new URL('../vercel.json', import.meta.url), 'utf8')
 )
+const headerLines = (await readDistFile('_headers')).trim().split(/\r?\n/)
+assert(headerLines.shift() === '/*', 'Cloudflare 安全响应头必须匹配所有路径。')
+const cloudflareHeaders = headerLines.map((line) => {
+  const match = line.match(/^\s+([^:]+):\s*(.+)$/)
+  assert(match, `Cloudflare 响应头格式不正确：${line}`)
+  return [match[1], match[2]]
+})
 
 const pages = [
   ['index.html', indexHtml],
@@ -75,21 +82,25 @@ for (const url of expectedExternalAppUrls) {
 
 assert(!indexHtml.includes('https://ha.thanejoss.com'), '首页不应展示 Home Assistant。')
 
-const configuredHeaders = new Map(
+const vercelHeaders = new Map(
   (vercelConfig.headers?.[0]?.headers ?? []).map(({ key, value }) => [key, value])
 )
+const configuredHeaders = new Map(cloudflareHeaders)
 const requiredHeaderNames = [
   'Content-Security-Policy',
   'Referrer-Policy',
   'Permissions-Policy',
   'X-Content-Type-Options',
   'X-Frame-Options',
-  'Cross-Origin-Opener-Policy',
-  'Strict-Transport-Security'
+  'Cross-Origin-Opener-Policy'
 ]
 
 for (const headerName of requiredHeaderNames) {
-  assert(configuredHeaders.has(headerName), `vercel.json 缺少 ${headerName}。`)
+  assert(configuredHeaders.has(headerName), `dist/_headers 缺少 ${headerName}。`)
+  assert(
+    configuredHeaders.get(headerName) === vercelHeaders.get(headerName),
+    `Cloudflare 与 Vercel 的 ${headerName} 不一致。`
+  )
 }
 
 const contentSecurityPolicy = configuredHeaders.get('Content-Security-Policy') ?? ''
@@ -97,8 +108,14 @@ assert(contentSecurityPolicy.includes("default-src 'self'"), 'CSP 缺少 default
 assert(contentSecurityPolicy.includes("frame-ancestors 'none'"), 'CSP 缺少 frame-ancestors 限制。')
 assert(!contentSecurityPolicy.includes("'unsafe-inline'"), 'CSP 不应允许 unsafe-inline。')
 assert(
-  configuredHeaders.get('Strict-Transport-Security') === 'max-age=31536000; includeSubDomains; preload',
-  'HSTS 必须满足一年 preload 配置。'
+  cloudflareHeaders.every(([name]) => name.toLowerCase() !== 'strict-transport-security'),
+  'Cloudflare 静态资源不得覆盖全局 HSTS 设置。'
+)
+assert(
+  (vercelConfig.headers ?? []).every(({ headers = [] }) => (
+    headers.every(({ key }) => key.toLowerCase() !== 'strict-transport-security')
+  )),
+  'Vercel 配置不得覆盖全局 HSTS 设置。'
 )
 
 for (const [file, html] of pages) {

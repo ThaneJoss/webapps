@@ -21,6 +21,8 @@ test-results/
 .cache/
 .codegraph/
 .vercel/
+.wrangler/
+.dev.vars*
 
 # Editors and OS files
 .DS_Store
