@@ -23,6 +23,13 @@ const [indexHtml, contactHtml, notFoundHtml, sitemap, robots] = await Promise.al
 const vercelConfig = JSON.parse(
   await readFile(new URL('../vercel.json', import.meta.url), 'utf8')
 )
+const headerLines = (await readDistFile('_headers')).trim().split(/\r?\n/)
+assert(headerLines.shift() === '/*', 'Cloudflare 安全响应头必须匹配所有路径。')
+const cloudflareHeaders = headerLines.map((line) => {
+  const match = line.match(/^\s+([^:]+):\s*(.+)$/)
+  assert(match, `Cloudflare 响应头格式不正确：${line}`)
+  return [match[1], match[2]]
+})
 
 const pages = [
   ['index.html', indexHtml],
@@ -75,9 +82,10 @@ for (const url of expectedExternalAppUrls) {
 
 assert(!indexHtml.includes('https://ha.thanejoss.com'), '首页不应展示 Home Assistant。')
 
-const configuredHeaders = new Map(
+const vercelHeaders = new Map(
   (vercelConfig.headers?.[0]?.headers ?? []).map(({ key, value }) => [key, value])
 )
+const configuredHeaders = new Map(cloudflareHeaders)
 const requiredHeaderNames = [
   'Content-Security-Policy',
   'Referrer-Policy',
@@ -89,7 +97,11 @@ const requiredHeaderNames = [
 ]
 
 for (const headerName of requiredHeaderNames) {
-  assert(configuredHeaders.has(headerName), `vercel.json 缺少 ${headerName}。`)
+  assert(configuredHeaders.has(headerName), `dist/_headers 缺少 ${headerName}。`)
+  assert(
+    configuredHeaders.get(headerName) === vercelHeaders.get(headerName),
+    `Cloudflare 与 Vercel 的 ${headerName} 不一致。`
+  )
 }
 
 const contentSecurityPolicy = configuredHeaders.get('Content-Security-Policy') ?? ''

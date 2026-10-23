@@ -15,6 +15,9 @@
     "check:dependencies": "pnpm outdated",
     "lint": "eslint . --max-warnings=0",
     "preview": "vite preview",
+    "preview:worker": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:check": "wrangler deploy --dry-run",
     "typecheck": "pnpm run typecheck:native && pnpm run typecheck:vue",
     "typecheck:native": "node node_modules/@typescript/native/bin/tsc --noEmit -p tsconfig.native.json",
     "typecheck:vue": "vue-tsc --noEmit -p tsconfig.app.json",
@@ -50,6 +53,7 @@
     "vite": "8.3.4",
     "vite-ssg": "28.3.0",
     "vitest": "5.0.3",
-    "vue-tsc": "3.3.13"
+    "vue-tsc": "3.3.13",
+    "wrangler": "4.152.0"
   }
 }

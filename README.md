@@ -39,7 +39,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 - unplugin-icons 24.0.0
 - Node.js 26.10.0 Current（开发与 CI）、pnpm 12.9.1
 
-Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，本地与 CI 的精确版本由 `.node-version` 固定。
+开发、CI 与 Cloudflare Workers Builds 使用 `.node-version` 固定的 Node.js 26.10.0。项目的 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`，pnpm 版本由 `package.json#packageManager` 固定。
 
 项目使用 TypeScript 7 原生编译器检查 TypeScript 源码，并使用 vue-tsc 对 Vue SFC 的脚本、模板、组件属性和事件做语义类型检查。Vue 模板开启 `strictTemplates`，额外 HTML 属性仅允许标准 `data-*`。TypeScript 6 兼容包同时向 `typescript-eslint` 和 vue-tsc 提供所需 API；vue-tsc 自动识别该别名，无需自建兼容启动器。组件与浏览器测试覆盖已编写的行为断言，与静态类型检查互补。
 
@@ -57,23 +57,32 @@ Vercel 构建使用平台支持的最新 Node.js 24 LTS。项目的 Node.js 引�
 - `pnpm run verify:dist`：验证静态 metadata、sitemap、链接、脚本属性和体积预算
 - `pnpm run test:e2e`：执行桌面/移动端 Playwright 与 axe 检查
 - `pnpm run preview`：预览 `dist/`
+- `pnpm run preview:worker`：使用本地 Workers 预览静态路由和响应头
+- `pnpm run deploy:check`：构建并检查 Wrangler 部署产物，不发布
+- `pnpm run deploy`：构建并发布到 Cloudflare Workers
 
 ## 页面与构建
 
 - `/`：静态预渲染的应用目录
 - `/contact`：静态预渲染的联系页
-- `404.html`：由 catch-all 路由静态预渲染，Vercel 对未知路径返回真实 404
+- `404.html`：由 catch-all 路由静态预渲染，Workers Static Assets 对未知路径返回真实 404
 - `sitemap.xml`：只包含 `/` 与 `/contact`
 
 构建输出 Vite 的 hash CSS，固定 UI 图标通过 `unplugin-icons` 在构建期打包。构建后脚本会为所有模块入口加入 `data-cfasync="false"`，避免 Cloudflare Rocket Loader 中止并重放 Vite 模块。
+
+## 自动部署
+
+生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库的 `main` 分支，推送后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。自定义域名由仓库配置声明，非生产分支预览尚未开启。
+
+`vercel.json` 停用 Vercel Git 自动部署，保留原构建与安全头配置及既有部署用于回退。完整构建设置、路由规则和回退步骤见[部署与边缘配置](docs/DEPLOYMENT.md)。
 
 ## 质量与安全
 
 质量 CI 使用极简 reusable workflow 调用，引用自动跟随 `main` 的 `ThaneJoss/github-ci/.github/workflows/ci.yml@main`。通用模板按标准元数据自动发现 Node/pnpm、锁文件以及 lint、typecheck、test 和 build 脚本，并执行依赖审计。`typecheck` 依次执行 TypeScript 7 与 Vue SFC 检查，任一失败都会使脚本失败；实际执行结果以该提交的 CI 日志为准。`pnpm-workspace.yaml` 用 `packages: []` 显式声明仅根项目，保留原有 overrides，兼容模板对 workspace 列表的发现要求。
 
-原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过，外部 Vercel 部署集成保持原配置。
+原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过。Cloudflare Workers Builds 负责发布，GitHub Actions 继续负责通用质量检查。
 
-Vercel 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS。具体架构和部署要求见：
+`public/_headers` 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS，构建时复制到静态产物并由 Workers Static Assets 应用。具体架构和部署要求见：
 
 - [架构说明](docs/ARCHITECTURE.md)
 - [部署与边缘配置](docs/DEPLOYMENT.md)

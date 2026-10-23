@@ -2,17 +2,38 @@
 
 ## 运行线
 
-- 开发与 CI：Node.js 26.10.0 Current，以 `.node-version` 为准
-- Vercel 构建：平台支持的最新 Node.js 24 LTS（当前支持的最新构建大版本）
+- 开发、CI 与 Workers Builds：Node.js 26.10.0 Current，以 `.node-version` 为准
 - pnpm 12.9.1，以 `package.json#packageManager` 为准
-- Vercel 静态部署
-- Cloudflare 代理生产域名 `thanejoss.com`
+- Cloudflare Workers Static Assets，Worker 名称 `webapps`
+- 生产域名 `thanejoss.com`，由 `wrangler.jsonc` 声明为 Worker 自定义域名
 
 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`。安装使用 `pnpm install --frozen-lockfile`，构建使用 `pnpm run build`，静态输出目录为 `dist/`。
 
-`vercel.json` 显式配置安装命令 `npx --yes pnpm@12.9.1 install --frozen-lockfile` 和构建命令 `npx --yes pnpm@12.9.1 run build`。这里的 `npx` 仅用于引导精确版本的 pnpm，依赖安装与构建仍由 pnpm 执行，无需在 Vercel 控制台添加包管理器相关环境变量。
+## Workers Builds 自动发布
 
-Vercel 使用 `cleanUrls` 把 `contact.html` 暴露为 `/contact`，并把生成的 `404.html` 作为未知路径的真实 404 页面。不要增加全局 SPA wildcard rewrite，否则会制造 soft 404。
+Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以下生产设置：
+
+| 设置 | 值 |
+| --- | --- |
+| 生产分支 | `main` |
+| 根目录 | `/` |
+| 构建命令 | 留空，由 Wrangler 调用仓库中的构建命令 |
+| 部署命令 | `pnpm exec wrangler deploy` |
+| Node.js | `.node-version` 中的 `26.10.0` |
+| 构建环境变量 | `PNPM_VERSION=12.9.1` |
+| 非生产分支预览 | 未开启 |
+
+每次推送 `main` 后，Workers Builds 安装依赖，再使用锁文件中的 Wrangler 执行部署。`wrangler.jsonc` 的 `build.command` 为 `pnpm run build`，因此发布前仍会执行 TypeScript 与 Vue SFC 类型检查、SSG 构建及模块脚本加固。只上传 `dist/` 静态产物，无需运行服务端 JavaScript，也不需要 KV、D1 或其他运行时绑定。
+
+Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。构建变量 `PNPM_VERSION` 应与 `package.json#packageManager` 同步，避免平台默认 pnpm 版本与锁文件不一致。部署凭据由 Cloudflare Workers Builds 管理，不写入仓库。
+
+本地可运行 `pnpm run preview:worker` 检查 Workers 的路由和响应头，或运行 `pnpm run deploy:check` 完成构建与部署预检。`pnpm run deploy` 会实际发布；通常由 `main` 自动部署完成发布。
+
+## 静态路由与缓存
+
+`wrangler.jsonc` 设置 `assets.directory` 为 `./dist`、`html_handling` 为 `drop-trailing-slash`，将 `contact.html` 暴露为 `/contact`，并将 `/contact/` 与 `/contact.html` 规范化为无尾斜线地址。`not_found_handling: "404-page"` 使用生成的 `404.html` 为未知路径返回真实 HTTP 404。不要增加全局 SPA wildcard rewrite，否则会制造 soft 404。
+
+静态资源使用 Workers Static Assets 的默认缓存行为，不对 HTML 设置长期不可变缓存。Vite 生成的 JS/CSS 文件名包含内容 hash，更新版本后页面会引用新的资源地址。
 
 ## Cloudflare
 
@@ -31,11 +52,11 @@ HSTS 目标值为：
 max-age=31536000; includeSubDomains; preload
 ```
 
-只有确认所有子域名都长期支持 HTTPS 后才应保留 `includeSubDomains` 与 `preload`。Vercel 已配置该响应头；若 Cloudflare HSTS 功能覆盖源站值，边缘设置也必须保持一致。
+只有确认所有子域名都长期支持 HTTPS 后才应保留 `includeSubDomains` 与 `preload`。`public/_headers` 已配置该响应头；若 Cloudflare HSTS 功能覆盖资源响应值，边缘设置也必须保持一致。
 
 ## 安全响应头
 
-`vercel.json` 对所有路径设置：
+`public/_headers` 在构建时复制为 `dist/_headers`，由 Workers Static Assets 对所有路径设置：
 
 - Content-Security-Policy：脚本、样式和资源默认只允许本站，并允许 Cloudflare Web Analytics；
 - Referrer-Policy：`strict-origin-when-cross-origin`；
@@ -53,4 +74,10 @@ max-age=31536000; includeSubDomains; preload
 
 原独立依赖新鲜度报告、产物验证、Playwright/axe 和证据上传步骤已移除；未被通用模板发现或执行的检查应报告为未运行。
 
-`.github/workflows/deployment-smoke.yml` 仅执行 HTTP 质量验收，没有实际部署或发布动作，现随独立质量检查移除。`scripts/remote-smoke.mjs` 保留，但不由迁移后的 CI 自动调用；生产验收须另行明确授权。仓库没有其他发布、部署或数据更新 workflow，外部 Vercel 集成、生产配置和安全响应头保持原配置。
+原 `.github/workflows/deployment-smoke.yml` 随独立质量检查移除。`scripts/remote-smoke.mjs` 保留，但不由 CI 自动调用；在用户明确要求部署验收时，可使用 `BASE_URL=https://thanejoss.com node scripts/remote-smoke.mjs` 核对首页、联系页及未知路径。Workers Builds 独立于 GitHub Actions 执行自动发布；两者的结果应分别核对。
+
+## Vercel 回退
+
+`vercel.json` 通过 `git.deploymentEnabled: false` 停用 Vercel Git 自动部署，保留原有安装、构建、路由和安全响应头配置。既有 Vercel 项目及最后一次部署保留用于回退，不再随 `main` 推送重复构建。
+
+需要回退时，先验证保留的 Vercel 部署可访问，再解除 Worker 对 `thanejoss.com` 的自定义域名绑定，恢复切换前保存的 DNS 记录及代理状态。域名同时声明在 `wrangler.jsonc`，回退配置也须同步到仓库，防止后续 Workers Builds 再次绑定域名。若需要恢复后续 Vercel 发布，再调整 `git.deploymentEnabled`；回退既有部署本身无需先开启 Git 自动部署。
