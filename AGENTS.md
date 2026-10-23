@@ -106,4 +106,5 @@
 - 修改依赖、构建、响应头、Vercel 或 Cloudflare 配置前，先阅读 `docs/DEPLOYMENT.md`。
 - 部署相关变化必须保留 CSP、安全响应头和真实 404。
 - 生产发布使用 Workers Builds 连接 `main`，`wrangler.jsonc` 声明静态资源、路由与自定义域名，`public/_headers` 维护安全响应头；不要恢复重复的 Vercel Git 自动部署。
+- HSTS 遵循 Cloudflare SSL/TLS 全局设置；不要在仓库响应头或主机专用边缘规则中覆盖。
 - 部署验收不作为 agent 的默认必做步骤，按用户明确要求执行；生产 HTTP 自动验收工作流已移除，`scripts/remote-smoke.mjs` 保留供明确授权后使用。

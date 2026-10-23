@@ -74,7 +74,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库的 `main` 分支，推送后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。自定义域名由仓库配置声明，非生产分支预览尚未开启。
 
-`vercel.json` 停用 Vercel Git 自动部署，保留原构建与安全头配置及既有部署用于回退。完整构建设置、路由规则和回退步骤见[部署与边缘配置](docs/DEPLOYMENT.md)。
+`vercel.json` 停用 Vercel Git 自动部署，保留构建与非 HSTS 安全头配置及既有部署用于回退。完整构建设置、路由规则和回退步骤见[部署与边缘配置](docs/DEPLOYMENT.md)。
 
 ## 质量与安全
 
@@ -82,7 +82,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 原项目专属质量 job 与生产 HTTP 验收 workflow 已移除。独立的依赖新鲜度报告、`verify:dist`、Playwright/axe、浏览器安装和证据上传不再作为额外 CI 步骤保留；相关源码、测试及 package scripts 仍可按需运行。没有执行的检查不代表通过。Cloudflare Workers Builds 负责发布，GitHub Actions 继续负责通用质量检查。
 
-`public/_headers` 统一配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP、nosniff 与一年期 HSTS，构建时复制到静态产物并由 Workers Static Assets 应用。具体架构和部署要求见：
+`public/_headers` 配置 CSP、Referrer-Policy、Permissions-Policy、frame 限制、COOP 与 nosniff，构建时复制到静态产物并由 Workers Static Assets 应用于静态响应。HSTS 由 Cloudflare SSL/TLS 全局设置统一管理，仓库不覆盖。具体架构和部署要求见：
 
 - [架构说明](docs/ARCHITECTURE.md)
 - [部署与边缘配置](docs/DEPLOYMENT.md)

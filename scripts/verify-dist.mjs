@@ -92,8 +92,7 @@ const requiredHeaderNames = [
   'Permissions-Policy',
   'X-Content-Type-Options',
   'X-Frame-Options',
-  'Cross-Origin-Opener-Policy',
-  'Strict-Transport-Security'
+  'Cross-Origin-Opener-Policy'
 ]
 
 for (const headerName of requiredHeaderNames) {
@@ -109,8 +108,14 @@ assert(contentSecurityPolicy.includes("default-src 'self'"), 'CSP 缺少 default
 assert(contentSecurityPolicy.includes("frame-ancestors 'none'"), 'CSP 缺少 frame-ancestors 限制。')
 assert(!contentSecurityPolicy.includes("'unsafe-inline'"), 'CSP 不应允许 unsafe-inline。')
 assert(
-  configuredHeaders.get('Strict-Transport-Security') === 'max-age=31536000; includeSubDomains; preload',
-  'HSTS 必须满足一年 preload 配置。'
+  cloudflareHeaders.every(([name]) => name.toLowerCase() !== 'strict-transport-security'),
+  'Cloudflare 静态资源不得覆盖全局 HSTS 设置。'
+)
+assert(
+  (vercelConfig.headers ?? []).every(({ headers = [] }) => (
+    headers.every(({ key }) => key.toLowerCase() !== 'strict-transport-security')
+  )),
+  'Vercel 配置不得覆盖全局 HSTS 设置。'
 )
 
 for (const [file, html] of pages) {

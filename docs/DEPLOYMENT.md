@@ -46,27 +46,20 @@ Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。构建变量 `PNP
 
 修改后清理该主机缓存，再检查首页、联系页和未知路径。作为仓库内的确定性保护，`scripts/harden-build.mjs` 还会给每个 Vite 模块脚本添加 `data-cfasync="false"`，且属性位于 `src` 前；即使区域级 Rocket Loader 仍打开，也不应改写应用入口。
 
-HSTS 目标值为：
-
-```text
-max-age=31536000; includeSubDomains; preload
-```
-
-只有确认所有子域名都长期支持 HTTPS 后才应保留 `includeSubDomains` 与 `preload`。`public/_headers` 已配置该响应头；若 Cloudflare HSTS 功能覆盖资源响应值，边缘设置也必须保持一致。
+HSTS 由 Cloudflare SSL/TLS 全局设置统一管理。`public/_headers` 与 `vercel.json` 不设置 `Strict-Transport-Security`，也不为本站增加主机专用响应头转换规则。后续 HSTS 变更在 Cloudflare 全局设置中维护，部署验收以当时的全局策略为准，不将当前有效期固化为项目要求。
 
 ## 安全响应头
 
-`public/_headers` 在构建时复制为 `dist/_headers`，由 Workers Static Assets 对所有路径设置：
+`public/_headers` 在构建时复制为 `dist/_headers`，由 Workers Static Assets 对各路径的静态响应设置以下响应头；重定向先于这些规则处理，不保证携带相同响应头：
 
 - Content-Security-Policy：脚本、样式和资源默认只允许本站，并允许 Cloudflare Web Analytics；
 - Referrer-Policy：`strict-origin-when-cross-origin`；
 - Permissions-Policy：关闭摄像头、麦克风、定位、支付、USB 与 browsing topics；
 - `X-Frame-Options: DENY` 与 CSP `frame-ancestors 'none'`；
 - `Cross-Origin-Opener-Policy: same-origin`；
-- `X-Content-Type-Options: nosniff`；
-- 一年期 HSTS。
+- `X-Content-Type-Options: nosniff`。
 
-每次部署后应核对生产响应头，避免 Cloudflare 覆盖造成配置漂移。
+每次部署后应核对静态响应中的上述配置，并确认生产 HSTS 遵循 Cloudflare 全局设置。
 
 ## 通用 CI 与部署验收
 
@@ -78,6 +71,6 @@ max-age=31536000; includeSubDomains; preload
 
 ## Vercel 回退
 
-`vercel.json` 通过 `git.deploymentEnabled: false` 停用 Vercel Git 自动部署，保留原有安装、构建、路由和安全响应头配置。既有 Vercel 项目及最后一次部署保留用于回退，不再随 `main` 推送重复构建。
+`vercel.json` 通过 `git.deploymentEnabled: false` 停用 Vercel Git 自动部署，保留安装、构建、路由和非 HSTS 安全响应头配置。既有 Vercel 项目及最后一次部署保留用于回退，不再随 `main` 推送重复构建。
 
 需要回退时，先验证保留的 Vercel 部署可访问，再解除 Worker 对 `thanejoss.com` 的自定义域名绑定，恢复切换前保存的 DNS 记录及代理状态。域名同时声明在 `wrangler.jsonc`，回退配置也须同步到仓库，防止后续 Workers Builds 再次绑定域名。若需要恢复后续 Vercel 发布，再调整 `git.deploymentEnabled`；回退既有部署本身无需先开启 Git 自动部署。
