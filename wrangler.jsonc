@@ -3,6 +3,9 @@
   "name": "webapps",
   "compatibility_date": "2026-10-23",
   "workers_dev": true,
+  "routes": [
+    { "pattern": "thanejoss.com", "custom_domain": true }
+  ],
   "build": {
     "command": "pnpm run build"
   },
