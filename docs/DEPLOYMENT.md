@@ -11,7 +11,7 @@ Node.js 引擎范围为 `^24.21.0 || ^26.10.0`。安装使用 `pnpm install --fr
 
 ## Workers Builds 自动发布
 
-Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以下生产设置：
+Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以下构建设置：
 
 | 设置 | 值 |
 | --- | --- |
@@ -21,11 +21,14 @@ Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以�
 | 部署命令 | `pnpm exec wrangler deploy` |
 | Node.js | `.node-version` 中的 `26.10.0` |
 | 构建环境变量 | `PNPM_VERSION=12.9.1` |
-| 非生产分支预览 | 未开启 |
+| 非生产分支预览 | 已开启 |
+| 预览命令 | `pnpm exec wrangler preview` |
 
 每次推送 `main` 后，Workers Builds 安装依赖，再使用锁文件中的 Wrangler 执行部署。`wrangler.jsonc` 的 `build.command` 为 `pnpm run build`，因此发布前仍会执行 TypeScript 与 Vue SFC 类型检查、SSG 构建及模块脚本加固。只上传 `dist/` 静态产物，无需运行服务端 JavaScript，也不需要 KV、D1 或其他运行时绑定。
 
-Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。构建变量 `PNPM_VERSION` 应与 `package.json#packageManager` 同步，避免平台默认 pnpm 版本与锁文件不一致。部署凭据由 Cloudflare Workers Builds 管理，不写入仓库。
+非 `main` 分支推送后，Workers Builds 使用预览构建配置执行 `pnpm exec wrangler preview`，为分支创建或更新独立的 Worker Preview。`wrangler.jsonc` 中的 `previews: {}` 声明预览设置；Git 触发开关和预览命令由 Workers Builds 单独管理，可通过 Builds API 配置。开启预览后，需要新的分支推送触发构建；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。生产站点继续由 `main` 的 `wrangler deploy` 发布。
+
+Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。生产与预览构建配置中的变量 `PNPM_VERSION` 都应与 `package.json#packageManager` 同步，避免平台默认 pnpm 版本与锁文件不一致。部署凭据由 Cloudflare Workers Builds 管理，不写入仓库。
 
 本地可运行 `pnpm run preview:worker` 检查 Workers 的路由和响应头，或运行 `pnpm run deploy:check` 完成构建与部署预检。`pnpm run deploy` 会实际发布；通常由 `main` 自动部署完成发布。
 
