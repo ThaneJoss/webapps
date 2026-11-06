@@ -5,7 +5,7 @@
   "workers_dev": true,
   "preview_urls": true,
   "routes": [
-    { "pattern": "thanejoss.com", "custom_domain": true }
+    { "pattern": "thanejoss.com/*", "zone_name": "thanejoss.com" }
   ],
   "build": {
     "command": "pnpm run build"
@@ -17,3 +17,4 @@
   },
   "previews": {}
 }
+

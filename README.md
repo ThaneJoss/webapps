@@ -85,7 +85,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 ## 自动部署
 
-生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库，推送 `main` 后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。自定义域名由仓库配置声明。非 `main` 分支推送后执行 `pnpm exec wrangler preview`，创建或更新独立的分支预览；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。
+生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库，推送 `main` 后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。仓库配置通过普通 Worker Route `thanejoss.com/*` 绑定现有入口，沿用当前 CNAME 记录，不创建同名 Custom Domain 或替换 DNS。非 `main` 分支推送后执行 `pnpm exec wrangler preview`，创建或更新独立的分支预览；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。
 
 `vercel.json` 停用 Vercel Git 自动部署，保留构建与非 HSTS 安全头配置及既有部署用于回退。完整构建设置、路由规则和回退步骤见[部署与边缘配置](docs/DEPLOYMENT.md)。
 
@@ -101,3 +101,4 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 - [部署与边缘配置](docs/DEPLOYMENT.md)
 
 生产域名：<https://thanejoss.com>
+
