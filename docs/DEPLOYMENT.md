@@ -5,7 +5,7 @@
 - 开发、CI 与 Workers Builds：Node.js 26.10.0 Current，以 `.node-version` 为准
 - pnpm 12.9.1，以 `package.json#packageManager` 为准
 - Cloudflare Workers Static Assets，Worker 名称 `webapps`
-- 生产域名 `thanejoss.com`，由 `wrangler.jsonc` 声明为 Worker 自定义域名
+- 生产域名 `thanejoss.com`，由 `wrangler.jsonc` 声明普通 Worker Route `thanejoss.com/*`
 
 Node.js 引擎范围为 `^24.21.0 || ^26.10.0`。安装使用 `pnpm install --frozen-lockfile`，构建使用 `pnpm run build`，静态输出目录为 `dist/`。
 
@@ -32,6 +32,8 @@ Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以�
 已有 Worker 的 URL 路由设置不会由 `wrangler preview` 更新。首次开启时可通过 Worker subdomain API 仅启用 `previews_enabled`、保留生产 `enabled` 原值；之后由 `main` 部署仓库配置保持一致。不要为了开启预览 URL 从功能分支执行生产部署。
 
 Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。生产与预览构建配置中的变量 `PNPM_VERSION` 都应与 `package.json#packageManager` 同步，避免平台默认 pnpm 版本与锁文件不一致。部署凭据由 Cloudflare Workers Builds 管理，不写入仓库。
+
+生产路由使用 `pattern: "thanejoss.com/*"` 和 `zone_name: "thanejoss.com"`，与当前 Cloudflare Worker Route 保持一致。DNS 独立维护，沿用现有 CNAME 及代理状态；Wrangler 仅应用 Worker Route，不创建 Custom Domain 或替换 DNS 记录。入口是否可用应结合实际域名请求验证，不能仅凭部署成功推断。
 
 本地可运行 `pnpm run preview:worker` 检查 Workers 的路由和响应头，或运行 `pnpm run deploy:check` 完成构建与部署预检。`pnpm run deploy` 会实际发布；通常由 `main` 自动部署完成发布。
 
@@ -79,4 +81,5 @@ HSTS 由 Cloudflare SSL/TLS 全局设置统一管理。`public/_headers` 与 `ve
 
 `vercel.json` 通过 `git.deploymentEnabled: false` 停用 Vercel Git 自动部署，保留安装、构建、路由和非 HSTS 安全响应头配置。既有 Vercel 项目及最后一次部署保留用于回退，不再随 `main` 推送重复构建。
 
-需要回退时，先验证保留的 Vercel 部署可访问，再解除 Worker 对 `thanejoss.com` 的自定义域名绑定，恢复切换前保存的 DNS 记录及代理状态。域名同时声明在 `wrangler.jsonc`，回退配置也须同步到仓库，防止后续 Workers Builds 再次绑定域名。若需要恢复后续 Vercel 发布，再调整 `git.deploymentEnabled`；回退既有部署本身无需先开启 Git 自动部署。
+需要回退时，先验证保留的 Vercel 部署可访问，再单独协调 Worker Route 与上游入口的切换方案；保留当前 CNAME，不将恢复旧 DNS 作为默认回退步骤。生产路由同时声明在 `wrangler.jsonc`，回退时的路由调整也须同步到仓库，防止后续 Workers Builds 再次应用旧路由。若需要恢复后续 Vercel 发布，再调整 `git.deploymentEnabled`；回退既有部署本身无需先开启 Git 自动部署。
+
