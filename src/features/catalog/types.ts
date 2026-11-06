@@ -1,5 +1,7 @@
 export type CatalogAvailability = 'live' | 'beta' | 'released' | 'planned'
 
+export type CatalogCategory = 'research' | 'ai' | 'development' | 'network' | 'operations' | 'everyday'
+
 export type CatalogDestination =
   | {
       kind: 'internal'
@@ -18,12 +20,9 @@ interface CatalogAppBase {
   id: string
   /** 首次加入目录的时间，使用带时区的 ISO 8601 格式。 */
   addedAt: string
-  label: string
   title: string
-  category: string
-  badge: string
+  category: CatalogCategory
   description: string
-  features: readonly string[]
   repositoryUrl?: `https://github.com/ThaneJoss/${string}`
 }
 

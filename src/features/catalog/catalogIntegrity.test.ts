@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { routes } from '../../router'
-import { catalogApps, getCatalogAppsNewestFirst, getLatestCatalogApp, interactiveCatalogRoutes } from './apps'
+import { catalogApps, getCatalogAppsNewestFirst, getCatalogGroups, getLatestCatalogApp, interactiveCatalogRoutes } from './apps'
 
 const expectedExternalUrls = [
   'https://title2doi.thanejoss.com',
@@ -43,7 +43,6 @@ describe('catalog integrity', () => {
     ))
 
     expect(catalogApps).toHaveLength(19)
-    expect(catalogApps.flatMap((app) => app.features)).toHaveLength(57)
     expect(catalogApps.filter((app) => app.availability === 'live')).toHaveLength(17)
     expect(catalogApps.find((app) => app.id === 'cloudflare-speed-test')?.availability).toBe('beta')
     const ccfa = catalogApps.find((app) => app.id === 'ccfa')!
@@ -87,6 +86,47 @@ describe('catalog integrity', () => {
     for (const path of interactiveCatalogRoutes) {
       expect(applicationRoutes.has(path), `Catalog route ${path} is not registered`).toBe(true)
     }
+  })
+})
+
+describe('catalog purpose groups', () => {
+  it('assigns every project exactly once to its intended section', () => {
+    const groups = getCatalogGroups(catalogApps)
+
+    expect(groups.map(({ id, title, apps }) => ({ id, title, apps: apps.map((app) => app.id) }))).toEqual([
+      { id: 'research', title: '研究与实验', apps: ['ccfa', 'title2doi', 'manifold', 'flowmaster'] },
+      { id: 'ai', title: 'AI 应用', apps: ['dify', 'ai-api-gateway'] },
+      { id: 'development', title: '开发与远程', apps: ['t3-code', 'codex-workbench', 'webssh', 'remote-desktop'] },
+      { id: 'network', title: '网络工具', apps: ['cloudflare-speed-test', 'bgp', 'fast'] },
+      { id: 'operations', title: '运维管理', apps: ['cloudflare-usage-guard', 'service-status', 'portainer'] },
+      { id: 'everyday', title: '日常与收藏', apps: ['leafread', 'card-gallery', 'file-transfer'] }
+    ])
+    const groupedIds = groups.flatMap((group) => group.apps.map((app) => app.id))
+    expect(groupedIds).toHaveLength(catalogApps.length)
+    expect(new Set(groupedIds)).toEqual(new Set(catalogApps.map((app) => app.id)))
+  })
+
+  it('omits empty groups and sorts each group without changing the source', () => {
+    const fast = catalogApps.find((app) => app.id === 'fast')!
+    const bgp = catalogApps.find((app) => app.id === 'bgp')!
+    const file = catalogApps.find((app) => app.id === 'file-transfer')!
+    const apps = Object.freeze([file, fast, bgp])
+
+    expect(getCatalogGroups(apps).map(({ id, apps: grouped }) => ({ id, apps: grouped }))).toEqual([
+      { id: 'network', apps: [bgp, fast] },
+      { id: 'everyday', apps: [file] }
+    ])
+    expect(apps).toEqual([file, fast, bgp])
+    expect(getCatalogGroups([])).toEqual([])
+  })
+
+  it('retains stable ordering for equal timestamps within the same group', () => {
+    const t3 = catalogApps.find((app) => app.id === 't3-code')!
+    const codex = catalogApps.find((app) => app.id === 'codex-workbench')!
+
+    expect(Date.parse(t3.addedAt)).toBe(Date.parse(codex.addedAt))
+    expect(getCatalogGroups([codex, t3])[0]?.apps).toEqual([codex, t3])
+    expect(getCatalogGroups([t3, codex])[0]?.apps).toEqual([t3, codex])
   })
 })
 

@@ -1,27 +1,46 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('home is statically rendered and links websites and published projects newest first', async ({ page, request }, testInfo) => {
+test('home statically renders six colored sections with complete project links', async ({ page, request }, testInfo) => {
   const sourceResponse = await request.get('/')
   expect(sourceResponse.status()).toBe(200)
-  expect(await sourceResponse.text()).toContain('data-page-ready="home"')
+  const source = await sourceResponse.text()
+  expect(source).toContain('data-page-ready="home"')
+  expect(source.match(/data-catalog-group=/g)).toHaveLength(6)
+  expect(source.match(/data-catalog-id=/g)).toHaveLength(19)
 
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.locator('[data-page-ready="home"]')).toBeVisible()
   await expect(page).toHaveTitle('应用与开源项目 | Thane Joss')
   await expect(page.locator('[data-catalog-availability="live"]')).toHaveCount(17)
-  await expect(page.locator('[data-display-tier="featured"]')).toHaveCount(1)
-  await expect(page.locator('[data-display-tier="standard"]')).toHaveCount(18)
-  await expect(page.locator('[data-display-tier="featured"] h3')).toHaveText('CCFA · Zotero 出版物简称')
-  await expect(page.locator('[data-display-tier="standard"] h3').first()).toHaveText('title2doi · DOI 补全工作台')
-  const expectedBadges = ['19', '18', '17', '16', '15', '14', '13', '12', '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01']
-  await expect(page.locator('.home-app-card__badge')).toHaveText(expectedBadges)
-  await expect(page.locator('.home-app-card .panel-label')).toHaveText(
-    expectedBadges.map((badge) => `App ${badge}`)
-  )
-  await expect(page.locator('.home-catalog-summary dd').nth(1)).toHaveText('CCFA · Zotero 出版物简称')
-  await expect(page.locator('.home-app-entry')).toHaveCount(57)
+  const expectedGroups = [
+    { id: 'research', title: '研究与实验', count: 4 },
+    { id: 'ai', title: 'AI 应用', count: 2 },
+    { id: 'development', title: '开发与远程', count: 4 },
+    { id: 'network', title: '网络工具', count: 3 },
+    { id: 'operations', title: '运维管理', count: 3 },
+    { id: 'everyday', title: '日常与收藏', count: 3 }
+  ]
+  const groups = page.locator('[data-catalog-group]')
+  await expect(groups).toHaveCount(6)
+  for (const { id, title, count } of expectedGroups) {
+    const group = page.locator(`[data-catalog-group="${id}"]`)
+    await expect(group).toHaveAttribute('aria-labelledby', `catalog-group-${id}`)
+    await expect(group.getByRole('heading', { level: 3, name: title, exact: true })).toBeVisible()
+    await expect(group.locator('.home-app-card')).toHaveCount(count)
+  }
+  const sectionColors = await groups.evaluateAll((sections) => sections.map((section) => (
+    getComputedStyle(section).backgroundColor
+  )))
+  expect(new Set(sectionColors).size).toBe(6)
+  expect(sectionColors).not.toContain('rgba(0, 0, 0, 0)')
+  await expect(page.locator('.home-catalog-summary dd')).toHaveText(['19', '6', 'CCFA · Zotero 出版物简称'])
+  await expect(page.locator('input, [role="search"], [role="tablist"]')).toHaveCount(0)
+  await expect(page.locator('.home-app-entry, .home-app-card__badge, [data-display-tier]')).toHaveCount(0)
+  await expect(page.locator('#home-apps')).not.toContainText('需 Access 登录')
+  await expect(page.locator('#home-apps')).not.toContainText('访问需要 Token')
+  await expect(page.locator('#home-apps')).not.toContainText('IP 白名单')
   await expect(page.getByText('Home Assistant')).toHaveCount(0)
 
   const externalTargets = await page.locator('[data-catalog-link]').evaluateAll((anchors) => (
@@ -35,24 +54,25 @@ test('home is statically rendered and links websites and published projects newe
   expect(externalTargets.map(({ href }) => href)).toEqual([
     'https://github.com/ThaneJoss/ccfa',
     'https://title2doi.thanejoss.com',
-    'https://cf-speed-test.thanejoss.com',
     'https://manifold.thanejoss.com',
     'https://flow.thanejoss.com',
     'https://dify.thanejoss.com',
-    'https://epub.thanejoss.com',
-    'https://bgp.thanejoss.com',
-    'https://fast.thanejoss.com',
-    'https://card.thanejoss.com',
-    'https://file.thanejoss.com',
     'https://chat.thanejoss.com',
-    'https://cloudflare.thanejoss.com',
     'https://t3.thanejoss.com',
     'https://codex.thanejoss.com',
+    'https://ssh.thanejoss.com',
+    'https://vnc.thanejoss.com',
+    'https://cf-speed-test.thanejoss.com',
+    'https://bgp.thanejoss.com',
+    'https://fast.thanejoss.com',
+    'https://cloudflare.thanejoss.com',
     'https://uptime.thanejoss.com',
     'https://portainer.thanejoss.com',
-    'https://ssh.thanejoss.com',
-    'https://vnc.thanejoss.com'
+    'https://epub.thanejoss.com',
+    'https://card.thanejoss.com',
+    'https://file.thanejoss.com'
   ])
+  expect(new Set(externalTargets.map(({ href }) => href)).size).toBe(19)
   expect(externalTargets.every(({ rel, target }) => (
     rel === 'noopener noreferrer' && target === '_blank'
   ))).toBe(true)
@@ -178,6 +198,7 @@ test('the light contact action stays readable when hovered', async ({ page, isMo
 test('narrow navigation keeps the keyboard focus outline inside its scroll area', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 720 })
   await page.goto('/')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await page.keyboard.press('Tab')
   await expect(page.getByRole('link', { name: '跳到主要内容' })).toBeFocused()
   await page.keyboard.press('Tab')
