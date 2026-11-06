@@ -1,303 +1,245 @@
-import type { CatalogApp } from './types'
+import type { CatalogApp, CatalogCategory } from './types'
 
 // addedAt 记录首次加入目录的时间；历史项目按 Git 提交时间回填，依据见 docs/ARCHITECTURE.md。
-// 首页按 addedAt 倒序展示；同批加入的应用保留源目录顺序。
-// label 与 badge 使用同一序号，按首页顺序从应用总数递减到 01。
+// 首页按用途分区，分区内按 addedAt 倒序展示；同批加入的应用保留源目录顺序。
 export const catalogApps: readonly CatalogApp[] = [
   {
     id: 'ccfa',
     addedAt: '2026-10-12T14:56:53Z',
-    label: 'App 19',
     title: 'CCFA · Zotero 出版物简称',
-    category: 'Zotero 插件',
-    badge: '19',
+    category: 'research',
     availability: 'released',
     destination: {
       kind: 'repository',
       href: 'https://github.com/ThaneJoss/ccfa'
     },
-    description: '在 Zotero 文献列表显示 CCF A 类期刊与会议简称，依据 2026 年目录离线匹配出版物名称，不修改条目。',
-    features: ['CCFA 显示列', '期刊 / 会议简称', '离线识别']
+    description: '在 Zotero 文献列表显示 CCF A 类期刊与会议简称，依据 2026 年目录离线匹配出版物名称，不修改条目。'
   },
   {
     id: 'title2doi',
     addedAt: '2026-10-12T14:56:53Z',
-    label: 'App 18',
     title: 'title2doi · DOI 补全工作台',
-    category: '学术研究',
+    category: 'research',
     repositoryUrl: 'https://github.com/ThaneJoss/title2doi',
-    badge: '18',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://title2doi.thanejoss.com'
     },
-    description: '批量导入 Zotero 文献，通过 Crossref 查找缺失 DOI，核对匹配后生成脚本回填原条目。',
-    features: ['CSL JSON 导入', 'DOI 查询核对', 'Zotero 回填脚本']
+    description: '批量导入 Zotero 文献，通过 Crossref 查找缺失 DOI，核对匹配后生成脚本回填原条目。'
   },
   {
     id: 'cloudflare-speed-test',
     addedAt: '2026-10-12T14:56:53Z',
-    label: 'App 17',
     title: 'Cloudflare IP 候选 · Speed Test',
-    category: '网络工具',
+    category: 'network',
     repositoryUrl: 'https://github.com/ThaneJoss/cloudflare-speed-test',
-    badge: '17',
     availability: 'beta',
     destination: {
       kind: 'external',
       href: 'https://cf-speed-test.thanejoss.com'
     },
-    description: '生成 Cloudflare IPv4 / IPv6 静态候选；需 Access 登录，HTTPS 探针待配置，测速与 DNS 写入暂不可用。',
-    features: ['IPv4 / IPv6 候选', 'Access 登录', '探针待配置']
+    description: '生成 Cloudflare IPv4 / IPv6 静态候选；HTTPS 探针待配置，测速与 DNS 写入暂不可用。'
   },
   {
     id: 'card-gallery',
     addedAt: '2026-09-16T18:13:14+08:00',
-    label: 'App 10',
     title: '卡间拾光',
-    category: '卡面收藏',
+    category: 'everyday',
     repositoryUrl: 'https://github.com/ThaneJoss/card-gallery',
-    badge: '10',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://card.thanejoss.com'
     },
-    description: '浏览银行卡收藏，按银行、卡片类型与卡组织筛选，并查看完整卡面大图。',
-    features: ['卡面收藏', '银行筛选', '大图查看']
+    description: '浏览银行卡收藏，按银行、卡片类型与卡组织筛选，并查看完整卡面大图。'
   },
   {
     id: 'file-transfer',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 09',
     title: '文件中转站',
-    category: '文件传输',
+    category: 'everyday',
     repositoryUrl: 'https://github.com/ThaneJoss/file-transfer',
-    badge: '09',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://file.thanejoss.com'
     },
-    description: '通过 8 位取件码发送与接收文件，并在多条线路之间自动选择更合适的传输路径。',
-    features: ['取件码', '多线路传输', '完整性校验']
+    description: '通过 8 位取件码发送与接收文件，并在多条线路之间自动选择更合适的传输路径。'
   },
   {
     id: 'ai-api-gateway',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 08',
     title: 'AI API 网关',
-    category: 'AI 服务',
-    badge: '08',
+    category: 'ai',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://chat.thanejoss.com'
     },
-    description: '提供 OpenAI 兼容模型接口与统一管理入口，集中处理模型访问和 API 调用。',
-    features: ['OpenAI 兼容', '模型网关', 'API 管理']
+    description: '提供 OpenAI 兼容模型接口与统一管理入口，集中处理模型访问和 API 调用。'
   },
   {
     id: 'cloudflare-usage-guard',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 07',
     title: 'Cloudflare 用量卫士',
-    category: '运维监控',
+    category: 'operations',
     repositoryUrl: 'https://github.com/ThaneJoss/cloudflare-usage-guard',
-    badge: '07',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://cloudflare.thanejoss.com'
     },
-    description: '汇总 Cloudflare 资源用量、额度和风险信号，帮助及时发现停服或计费压力。',
-    features: ['资源用量', '额度监控', '风险信号']
+    description: '汇总 Cloudflare 资源用量、额度和风险信号，帮助及时发现停服或计费压力。'
   },
   {
     id: 't3-code',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 06',
     title: 'T3 Code',
-    category: '开发工具',
-    badge: '06',
+    category: 'development',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://t3.thanejoss.com'
     },
-    description: '在浏览器里打开项目工作区，连接 Codex 会话并处理远程开发任务。',
-    features: ['Codex', '项目工作区', '远程开发']
+    description: '在浏览器里打开项目工作区，连接 Codex 会话并处理远程开发任务。'
   },
   {
     id: 'codex-workbench',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 05',
     title: 'Codex 工作台',
-    category: '开发工具',
-    badge: '05',
+    category: 'development',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://codex.thanejoss.com'
     },
-    description: '通过网页进入 Codex 工作环境，集中处理代码、任务与远程会话。',
-    features: ['代码任务', '工作会话', '远程访问']
+    description: '通过网页进入 Codex 工作环境，集中处理代码、任务与远程会话。'
   },
   {
     id: 'service-status',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 04',
     title: '服务状态',
-    category: '运维监控',
-    badge: '04',
+    category: 'operations',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://uptime.thanejoss.com'
     },
-    description: '集中查看各项服务的在线状态、可用性与近期运行情况。',
-    features: ['状态监控', '可用性', '运行记录']
+    description: '集中查看各项服务的在线状态、可用性与近期运行情况。'
   },
   {
     id: 'portainer',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 03',
     title: 'Portainer',
-    category: '容器管理',
-    badge: '03',
+    category: 'operations',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://portainer.thanejoss.com'
     },
-    description: '通过网页管理 Docker 容器、镜像、网络与服务部署。',
-    features: ['Docker', '容器管理', '服务部署']
+    description: '通过网页管理 Docker 容器、镜像、网络与服务部署。'
   },
   {
     id: 'webssh',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 02',
     title: 'WebSSH',
-    category: '远程连接',
-    badge: '02',
+    category: 'development',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://ssh.thanejoss.com'
     },
-    description: '在浏览器里连接远程终端，并通过持久化 tmux 保留后台工作。',
-    features: ['浏览器终端', 'SSH', 'tmux']
+    description: '在浏览器里连接远程终端，并通过持久化 tmux 保留后台工作。'
   },
   {
     id: 'remote-desktop',
     addedAt: '2026-08-22T03:13:13+08:00',
-    label: 'App 01',
     title: '远程桌面',
-    category: '远程连接',
-    badge: '01',
+    category: 'development',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://vnc.thanejoss.com'
     },
-    description: '从浏览器访问远程桌面，处理需要图形界面的主机任务。',
-    features: ['浏览器桌面', 'VNC', '图形界面']
+    description: '从浏览器访问远程桌面，处理需要图形界面的主机任务。'
   },
   {
     id: 'fast',
     addedAt: '2026-09-21T01:24:56+08:00',
-    label: 'App 11',
     title: 'Fast 反向代理',
-    category: '网络工具',
+    category: 'network',
     repositoryUrl: 'https://github.com/ThaneJoss/fast',
-    badge: '11',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://fast.thanejoss.com'
     },
-    description: '流式代理 Ubuntu、npm 白名单 HTTPS 资源，支持一键配置、断点续传及按 IP 汇总的访问日志与分组管理。',
-    features: ['Ubuntu / npm 源', '一键配置', 'IP 白名单']
+    description: '流式代理 Ubuntu、npm 白名单 HTTPS 资源，支持一键配置、断点续传及按 IP 汇总的访问日志与分组管理。'
   },
   {
     id: 'bgp',
     addedAt: '2026-09-22T22:18:40+08:00',
-    label: 'App 12',
     title: 'BGP 路径观测',
-    category: '网络观测',
+    category: 'network',
     repositoryUrl: 'https://github.com/ThaneJoss/bgp',
-    badge: '12',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://bgp.thanejoss.com'
     },
-    description: '探索全球 AS 拓扑，按需获取或导入 RouteViews 香港数据，在浏览器中解析并对比两个 IP 的 BGP 观测路径。',
-    features: ['AS 拓扑', '按需本地解析', '双 IP 对比']
+    description: '探索全球 AS 拓扑，按需获取或导入 RouteViews 香港数据，在浏览器中解析并对比两个 IP 的 BGP 观测路径。'
   },
   {
     id: 'leafread',
     addedAt: '2026-09-23T08:15:09Z',
-    label: 'App 13',
     title: '叶读 · LeafRead',
-    category: '电子书阅读',
+    category: 'everyday',
     repositoryUrl: 'https://github.com/ThaneJoss/epub',
-    badge: '13',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://epub.thanejoss.com'
     },
-    description: '粘贴 EPUB 在线直链或打开本地电子书，在电脑和手机上单页翻阅，支持目录、字号、书签与阅读位置记忆。',
-    features: ['在线 / 本地 EPUB', '单页翻阅', '书签与进度']
+    description: '粘贴 EPUB 在线直链或打开本地电子书，在电脑和手机上单页翻阅，支持目录、字号、书签与阅读位置记忆。'
   },
   {
     id: 'dify',
     addedAt: '2026-09-26T17:24:43Z',
-    label: 'App 14',
     title: 'Dify AI 工作台',
-    category: 'AI 工作流',
-    badge: '14',
+    category: 'ai',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://dify.thanejoss.com'
     },
-    description: '通过可视化工作流编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。',
-    features: ['AI 工作流', '知识库', '应用编排']
+    description: '通过可视化工作流编排 AI 应用，连接模型与知识库，构建聊天助手和自动化任务。'
   },
   {
     id: 'flowmaster',
     addedAt: '2026-10-04T18:23:15Z',
-    label: 'App 15',
     title: 'FlowMaster 研究工作区',
-    category: '学术研究',
+    category: 'research',
     repositoryUrl: 'https://github.com/ThaneJoss/flowmaster',
-    badge: '15',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://flow.thanejoss.com'
     },
-    description: '用可视化节点组织研究流程，记录执行结果与关联资料，并向 MCP 客户端提供共享工作区读写；访问需要 Token。',
-    features: ['可视化流程', '执行记录', 'MCP 读写']
+    description: '用可视化节点组织研究流程，记录执行结果与关联资料，并向 MCP 客户端提供共享工作区读写。'
   },
   {
     id: 'manifold',
     addedAt: '2026-10-08T14:51:34Z',
-    label: 'App 16',
     title: '形 · 流 / Manifold',
-    category: '形状实验',
+    category: 'research',
     repositoryUrl: 'https://github.com/ThaneJoss/manifold',
-    badge: '16',
     availability: 'live',
     destination: {
       kind: 'external',
       href: 'https://manifold.thanejoss.com'
     },
-    description: '绘制闭合形状，叠加局部速度场，观察表面张力与 KL 形状先验如何影响二维边界。',
-    features: ['手绘轮廓', '局部速度场', '边界演化']
+    description: '绘制闭合形状，叠加局部速度场，观察表面张力与 KL 形状先验如何影响二维边界。'
   }
 ]
 
@@ -306,6 +248,25 @@ export const getCatalogAppsNewestFirst = (apps: readonly CatalogApp[]) => (
 )
 
 export const getLatestCatalogApp = (apps: readonly CatalogApp[]) => getCatalogAppsNewestFirst(apps).at(0)
+
+export const catalogCategories = [
+  { id: 'research', title: '研究与实验', description: '整理文献，连接研究流程，探索新的想法。' },
+  { id: 'ai', title: 'AI 应用', description: '连接模型，将想法编排成可用的 AI 应用。' },
+  { id: 'development', title: '开发与远程', description: '打开工作区，连接终端与桌面，继续手上的工作。' },
+  { id: 'network', title: '网络工具', description: '访问资源，观察网络，探索连接与路径。' },
+  { id: 'operations', title: '运维管理', description: '查看服务状态、资源用量与容器部署。' },
+  { id: 'everyday', title: '日常与收藏', description: '读一本书，传一份文件，留住喜欢的收藏。' }
+] as const satisfies readonly { id: CatalogCategory; title: string; description: string }[]
+
+export const getCatalogGroups = (apps: readonly CatalogApp[]) => {
+  const sortedApps = getCatalogAppsNewestFirst(apps)
+  return catalogCategories
+    .map((category) => ({
+      ...category,
+      apps: sortedApps.filter((app) => app.category === category.id)
+    }))
+    .filter((group) => group.apps.length > 0)
+}
 
 export const interactiveCatalogRoutes = catalogApps.flatMap((app) => (
   app.availability !== 'planned' && app.destination.kind === 'internal'

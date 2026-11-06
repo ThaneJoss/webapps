@@ -37,12 +37,12 @@
               <dd>{{ catalogApps.length }}</dd>
             </div>
             <div class="home-catalog-summary__item">
-              <dt>最新项目</dt>
-              <dd>{{ latestApp?.title ?? '暂无应用' }}</dd>
+              <dt>用途分区</dt>
+              <dd>{{ catalogGroups.length }}</dd>
             </div>
             <div class="home-catalog-summary__item">
-              <dt>已开放</dt>
-              <dd>{{ availableAppCount }}</dd>
+              <dt>最新项目</dt>
+              <dd>{{ latestApp?.title ?? '暂无应用' }}</dd>
             </div>
           </dl>
         </div>
@@ -68,62 +68,40 @@
           应用与开源项目
         </h2>
         <p class="mt-4 max-w-2xl text-sm leading-7 text-steel sm:text-base">
-          卡片按首次加入目录的时间展示，分别标明上线、测试或发布状态；网站与公开项目都在新标签页打开。
+          从研究到日常，按用途找到需要的项目。网站与公开项目都在新标签页打开。
         </p>
       </div>
 
-      <div
-        v-if="latestApp"
-        class="home-catalog-group home-catalog-group--featured mt-8"
-        aria-labelledby="featured-catalog-label"
-        role="group"
-      >
-        <div class="home-catalog-group__heading">
-          <p
-            id="featured-catalog-label"
-            class="text-sm font-semibold text-ink"
+      <div class="home-catalog-sections">
+        <section
+          v-for="group in catalogGroups"
+          :key="group.id"
+          class="home-catalog-group"
+          :data-catalog-group="group.id"
+          :aria-labelledby="`catalog-group-${group.id}`"
+        >
+          <div class="home-catalog-group__heading">
+            <div>
+              <h3 :id="`catalog-group-${group.id}`">{{ group.title }}</h3>
+              <p>{{ group.description }}</p>
+            </div>
+            <p class="home-catalog-group__count">{{ group.apps.length }} 个项目</p>
+          </div>
+
+          <div
+            class="home-app-board"
+            :class="{ 'home-app-board--paired': group.apps.length === 2 || group.apps.length === 4 }"
           >
-            最新项目
-          </p>
-          <p class="mt-1 text-sm leading-6 text-steel">{{ latestApp.description }}</p>
-        </div>
-
-        <div class="home-app-board home-app-board--featured mt-4 grid gap-5">
-          <AppCard
-            :app="latestApp"
-            featured
-            class="catalog-reveal"
-            data-catalog-reveal
-            data-reveal-order="0"
-          />
-        </div>
-      </div>
-
-      <div
-        class="home-catalog-group mt-10"
-        aria-labelledby="standard-catalog-label"
-        role="group"
-      >
-        <div class="home-catalog-group__heading">
-          <p
-            id="standard-catalog-label"
-            class="text-sm font-semibold text-ink"
-          >
-            更多应用与项目
-          </p>
-          <p class="mt-1 text-sm leading-6 text-steel">继续浏览学术研究、网络、阅读、文件传输、AI、开发与运维工具。</p>
-        </div>
-
-        <div class="home-app-board home-app-board--standard mt-4 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          <AppCard
-            v-for="(app, index) in standardApps"
-            :key="app.id"
-            :app="app"
-            class="catalog-reveal"
-            data-catalog-reveal
-            :data-reveal-order="index % 3"
-          />
-        </div>
+            <AppCard
+              v-for="(app, index) in group.apps"
+              :key="app.id"
+              :app="app"
+              class="catalog-reveal"
+              data-catalog-reveal
+              :data-reveal-order="index % 3"
+            />
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -134,12 +112,11 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import AppCard from '../features/catalog/AppCard.vue'
-import { catalogApps, getCatalogAppsNewestFirst, getLatestCatalogApp } from '../features/catalog/apps'
+import { catalogApps, getCatalogGroups, getLatestCatalogApp } from '../features/catalog/apps'
 import { prefersReducedMotion } from '../lib/motion'
 
 const latestApp = getLatestCatalogApp(catalogApps)
-const standardApps = getCatalogAppsNewestFirst(catalogApps).filter((app) => app !== latestApp)
-const availableAppCount = catalogApps.filter((app) => app.availability !== 'planned').length
+const catalogGroups = getCatalogGroups(catalogApps)
 const catalogSection = ref<HTMLElement | null>(null)
 const catalogHeading = ref<HTMLElement | null>(null)
 
