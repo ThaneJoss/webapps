@@ -15,6 +15,7 @@
           name="name"
           autocomplete="name"
           required
+          :disabled="!isReady"
           :aria-invalid="errors.name ? 'true' : undefined"
           :aria-describedby="errors.name ? fieldIds.nameError : undefined"
           :class="controlClass"
@@ -39,6 +40,7 @@
           name="email"
           autocomplete="email"
           required
+          :disabled="!isReady"
           :aria-invalid="errors.email ? 'true' : undefined"
           :aria-describedby="errors.email ? fieldIds.emailError : undefined"
           :class="controlClass"
@@ -62,6 +64,7 @@
         v-model="form.message"
         name="message"
         required
+        :disabled="!isReady"
         rows="5"
         :aria-invalid="errors.message ? 'true' : undefined"
         :aria-describedby="errors.message ? fieldIds.messageError : undefined"
@@ -80,11 +83,24 @@
 
     <button
       type="submit"
+      :disabled="!isReady"
       class="contact-submit tech-button tech-button--light"
     >
       <span>生成邮件草稿</span>
       <span aria-hidden="true">↗</span>
     </button>
+
+    <p
+      v-if="!isReady"
+      class="text-sm text-steel"
+      data-contact-form-fallback
+    >
+      邮件草稿暂不可用，你可以
+      <a
+        href="mailto:support@thanejoss.com?subject=Web%20Apps%20Inquiry"
+        class="font-semibold underline"
+      >直接发送邮件</a>。
+    </p>
 
     <Transition
       name="form-feedback"
@@ -115,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref, useId } from 'vue'
+import { nextTick, onMounted, reactive, ref, useId } from 'vue'
 
 const formId = useId()
 const fieldIds = {
@@ -125,6 +141,12 @@ const fieldIds = {
 }
 
 const controlClass = 'form-control contact-form-control'
+
+// Keep SSG controls inert until Vue has attached the submit handler.
+const isReady = ref(false)
+onMounted(() => {
+  isReady.value = true
+})
 
 type FormField = 'name' | 'email' | 'message'
 
