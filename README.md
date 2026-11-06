@@ -4,7 +4,20 @@
 
 首页通过 typed catalog 展示 19 个应用与项目：17 个已上线网站、1 个测试中网站和 1 个已发布 Zotero 插件，覆盖文献工具、二维形状实验、研究流程、电子书阅读、文件传输、AI、开发、远程连接、运维、网络观测和卡面收藏场景。外部入口使用受类型约束的 HTTPS 地址；未来的站内应用仍必须先注册真实路由，才能标记为 `beta` 或 `live`。
 
-首页按新增时间倒序（newest first）展示应用：`src/features/catalog/apps.ts` 中的 `addedAt` 记录首次加入目录的时间，历史项目根据 Git 提交时间回填，最新一项展示为「最新项目」，其余应用继续按时间倒序；同批加入的应用保留原顺序。当前顺序为 CCFA、title2doi、Cloudflare IP 候选 · Speed Test、Manifold、FlowMaster、Dify、叶读、BGP、Fast、卡间拾光，再到原有应用。新增项目需填写真实的 `addedAt`（带时区 ISO 8601 时间），无需调整数组位置或主推标记；已有项目的描述和地址更新不改变新增时间。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
+首页按用途分成六个独立区块，通过不同的浅色背景、分区标题和留白提示区域边界。每个项目仅出现一次，分类内按首次加入目录时间倒序排列；同批加入的应用保留原顺序。
+
+| 分区 | 项目 |
+| --- | --- |
+| 研究与实验 | CCFA、title2doi、Manifold、FlowMaster |
+| AI 应用 | Dify、AI API 网关 |
+| 开发与远程 | T3 Code、Codex 工作台、WebSSH、远程桌面 |
+| 网络工具 | Cloudflare IP 候选 · Speed Test、BGP 路径观测、Fast |
+| 运维管理 | Cloudflare 用量卫士、服务状态、Portainer |
+| 日常与收藏 | 叶读、卡间拾光、文件中转站 |
+
+顶部摘要显示项目总数、分区数和最新项目，不再单独放大或重复展示最新项目卡片。首页不提供搜索框、标签筛选、功能标签或访问条件提示；卡片保留项目名称、功能说明、普通文字发布状态和实际入口。
+
+`src/features/catalog/apps.ts` 维护分类及目录数据，`addedAt` 记录首次加入目录的真实时间（带时区 ISO 8601），历史时间根据 Git 提交回填。新增项目只需选择用途分类并填写时间；描述和地址更新不改变新增时间，也无需手工维护编号。历史依据见 [架构说明](docs/ARCHITECTURE.md#目录新增时间依据)。
 
 CCFA 是 Zotero 桌面插件，按 CCF 2026 年第七版目录在文献列表显示 A 类期刊与会议简称，离线识别且不修改条目。已发布 [v1.0.1](https://github.com/ThaneJoss/ccfa/releases/tag/v1.0.1)，主按钮为「查看项目」，从项目说明获取安装包；没有独立网站入口。源码：https://github.com/ThaneJoss/ccfa。
 
@@ -12,7 +25,7 @@ title2doi · DOI 补全工作台入口为 https://title2doi.thanejoss.com。批�
 
 Cloudflare IP 候选 · Speed Test 入口为 https://cf-speed-test.thanejoss.com，需 Cloudflare Access 登录。当前可从内置 Cloudflare 网段生成 10 个 IPv4 与 10 个 IPv6 静态候选；候选可达性未知，真实 HTTPS 探针尚未配置，测速和 DNS 写入暂不可用，目录标为「测试中」。源码：https://github.com/ThaneJoss/cloudflare-speed-test。
 
-每项卡片显示场景分类；已核实的自有公开仓库提供「查看源码」。`released` 项使用 GitHub 项目主入口与「已发布」状态，`beta` 项说明当前限制，避免将插件或未就绪功能当作已上线网站。
+分类由所在区块表达；已核实的自有公开仓库提供「查看源码」。`released` 项使用 GitHub 项目主入口与「已发布」状态，`beta` 项说明当前限制，避免将插件或未就绪功能当作已上线网站。
 
 形 · 流 / Manifold 入口为 https://manifold.thanejoss.com，是基于 React + Vite 的二维边界演化实验。绘制闭合形状，叠加局部速度场，观察表面张力与 KL 形状先验如何影响边界，并对比初始轮廓与形变结果。源码：https://github.com/ThaneJoss/manifold。
 
@@ -72,7 +85,7 @@ BGP 路径观测（AS Atlas）入口为 https://bgp.thanejoss.com，提供全球
 
 ## 自动部署
 
-生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库的 `main` 分支，推送后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。自定义域名由仓库配置声明，非生产分支预览尚未开启。
+生产站点 <https://thanejoss.com> 由 Cloudflare Workers Static Assets 托管。Workers Builds 连接本仓库，推送 `main` 后自动安装依赖并执行 `pnpm exec wrangler deploy`；`wrangler.jsonc` 的构建命令调用 `pnpm run build`，仅发布 `dist/`。自定义域名由仓库配置声明。非 `main` 分支推送后执行 `pnpm exec wrangler preview`，创建或更新独立的分支预览；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。
 
 `vercel.json` 停用 Vercel Git 自动部署，保留构建与非 HSTS 安全头配置及既有部署用于回退。完整构建设置、路由规则和回退步骤见[部署与边缘配置](docs/DEPLOYMENT.md)。
 
