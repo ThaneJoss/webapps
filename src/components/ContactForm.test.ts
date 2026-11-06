@@ -1,11 +1,49 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { createSSRApp, nextTick } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 
 import ContactForm from './ContactForm.vue'
 
 describe('ContactForm', () => {
+  it('does not serialize contact details before hydration', async () => {
+    const container = document.createElement('div')
+    container.innerHTML = await renderToString(createSSRApp(ContactForm))
+    const form = container.querySelector('form')!
+    const controls = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>(
+      'input, textarea, button'
+    )
+
+    expect(controls).toHaveLength(4)
+    for (const control of controls) {
+      expect(control.disabled).toBe(true)
+    }
+
+    // Even restored or autofilled values must not enter a native form submission.
+    form.querySelector<HTMLInputElement>('[name="name"]')!.value = 'Private name'
+    form.querySelector<HTMLInputElement>('[name="email"]')!.value = 'private@example.com'
+    form.querySelector<HTMLTextAreaElement>('[name="message"]')!.value = 'Private message'
+    expect(Array.from(new window.FormData(form).entries())).toEqual([])
+    expect(form.querySelector('[data-contact-form-fallback] a')?.getAttribute('href')).toBe(
+      'mailto:support@thanejoss.com?subject=Web%20Apps%20Inquiry'
+    )
+  })
+
+  it('enables the form and removes the fallback after mounting', async () => {
+    const wrapper = mount(ContactForm)
+    await nextTick()
+
+    for (const control of wrapper.findAll('input, textarea, button')) {
+      expect(control.attributes('disabled')).toBeUndefined()
+    }
+    expect(wrapper.find('[data-contact-form-fallback]').exists()).toBe(false)
+
+    wrapper.unmount()
+  })
+
   it('generates a mail draft and preserves the form values', async () => {
     const wrapper = mount(ContactForm)
+    await nextTick()
 
     await wrapper.get('input[name="name"]').setValue('Codex')
     await wrapper.get('input[name="email"]').setValue('codex@thanejoss.com')
@@ -25,6 +63,7 @@ describe('ContactForm', () => {
 
   it('shows validation errors without clearing the form', async () => {
     const wrapper = mount(ContactForm, { attachTo: document.body })
+    await nextTick()
 
     await wrapper.get('input[name="name"]').setValue('Codex')
     await wrapper.get('input[name="email"]').setValue('bad-email')

@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { nextTick } from 'vue'
 
 import ContactSection from './ContactSection.vue'
 
@@ -17,6 +18,7 @@ describe('ContactSection', () => {
 
   it('keeps the project brief form visible without disclosure state', async () => {
     const wrapper = mount(ContactSection)
+    await nextTick()
     const panel = wrapper.get('[data-contact-form-panel]')
     const nameInput = wrapper.get('input[name="name"]')
 
