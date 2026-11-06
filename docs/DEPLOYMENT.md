@@ -23,10 +23,13 @@ Cloudflare Workers Builds 连接 GitHub 仓库 `ThaneJoss/webapps`，使用以�
 | 构建环境变量 | `PNPM_VERSION=12.9.1` |
 | 非生产分支预览 | 已开启 |
 | 预览命令 | `pnpm exec wrangler preview` |
+| 预览 URL | `wrangler.jsonc` 声明 `preview_urls: true`，启用 `workers.dev` 预览地址 |
 
 每次推送 `main` 后，Workers Builds 安装依赖，再使用锁文件中的 Wrangler 执行部署。`wrangler.jsonc` 的 `build.command` 为 `pnpm run build`，因此发布前仍会执行 TypeScript 与 Vue SFC 类型检查、SSG 构建及模块脚本加固。只上传 `dist/` 静态产物，无需运行服务端 JavaScript，也不需要 KV、D1 或其他运行时绑定。
 
-非 `main` 分支推送后，Workers Builds 使用预览构建配置执行 `pnpm exec wrangler preview`，为分支创建或更新独立的 Worker Preview。`wrangler.jsonc` 中的 `previews: {}` 声明预览设置；Git 触发开关和预览命令由 Workers Builds 单独管理，可通过 Builds API 配置。开启预览后，需要新的分支推送触发构建；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。生产站点继续由 `main` 的 `wrangler deploy` 发布。
+非 `main` 分支推送后，Workers Builds 使用预览构建配置执行 `pnpm exec wrangler preview`，为分支创建或更新独立的 Worker Preview。`wrangler.jsonc` 中的 `previews: {}` 声明预览设置，顶层 `preview_urls: true` 声明启用预览地址；Git 触发开关和预览命令由 Workers Builds 单独管理，可通过 Builds API 配置。开启预览后，需要新的分支推送触发构建；Cloudflare GitHub 集成为关联 PR 提供构建状态评论与预览链接。生产站点继续由 `main` 的 `wrangler deploy` 发布。
+
+已有 Worker 的 URL 路由设置不会由 `wrangler preview` 更新。首次开启时可通过 Worker subdomain API 仅启用 `previews_enabled`、保留生产 `enabled` 原值；之后由 `main` 部署仓库配置保持一致。不要为了开启预览 URL 从功能分支执行生产部署。
 
 Wrangler 版本固定在 `package.json` 与 `pnpm-lock.yaml`。生产与预览构建配置中的变量 `PNPM_VERSION` 都应与 `package.json#packageManager` 同步，避免平台默认 pnpm 版本与锁文件不一致。部署凭据由 Cloudflare Workers Builds 管理，不写入仓库。
 
